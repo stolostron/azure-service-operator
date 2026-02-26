@@ -53,7 +53,7 @@ require (
 	golang.org/x/sync v0.16.0
 	golang.org/x/text v0.27.0
 	golang.org/x/time v0.11.0
-	google.golang.org/protobuf v1.36.6 // indirect
+	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/dnaeon/go-vcr.v3 v3.2.0
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/api v0.32.3
