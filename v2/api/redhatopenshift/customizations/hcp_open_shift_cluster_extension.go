@@ -5,6 +5,7 @@ package customizations
 import (
 	"context"
 	"strings"
+	"time"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
@@ -149,22 +150,18 @@ func (ext *HcpOpenShiftClusterExtension) ExportKubernetesSecrets(
 				SetPollerResumeToken(obj, resumeToken, log)
 			}
 		}
-		_, pollErr := poller.Poll(ctx)
+
+		log.V(Debug).Info("Waiting for admin credential request to complete")
+		resp, pollErr := poller.PollUntilDone(ctx, &runtime.PollUntilDoneOptions{
+			Frequency: 15 * time.Second,
+		})
 		if pollErr != nil {
-			return nil, eris.Wrapf(pollErr, "couldn't poll with PUT resume token for resource")
+			return nil, eris.Wrapf(pollErr, "failed waiting for admin credentials to be ready")
 		}
 
-		if poller.Done() {
-			log.V(Debug).Info("Polling is completed")
-			ClearPollerResumeToken(obj, log)
-			resp, err := poller.Result(ctx)
-			if err != nil {
-				return nil, eris.Wrapf(err, "couldn't get result with PUT resume token for resource")
-			}
-			adminCredentials = to.Value(resp.HcpOpenShiftClusterAdminCredential.Kubeconfig)
-		} else {
-			log.V(Debug).Info("Polling is in-progress")
-		}
+		log.V(Debug).Info("Admin credential request completed")
+		ClearPollerResumeToken(obj, log)
+		adminCredentials = to.Value(resp.HcpOpenShiftClusterAdminCredential.Kubeconfig)
 	}
 
 	secretSlice, err := secretsToWriteHcp(typedObj, adminCredentials)
