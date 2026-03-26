@@ -152,7 +152,9 @@ func (ext *HcpOpenShiftClusterExtension) ExportKubernetesSecrets(
 		}
 
 		log.V(Debug).Info("Waiting for admin credential request to complete")
-		resp, pollErr := poller.PollUntilDone(ctx, &runtime.PollUntilDoneOptions{
+		pollCtx, cancel := context.WithTimeout(ctx, 5*time.Minute)
+		defer cancel()
+		resp, pollErr := poller.PollUntilDone(pollCtx, &runtime.PollUntilDoneOptions{
 			Frequency: 15 * time.Second,
 		})
 		if pollErr != nil {
