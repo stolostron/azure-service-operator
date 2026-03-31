@@ -127,11 +127,11 @@ func (ext *HcpOpenShiftClusterExtension) ExportKubernetesSecrets(
 			Frequency: 15 * time.Second,
 		})
 		if pollErr != nil {
-			if pollCtx.Err() == context.DeadlineExceeded {
-				return nil, eris.Wrapf(pollErr, "timed out after 5 minutes waiting for admin credentials to be ready")
-			}
 			if ctx.Err() != nil {
 				return nil, eris.Wrapf(pollErr, "parent context cancelled while waiting for admin credentials")
+			}
+			if pollCtx.Err() == context.DeadlineExceeded {
+				return nil, eris.Wrapf(pollErr, "timed out after 5 minutes waiting for admin credentials to be ready")
 			}
 			return nil, eris.Wrapf(pollErr, "failed waiting for admin credentials to be ready")
 		}
