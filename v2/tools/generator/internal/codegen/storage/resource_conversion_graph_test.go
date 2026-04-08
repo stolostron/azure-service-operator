@@ -155,3 +155,27 @@ func TestResourceConversionGraph_WithCompatibilityReferences_HasExpectedTransiti
 	after2020as := graph.LookupTransition(person2020as)
 	g.Expect(after2020as).To(Equal(person2020s))
 }
+
+func TestResourceConversionGraph_WithInvalidHubVersion_ReturnsError(t *testing.T) {
+	/*
+	 * Test that setting an invalid $hubVersion (one that doesn't match any API version) produces a clear
+	 * error at build time, rather than silently proceeding.
+	 */
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	person2020 := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
+	person2020s := astmodel.MakeInternalTypeName(test.Pkg2020s, "Person")
+	person2021p := astmodel.MakeInternalTypeName(test.Pkg2021Preview, "Person")
+	person2021ps := astmodel.MakeInternalTypeName(test.Pkg2021PreviewStorage, "Person")
+
+	builder := NewResourceConversionGraphBuilder("demo", "v")
+	builder.SetHubVersion("nonexistent-version")
+	builder.Add(person2020, person2020s)
+	builder.Add(person2021p, person2021ps)
+	_, err := builder.Build()
+
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("nonexistent-version"))
+	g.Expect(err.Error()).To(ContainSubstring("does not match any known API version"))
+}

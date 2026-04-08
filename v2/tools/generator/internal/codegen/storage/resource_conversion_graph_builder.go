@@ -70,6 +70,32 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 				j.PackageReference().ImportPath())
 		})
 
+	// Validate hubVersion matches an actual API version in this group
+	if b.hubVersion != "" {
+		found := false
+		for _, name := range toProcess {
+			ref := name.InternalPackageReference()
+			// Unwrap storage package to get the base reference
+			if derived, ok := ref.(astmodel.DerivedPackageReference); ok {
+				ref = derived.Base()
+			}
+
+			if local, ok := ref.(astmodel.LocalPackageReference); ok {
+				if local.HasAPIVersion(b.hubVersion) {
+					found = true
+					break
+				}
+			}
+		}
+
+		if !found {
+			return nil, eris.Errorf(
+				"configured $hubVersion %q does not match any known API version for resource %q",
+				b.hubVersion,
+				b.name)
+		}
+	}
+
 	for _, s := range stages {
 		s(toProcess)
 		toProcess = b.withoutLinkedNames(toProcess)
@@ -135,7 +161,8 @@ func (b *ResourceConversionGraphBuilder) previewReferencesConvertBackward(names 
 }
 
 // nonPreviewReferencesConvertForward links each version with the immediately following version.
-// By the time we run this stage, we should only have non-preview (aka GA) releases left
+// Normally only non-preview (GA) releases remain by this stage, but when a hubVersion override
+// is configured, preview versions are also present and linked forward here.
 func (b *ResourceConversionGraphBuilder) nonPreviewReferencesConvertForward(names []astmodel.InternalTypeName) {
 	for i, name := range names {
 		// Links are created from the current index to the next;
