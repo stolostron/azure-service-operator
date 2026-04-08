@@ -96,11 +96,9 @@ func TestKmsEncryptionProfile_AssignPropertiesTo_MovesVaultNameToProfileLevel(t 
 	g.Expect(hub.VaultName).NotTo(BeNil())
 	g.Expect(*hub.VaultName).To(Equal("my-vault"))
 
-	// VaultName should be removed from hub's ActiveKey PropertyBag
-	if hub.ActiveKey != nil && hub.ActiveKey.PropertyBag != nil {
-		bag := genruntime.NewPropertyBag(hub.ActiveKey.PropertyBag)
-		g.Expect(bag.Contains("VaultName")).To(BeFalse())
-	}
+	// VaultName should be removed from hub's ActiveKey PropertyBag (PropertyBag becomes nil when empty)
+	g.Expect(hub.ActiveKey).NotTo(BeNil())
+	g.Expect(hub.ActiveKey.PropertyBag).To(BeNil())
 }
 
 func TestKmsEncryptionProfile_RoundTrip_PreservesVaultName(t *testing.T) {
@@ -202,9 +200,7 @@ func TestKmsEncryptionProfile_STATUS_AssignPropertiesTo_MovesVaultNameToProfileL
 	g.Expect(hub.VaultName).NotTo(BeNil())
 	g.Expect(*hub.VaultName).To(Equal("my-vault"))
 
-	// VaultName should be removed from hub's ActiveKey PropertyBag
-	if hub.ActiveKey != nil && hub.ActiveKey.PropertyBag != nil {
-		bag := genruntime.NewPropertyBag(hub.ActiveKey.PropertyBag)
-		g.Expect(bag.Contains("VaultName")).To(BeFalse())
-	}
+	// VaultName should be removed from hub's ActiveKey PropertyBag (PropertyBag becomes nil when empty)
+	g.Expect(hub.ActiveKey).NotTo(BeNil())
+	g.Expect(hub.ActiveKey.PropertyBag).To(BeNil())
 }
