@@ -115,6 +115,65 @@ func TestResourceConversionGraph_WithGAAndPreviewReferences_HasExpectedTransitio
 	g.Expect(ref).To(Equal(after2020))
 }
 
+func TestResourceConversionGraph_WithHubVersionOverride_PreviewLinksForward(t *testing.T) {
+	/*
+	 * Test that when SetHubVersion is used, preview versions link forward instead of backward,
+	 * making the newest preview the hub. Without the override, previews would link backward and
+	 * the GA version would be the hub.
+	 *
+	 * Graph layout with override:
+	 *   Person2020 → Person2020s → Person2021ps → Person2022ps (hub)
+	 *   Person2021Preview → Person2021ps
+	 *   Person2022Preview → Person2022ps
+	 */
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Create a second preview package
+	pkg2022Preview := test.MakeLocalPackageReference(test.Group, "v20220630preview")
+	pkg2022PreviewStorage := astmodel.MakeStoragePackageReference(pkg2022Preview)
+
+	person2020 := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
+	person2020s := astmodel.MakeInternalTypeName(test.Pkg2020s, "Person")
+	person2021p := astmodel.MakeInternalTypeName(test.Pkg2021Preview, "Person")
+	person2021ps := astmodel.MakeInternalTypeName(test.Pkg2021PreviewStorage, "Person")
+	person2022p := astmodel.MakeInternalTypeName(pkg2022Preview, "Person")
+	person2022ps := astmodel.MakeInternalTypeName(pkg2022PreviewStorage, "Person")
+
+	builder := NewResourceConversionGraphBuilder("demo", "v")
+	builder.SetHubVersion("2022-06-30-preview")
+	builder.Add(person2020, person2020s)
+	builder.Add(person2021p, person2021ps)
+	builder.Add(person2022p, person2022ps)
+	graph, err := builder.Build()
+
+	// Check size of graph: 3 API→storage + 2 forward links = 5
+	g.Expect(err).To(Succeed())
+	g.Expect(graph.TransitionCount()).To(Equal(5))
+
+	// Check API→storage transitions
+	after2020 := graph.LookupTransition(person2020)
+	g.Expect(after2020).To(Equal(person2020s))
+
+	after2021p := graph.LookupTransition(person2021p)
+	g.Expect(after2021p).To(Equal(person2021ps))
+
+	after2022p := graph.LookupTransition(person2022p)
+	g.Expect(after2022p).To(Equal(person2022ps))
+
+	// With hub version override, storage versions link FORWARD (not backward):
+	// person2020s → person2021ps → person2022ps (hub)
+	after2020s := graph.LookupTransition(person2020s)
+	g.Expect(after2020s).To(Equal(person2021ps))
+
+	after2021ps := graph.LookupTransition(person2021ps)
+	g.Expect(after2021ps).To(Equal(person2022ps))
+
+	// person2022ps is the hub (no outgoing transition)
+	after2022ps := graph.LookupTransition(person2022ps)
+	g.Expect(after2022ps).To(BeZero())
+}
+
 func TestResourceConversionGraph_WithCompatibilityReferences_HasExpectedTransitions(t *testing.T) {
 	/*
 	 * Test that a graph containing two GA versions and one *backward compatibility* version ends up with
