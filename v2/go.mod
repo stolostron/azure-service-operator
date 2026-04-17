@@ -1,8 +1,6 @@
 module github.com/Azure/azure-service-operator/v2
 
-go 1.24.0
-
-toolchain go1.24.2
+go 1.25.0
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.19.1
@@ -38,7 +36,7 @@ require (
 	github.com/google/go-cmp v0.7.0
 	github.com/google/uuid v1.6.0
 	github.com/hbollon/go-edlib v1.7.0
-	github.com/jackc/pgx/v5 v5.7.6
+	github.com/jackc/pgx/v5 v5.9.0
 	github.com/jellydator/ttlcache/v3 v3.4.0
 	github.com/kr/pretty v0.3.1
 	github.com/kylelemons/godebug v1.1.0
