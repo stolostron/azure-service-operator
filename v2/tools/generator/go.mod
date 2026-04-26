@@ -13,7 +13,7 @@ replace github.com/xeipuuv/gojsonschema => github.com/devigned/gojsonschema v1.2
 require (
 	github.com/Azure/azure-service-operator/v2 v2.12.0
 	github.com/bmatcuk/doublestar v1.3.4
-	github.com/dave/dst v0.27.3
+	github.com/dave/dst v0.27.4
 	github.com/devigned/tab v0.1.1
 	github.com/go-logr/logr v1.4.3
 	github.com/go-logr/zerologr v1.2.3
