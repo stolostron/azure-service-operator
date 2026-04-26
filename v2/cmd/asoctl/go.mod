@@ -99,7 +99,7 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/microsoft/go-mssqldb v1.9.3 // indirect
-	github.com/microsoft/kiota-abstractions-go v1.9.3 // indirect
+	github.com/microsoft/kiota-abstractions-go v1.9.4 // indirect
 	github.com/microsoft/kiota-authentication-azure-go v1.3.1 // indirect
 	github.com/microsoft/kiota-http-go v1.5.4 // indirect
 	github.com/microsoft/kiota-serialization-form-go v1.1.2 // indirect
@@ -123,7 +123,6 @@ require (
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/std-uritemplate/std-uritemplate/go/v2 v2.0.3 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect
-	github.com/stretchr/testify v1.11.1 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/otel v1.37.0 // indirect

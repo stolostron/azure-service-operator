@@ -358,8 +358,8 @@ github.com/mattn/go-colorable v0.0.9/go.mod h1:9vuHe8Xs5qXnSaW/c/ABM9alt+Vo+STaO
 github.com/mattn/go-isatty v0.0.3/go.mod h1:M+lRXTBqGeGNdLjl/ufCoiOlB5xdOkqRJdNxMWT7Zi4=
 github.com/microsoft/go-mssqldb v1.9.3 h1:hy4p+LDC8LIGvI3JATnLVmBOLMJbmn5X400mr5j0lPs=
 github.com/microsoft/go-mssqldb v1.9.3/go.mod h1:GBbW9ASTiDC+mpgWDGKdm3FnFLTUsLYN3iFL90lQ+PA=
-github.com/microsoft/kiota-abstractions-go v1.9.3 h1:cqhbqro+VynJ7kObmo7850h3WN2SbvoyhypPn8uJ1SE=
-github.com/microsoft/kiota-abstractions-go v1.9.3/go.mod h1:f06pl3qSyvUHEfVNkiRpXPkafx7khZqQEb71hN/pmuU=
+github.com/microsoft/kiota-abstractions-go v1.9.4 h1:VI3UVzSCQHHhRswe3jyaAQHUQWIFhUMp0z5mtZbTbcs=
+github.com/microsoft/kiota-abstractions-go v1.9.4/go.mod h1:f06pl3qSyvUHEfVNkiRpXPkafx7khZqQEb71hN/pmuU=
 github.com/microsoft/kiota-authentication-azure-go v1.3.1 h1:AGta92S6IL1E6ZMDb8YYB7NVNTIFUakbtLKUdY5RTuw=
 github.com/microsoft/kiota-authentication-azure-go v1.3.1/go.mod h1:26zylt2/KfKwEWZSnwHaMxaArpbyN/CuzkbotdYXF0g=
 github.com/microsoft/kiota-http-go v1.5.4 h1:wSUmL1J+bTQlAWHjbRkSwr+SPAkMVYeYxxB85Zw0KFs=
