@@ -51,7 +51,7 @@ require (
 	github.com/prometheus/client_golang v1.23.2
 	github.com/rotisserie/eris v0.5.4
 	github.com/samber/lo v1.52.0
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	go.uber.org/zap v1.27.0
 	golang.org/x/crypto v0.43.0
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394
