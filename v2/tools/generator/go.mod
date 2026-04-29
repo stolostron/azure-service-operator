@@ -9,7 +9,7 @@ replace github.com/Azure/azure-service-operator/v2 => ../../
 replace github.com/xeipuuv/gojsonschema => github.com/devigned/gojsonschema v1.2.1-0.20191231010529-c593123f1e5d
 
 require (
-	github.com/Azure/azure-service-operator/v2 v2.12.0
+	github.com/Azure/azure-service-operator/v2 v2.19.0
 	github.com/bmatcuk/doublestar v1.3.4
 	github.com/dave/dst v0.27.4
 	github.com/devigned/tab v0.1.1
