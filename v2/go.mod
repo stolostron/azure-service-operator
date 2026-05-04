@@ -1,8 +1,6 @@
 module github.com/Azure/azure-service-operator/v2
 
-go 1.24.0
-
-toolchain go1.24.2
+go 1.25.0
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.19.1
@@ -58,7 +56,7 @@ require (
 	golang.org/x/sync v0.17.0
 	golang.org/x/text v0.30.0
 	golang.org/x/time v0.14.0
-	google.golang.org/protobuf v1.36.8 // indirect
+	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/dnaeon/go-vcr.v3 v3.2.0
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/api v0.34.1
@@ -148,7 +146,7 @@ require (
 	golang.org/x/term v0.36.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.5.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20250324211829-b45e905df463 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250324211829-b45e905df463 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260504160031-60b97b32f348 // indirect
 	google.golang.org/grpc v1.72.1 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.12.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
