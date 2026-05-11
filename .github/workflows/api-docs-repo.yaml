@@ -110,7 +110,7 @@ jobs:
           private-key: ${{ secrets.AUTOMATION_KEY }}
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # pinned to v7.0.5
+        uses: peter-evans/create-pull-request@aa523f9db61947bd5e06efd77870ef065eae32cc # pinned to v7.0.5
         with:
           token: ${{ steps.pr-token.outputs.token }}
           commit-message: Update API Docs
