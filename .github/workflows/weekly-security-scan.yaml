@@ -31,7 +31,7 @@ jobs:
       run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
     - name: Run Trivy vulnerability scanner in repo mode
-      uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # master
+      uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
       with:
         scan-type: 'fs'
         scan-ref: '.'
@@ -43,7 +43,7 @@ jobs:
       id: trivy-scan
 
     - name: Run Trivy for human-readable output
-      uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # master
+      uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
       with:
         scan-type: 'fs'
         scan-ref: '.'
@@ -70,16 +70,16 @@ jobs:
       if: always() && steps.validate-sarif.outcome == 'success'
       id: vuln-counts
       run: |
-        CRITICAL=$(jq '[.runs[].tool.driver.rules[] | select(.properties.tags[]? == "CRITICAL")] | length' trivy-results.sarif 2>/dev/null || echo 0)
-        HIGH=$(jq '[.runs[].tool.driver.rules[] | select(.properties.tags[]? == "HIGH")] | length' trivy-results.sarif 2>/dev/null || echo 0)
-        MEDIUM=$(jq '[.runs[].tool.driver.rules[] | select(.properties.tags[]? == "MEDIUM")] | length' trivy-results.sarif 2>/dev/null || echo 0)
-        LOW=$(jq '[.runs[].tool.driver.rules[] | select(.properties.tags[]? == "LOW")] | length' trivy-results.sarif 2>/dev/null || echo 0)
+        CRITICAL=$(jq '[.runs[].tool.driver.rules // [] | .[] | select(.properties.tags[]? == "CRITICAL")] | length' trivy-results.sarif 2>/dev/null || echo 0)
+        HIGH=$(jq '[.runs[].tool.driver.rules // [] | .[] | select(.properties.tags[]? == "HIGH")] | length' trivy-results.sarif 2>/dev/null || echo 0)
+        MEDIUM=$(jq '[.runs[].tool.driver.rules // [] | .[] | select(.properties.tags[]? == "MEDIUM")] | length' trivy-results.sarif 2>/dev/null || echo 0)
+        LOW=$(jq '[.runs[].tool.driver.rules // [] | .[] | select(.properties.tags[]? == "LOW")] | length' trivy-results.sarif 2>/dev/null || echo 0)
 
         for var in CRITICAL HIGH MEDIUM LOW; do
-          val=$(eval echo "\$$var")
+          val="${!var}"
           if ! echo "$val" | grep -qE '^[0-9]+$'; then
             echo "::warning::$var count is not a valid integer ('$val'). Defaulting to 0."
-            eval "$var=0"
+            declare "$var=0"
           fi
         done
 
@@ -104,35 +104,35 @@ jobs:
         LOW: ${{ steps.vuln-counts.outputs.low }}
         TOTAL: ${{ steps.vuln-counts.outputs.total }}
       run: |
-        echo "# Trivy Security Scan Results (${{ matrix.branch }})" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "# Trivy Security Scan Results (${{ matrix.branch }})" >> "$GITHUB_STEP_SUMMARY"
+        echo "" >> "$GITHUB_STEP_SUMMARY"
 
         if [ -z "$TOTAL" ]; then
-          echo "## ⚠️ Vulnerability counts unavailable" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "The SARIF parsing step did not produce counts. Check workflow logs for details." >> $GITHUB_STEP_SUMMARY
+          echo "## ⚠️ Vulnerability counts unavailable" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "The SARIF parsing step did not produce counts. Check workflow logs for details." >> "$GITHUB_STEP_SUMMARY"
         elif [ "$TOTAL" = "0" ]; then
-          echo "## ✅ No vulnerabilities found!" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Branch \`${{ matrix.branch }}\` passed all Trivy security checks." >> $GITHUB_STEP_SUMMARY
+          echo "## ✅ No vulnerabilities found!" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Branch \`${{ matrix.branch }}\` passed all Trivy security checks." >> "$GITHUB_STEP_SUMMARY"
         else
-          echo "## ❌ Vulnerabilities detected: $TOTAL" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Severity | Count |" >> $GITHUB_STEP_SUMMARY
-          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
-          echo "| 🔴 CRITICAL | $CRITICAL |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🟠 HIGH | $HIGH |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🟡 MEDIUM | $MEDIUM |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🟢 LOW | $LOW |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## ❌ Vulnerabilities detected: $TOTAL" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Severity | Count |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🔴 CRITICAL | $CRITICAL |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🟠 HIGH | $HIGH |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🟡 MEDIUM | $MEDIUM |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🟢 LOW | $LOW |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
           if [ -f trivy-results.txt ]; then
-            echo "### Scan Results" >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
-            cat trivy-results.txt >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "### Scan Results" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            cat trivy-results.txt >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
           else
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "> **Note:** Detailed scan output is unavailable. The human-readable scan step may have failed. Check workflow logs." >> $GITHUB_STEP_SUMMARY
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "> **Note:** Detailed scan output is unavailable. The human-readable scan step may have failed. Check workflow logs." >> "$GITHUB_STEP_SUMMARY"
           fi
         fi
 
@@ -207,7 +207,7 @@ jobs:
             echo "<summary>Click to expand Trivy scan output</summary>"
             echo ""
             echo '```'
-            cat trivy-results.txt 2>/dev/null | head -200 || echo "See workflow logs for full details"
+            if [ -f trivy-results.txt ]; then head -200 trivy-results.txt; else echo "See workflow logs for full details"; fi
             echo '```'
             echo ""
             echo "</details>"
@@ -248,7 +248,7 @@ jobs:
             echo "<summary><b>Trivy Findings</b></summary>"
             echo ""
             echo '```'
-            cat trivy-results.txt 2>/dev/null | head -200 || echo "See workflow run logs for complete details"
+            if [ -f trivy-results.txt ]; then head -200 trivy-results.txt; else echo "See workflow run logs for complete details"; fi
             echo '```'
             echo ""
             echo "</details>"
