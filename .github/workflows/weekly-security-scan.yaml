@@ -13,6 +13,9 @@ permissions:
 
 jobs:
   scan:
+    concurrency:
+      group: weekly-security-scan-${{ matrix.branch }}
+      cancel-in-progress: false
     strategy:
       fail-fast: false
       matrix:
@@ -70,10 +73,10 @@ jobs:
       if: always() && steps.validate-sarif.outcome == 'success'
       id: vuln-counts
       run: |
-        CRITICAL=$(jq '[.runs[].tool.driver.rules // [] | .[] | select(.properties.tags[]? == "CRITICAL")] | length' trivy-results.sarif 2>/dev/null || echo 0)
-        HIGH=$(jq '[.runs[].tool.driver.rules // [] | .[] | select(.properties.tags[]? == "HIGH")] | length' trivy-results.sarif 2>/dev/null || echo 0)
-        MEDIUM=$(jq '[.runs[].tool.driver.rules // [] | .[] | select(.properties.tags[]? == "MEDIUM")] | length' trivy-results.sarif 2>/dev/null || echo 0)
-        LOW=$(jq '[.runs[].tool.driver.rules // [] | .[] | select(.properties.tags[]? == "LOW")] | length' trivy-results.sarif 2>/dev/null || echo 0)
+        CRITICAL=$(jq '[.runs[] | . as $run | ($run.tool.driver.rules // []) as $rules | ($run.results // [])[] | $rules[.ruleIndex] | select(.properties.tags[]? == "CRITICAL")] | length' trivy-results.sarif 2>/dev/null || echo 0)
+        HIGH=$(jq '[.runs[] | . as $run | ($run.tool.driver.rules // []) as $rules | ($run.results // [])[] | $rules[.ruleIndex] | select(.properties.tags[]? == "HIGH")] | length' trivy-results.sarif 2>/dev/null || echo 0)
+        MEDIUM=$(jq '[.runs[] | . as $run | ($run.tool.driver.rules // []) as $rules | ($run.results // [])[] | $rules[.ruleIndex] | select(.properties.tags[]? == "MEDIUM")] | length' trivy-results.sarif 2>/dev/null || echo 0)
+        LOW=$(jq '[.runs[] | . as $run | ($run.tool.driver.rules // []) as $rules | ($run.results // [])[] | $rules[.ruleIndex] | select(.properties.tags[]? == "LOW")] | length' trivy-results.sarif 2>/dev/null || echo 0)
 
         for var in CRITICAL HIGH MEDIUM LOW; do
           val="${!var}"
