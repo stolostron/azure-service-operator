@@ -13,10 +13,13 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
 
     steps:
       - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pinned to 4.1.7
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -83,7 +86,7 @@ jobs:
               continue
             fi
 
-            if git cherry-pick "$SHA" --no-edit 2>/dev/null; then
+            if git cherry-pick --no-edit "$SHA"; then
               APPLIED=$((APPLIED + 1))
               APPLIED_LINES=$(printf '%s\n- `%s` %s' "$APPLIED_LINES" "$SHORT" "$TITLE")
               echo "✅ Applied: ${SHORT} ${TITLE}"
@@ -103,37 +106,38 @@ jobs:
           echo "conflict_full_sha=${CONFLICT_FULL_SHA}" >> "$GITHUB_OUTPUT"
 
           # Multiline outputs via heredoc delimiter
-          DELIM="UPSTREAM_SYNC_EOF_$(date +%s)"
           {
-            echo "conflict_title<<${DELIM}"
+            echo "conflict_title<<CONFLICT_TITLE_EOF"
             echo "$CONFLICT_TITLE"
-            echo "${DELIM}"
+            echo "CONFLICT_TITLE_EOF"
           } >> "$GITHUB_OUTPUT"
           {
-            echo "applied_lines<<${DELIM}"
+            echo "applied_lines<<APPLIED_LINES_EOF"
             echo "$APPLIED_LINES"
-            echo "${DELIM}"
+            echo "APPLIED_LINES_EOF"
           } >> "$GITHUB_OUTPUT"
           {
-            echo "remaining_lines<<${DELIM}"
+            echo "remaining_lines<<REMAINING_LINES_EOF"
             echo "$REMAINING_LINES"
-            echo "${DELIM}"
+            echo "REMAINING_LINES_EOF"
           } >> "$GITHUB_OUTPUT"
 
       - name: Push and create draft PR
         if: steps.cherry-pick.outputs.applied != '0'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SYNC_BRANCH: ${{ steps.cherry-pick.outputs.branch }}
+          APPLIED: ${{ steps.cherry-pick.outputs.applied }}
+          TOTAL: ${{ steps.cherry-pick.outputs.total }}
+          CONFLICT_SHA: ${{ steps.cherry-pick.outputs.conflict_sha }}
+          CONFLICT_TITLE: ${{ steps.cherry-pick.outputs.conflict_title }}
+          CONFLICT_FULL_SHA: ${{ steps.cherry-pick.outputs.conflict_full_sha }}
+          APPLIED_LINES: ${{ steps.cherry-pick.outputs.applied_lines }}
+          REMAINING_LINES: ${{ steps.cherry-pick.outputs.remaining_lines }}
         run: |
-          BRANCH="${{ steps.cherry-pick.outputs.branch }}"
-          APPLIED="${{ steps.cherry-pick.outputs.applied }}"
-          TOTAL="${{ steps.cherry-pick.outputs.total }}"
-          CONFLICT_SHA="${{ steps.cherry-pick.outputs.conflict_sha }}"
-          CONFLICT_TITLE="${{ steps.cherry-pick.outputs.conflict_title }}"
-          CONFLICT_FULL_SHA="${{ steps.cherry-pick.outputs.conflict_full_sha }}"
           DATE=$(date +%Y-%m-%d)
 
-          git push origin "$BRANCH"
+          git push origin "$SYNC_BRANCH"
 
           # Build PR body
           {
@@ -142,7 +146,7 @@ jobs:
             echo "Applied **${APPLIED}/${TOTAL}** commits from [Azure/azure-service-operator](https://github.com/Azure/azure-service-operator) main."
             echo ""
             echo "### Applied"
-            echo "${{ steps.cherry-pick.outputs.applied_lines }}"
+            echo "$APPLIED_LINES"
             echo ""
 
             if [ -n "$CONFLICT_SHA" ]; then
@@ -150,10 +154,9 @@ jobs:
               echo "- \`${CONFLICT_SHA}\` ${CONFLICT_TITLE}"
               echo ""
 
-              REMAINING="${{ steps.cherry-pick.outputs.remaining_lines }}"
-              if [ -n "$REMAINING" ]; then
+              if [ -n "$REMAINING_LINES" ]; then
                 echo "### Remaining (not attempted)"
-                echo "$REMAINING"
+                echo "$REMAINING_LINES"
                 echo ""
               fi
 
@@ -178,21 +181,24 @@ jobs:
             --title "Upstream sync ${DATE}: ${APPLIED}/${TOTAL} commits" \
             --body-file /tmp/pr-body.md \
             --base main \
-            --head "$BRANCH" \
+            --head "$SYNC_BRANCH" \
             --draft
 
       - name: Report when first commit conflicts
         if: steps.find-commits.outputs.count != '0' && steps.cherry-pick.outputs.applied == '0'
+        env:
+          CONFLICT_FULL_SHA: ${{ steps.cherry-pick.outputs.conflict_full_sha }}
+          CONFLICT_TITLE: ${{ steps.cherry-pick.outputs.conflict_title }}
         run: |
           echo "::warning::The first upstream commit conflicts and no PR was created."
           echo ""
           echo "Conflicting commit:"
-          echo "  SHA:   ${{ steps.cherry-pick.outputs.conflict_full_sha }}"
-          echo "  Title: ${{ steps.cherry-pick.outputs.conflict_title }}"
+          echo "  SHA:   ${CONFLICT_FULL_SHA}"
+          echo "  Title: ${CONFLICT_TITLE}"
           echo ""
           echo "Resolve manually:"
           echo "  git checkout main && git pull"
-          echo "  git cherry-pick ${{ steps.cherry-pick.outputs.conflict_full_sha }}"
+          echo "  git cherry-pick ${CONFLICT_FULL_SHA}"
           echo "  # resolve conflicts"
           echo "  git add . && git cherry-pick --continue"
           echo "  git push origin main"
