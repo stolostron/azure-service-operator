@@ -13,6 +13,10 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    concurrency:
+      group: upstream-sync
+      cancel-in-progress: false
     defaults:
       run:
         shell: bash
@@ -105,21 +109,24 @@ jobs:
           echo "conflict_sha=${CONFLICT_SHA}" >> "$GITHUB_OUTPUT"
           echo "conflict_full_sha=${CONFLICT_FULL_SHA}" >> "$GITHUB_OUTPUT"
 
-          # Multiline outputs via heredoc delimiter
+          # Multiline outputs via randomized heredoc delimiters to prevent injection
+          DELIM=$(openssl rand -hex 16)
           {
-            echo "conflict_title<<CONFLICT_TITLE_EOF"
+            echo "conflict_title<<${DELIM}"
             echo "$CONFLICT_TITLE"
-            echo "CONFLICT_TITLE_EOF"
+            echo "${DELIM}"
           } >> "$GITHUB_OUTPUT"
+          DELIM=$(openssl rand -hex 16)
           {
-            echo "applied_lines<<APPLIED_LINES_EOF"
+            echo "applied_lines<<${DELIM}"
             echo "$APPLIED_LINES"
-            echo "APPLIED_LINES_EOF"
+            echo "${DELIM}"
           } >> "$GITHUB_OUTPUT"
+          DELIM=$(openssl rand -hex 16)
           {
-            echo "remaining_lines<<REMAINING_LINES_EOF"
+            echo "remaining_lines<<${DELIM}"
             echo "$REMAINING_LINES"
-            echo "REMAINING_LINES_EOF"
+            echo "${DELIM}"
           } >> "$GITHUB_OUTPUT"
 
       - name: Push and create draft PR
