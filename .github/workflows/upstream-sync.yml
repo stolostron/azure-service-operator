@@ -42,11 +42,8 @@ jobs:
       - name: Find new upstream commits
         id: find-commits
         run: |
-          COMMITS=$(git log --format="%H" --reverse origin/main..upstream/main)
-          COMMIT_COUNT=0
-          if [ -n "$COMMITS" ]; then
-            COMMIT_COUNT=$(echo "$COMMITS" | wc -l)
-          fi
+          mapfile -t COMMITS < <(git cherry origin/main upstream/main | awk '/^\+ / {print $2}')
+          COMMIT_COUNT=${#COMMITS[@]}
           echo "count=${COMMIT_COUNT}" >> "$GITHUB_OUTPUT"
 
           if [ "$COMMIT_COUNT" -eq 0 ]; then
@@ -71,9 +68,9 @@ jobs:
           git checkout -b "$BRANCH"
           echo "branch=${BRANCH}" >> "$GITHUB_OUTPUT"
 
-          # Cherry-pick each commit in chronological order
-          SHAS=$(git log --format="%H" --reverse origin/main..upstream/main)
-          TOTAL=$(echo "$SHAS" | wc -l)
+          # Cherry-pick each commit in chronological order (patch-equivalence)
+          mapfile -t SHAS < <(git cherry origin/main upstream/main | awk '/^\+ / {print $2}')
+          TOTAL=${#SHAS[@]}
           APPLIED=0
           CONFLICT_SHA=""
           CONFLICT_TITLE=""
@@ -82,7 +79,7 @@ jobs:
           REMAINING_LINES=""
           HIT_CONFLICT=false
 
-          for SHA in $SHAS; do
+          for SHA in "${SHAS[@]}"; do
             TITLE=$(git log --format="%s" -1 "$SHA")
             SHORT=$(echo "$SHA" | cut -c1-8)
 
