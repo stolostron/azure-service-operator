@@ -5,6 +5,8 @@ on:
     branches:
       - "backplane-*"
 
+permissions: {}
+
 jobs:
   block:
     runs-on: ubuntu-latest
