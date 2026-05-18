@@ -6,14 +6,12 @@ on:
   pull_request:
     branches:
       - main
-      - backplane-*
     paths:
       - "docs/**"
 
   merge_group:
     branches:
       - main
-      - backplane-*
 
 jobs:
   validate-site-links:
