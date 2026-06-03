@@ -13,6 +13,4 @@ cover-existing.html
 coverage-existing.txt
 report-existing.xml
 testlogs-existing.txt
-v2
-!v2/boilerplate.go.txt
 .git
