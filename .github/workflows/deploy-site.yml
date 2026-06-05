@@ -5,7 +5,9 @@ on:
       - main
     paths:
       - "docs/**"
-  
+
+permissions: {}
+
 jobs:
   deploy-site:
 
