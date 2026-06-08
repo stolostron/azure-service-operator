@@ -5,13 +5,16 @@ on:
       - main
     paths:
       - "docs/**"
-  
+
+permissions: {}
+
 jobs:
   deploy-site:
 
     runs-on: ubuntu-latest
 
     permissions:
+      contents: read
       packages: read
       
     # Only run this scheduled job on the main repo, it can't work elsewhere
