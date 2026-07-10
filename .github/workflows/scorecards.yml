@@ -1,20 +1,14 @@
-# This workflow uses actions that are not certified by GitHub. They are provided
-# by a third-party and are governed by separate terms of service, privacy
-# policy, and support documentation.
+# Scorecard supply-chain security analysis using the CLI in --local mode.
+# The ossf/scorecard-action does not support fork repositories, so we run
+# the scorecard binary directly against the checked-out source tree.
 
 name: Scorecard supply-chain security
 on:
-  # For Branch-Protection check. Only the default branch is supported. See
-  # https://github.com/ossf/scorecard/blob/main/docs/checks.md#branch-protection
-  branch_protection_rule:
-  # To guarantee Maintained check is occasionally updated. See
-  # https://github.com/ossf/scorecard/blob/main/docs/checks.md#maintained
   schedule:
     - cron: '20 7 * * 2'
   push:
     branches: ["main"]
 
-# Declare default permissions as read only.
 permissions: read-all
 
 jobs:
@@ -22,10 +16,7 @@ jobs:
     name: Scorecard analysis
     runs-on: ubuntu-latest
     permissions:
-      # Needed to upload the results to code-scanning dashboard.
       security-events: write
-      # Needed to publish results and get a badge (see publish_results below).
-      id-token: write
       contents: read
       actions: read
 
@@ -40,28 +31,77 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: "Install Scorecard CLI"
+        run: |
+          set -euo pipefail
+          SCORECARD_VERSION="v5.5.0"
+          EXPECTED_SHA="83b90a05c1540ef1390db1cd5711e5fd04be9c1d8537fb84d39d02092d6a8dff"
+          curl -fsSLO "https://github.com/ossf/scorecard/releases/download/${SCORECARD_VERSION}/scorecard_${SCORECARD_VERSION#v}_linux_amd64.tar.gz"
+          echo "${EXPECTED_SHA}  scorecard_${SCORECARD_VERSION#v}_linux_amd64.tar.gz" | sha256sum -c -
+          tar xzf "scorecard_${SCORECARD_VERSION#v}_linux_amd64.tar.gz" scorecard
+          chmod +x scorecard
+
       - name: "Run analysis"
-        uses: ossf/scorecard-action@4eaacf0543bb3f2c246792bd56e8cdeffafb205a # v2.4.3
-        with:
-          results_file: results.sarif
-          results_format: sarif
-          # (Optional) "write" PAT token. Uncomment the `repo_token` line below if:
-          # - you want to enable the Branch-Protection check on a *public* repository, or
-          # - you are installing Scorecards on a *private* repository
-          # To create the PAT, follow the steps in https://github.com/ossf/scorecard-action#authentication-with-fine-grained-pat-optional.
-          repo_token: ${{ secrets.SCORECARD_TOKEN }}
+        run: |
+          set -euo pipefail
+          ./scorecard --local=./ --format=json --show-details > results.json.tmp
+          mv results.json.tmp results.json
 
-          # Public repositories:
-          #   - Publish results to OpenSSF REST API for easy access by consumers
-          #   - Allows the repository to include the Scorecard badge.
-          #   - See https://github.com/ossf/scorecard-action#publishing-results.
-          # For private repositories:
-          #   - `publish_results` will always be set to `false`, regardless
-          #     of the value entered here.
-          publish_results: true
+      - name: "Convert JSON to SARIF"
+        run: |
+          set -euo pipefail
+          jq '
+            def check_id: .name | gsub("-"; "") | ascii_downcase + "ID";
+            def severity_level: if .score >= 7 then "note" elif .score >= 4 then "warning" else "error" end;
+            {
+              "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/main/sarif-2.1/schema/sarif-schema-2.1.0.json",
+              "version": "2.1.0",
+              "runs": [{
+                "automationDetails": {
+                  "id": ("supply-chain/local/" + .repo.commit + "-" + .date)
+                },
+                "tool": {
+                  "driver": {
+                    "name": "Scorecard",
+                    "informationUri": "https://github.com/ossf/scorecard",
+                    "semanticVersion": .scorecard.version,
+                    "rules": [.checks[] | select(.score >= 0) | {
+                      "id": check_id,
+                      "name": .name,
+                      "helpUri": .documentation.url,
+                      "shortDescription": { "text": .name },
+                      "fullDescription": { "text": .documentation.short },
+                      "help": {
+                        "text": .documentation.short,
+                        "markdown": ("**Score**: " + (.score | tostring) + "/10\n\n" + .documentation.short)
+                      },
+                      "defaultConfiguration": { "level": severity_level },
+                      "properties": {
+                        "precision": "high",
+                        "security-severity": ((10 - .score) | tostring),
+                        "tags": ["supply-chain", "security", "scorecard"]
+                      }
+                    }]
+                  }
+                },
+                "results": [.checks[] | select(.score >= 0 and .score < 10) | {
+                  "ruleId": check_id,
+                  "message": {
+                    "text": ("score is " + (.score | tostring) + ": " + .reason)
+                  },
+                  "locations": [{
+                    "physicalLocation": {
+                      "region": { "startLine": 1 },
+                      "artifactLocation": { "uri": "/", "uriBaseId": "%SRCROOT%" }
+                    }
+                  }]
+                }]
+              }]
+            }
+          ' results.json > results.sarif.tmp
+          jq empty results.sarif.tmp
+          mv results.sarif.tmp results.sarif
 
-      # Upload the results as artifacts (optional). Commenting out will disable uploads of run results in SARIF
-      # format to the repository Actions tab.
       - name: "Upload artifact"
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         if: success() || failure()
@@ -70,7 +110,6 @@ jobs:
           path: results.sarif
           retention-days: 5
 
-      # Upload the results to GitHub's code scanning dashboard.
       - name: "Upload to code-scanning"
         uses: github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13 # v4.35.1
         if: success() || failure()
