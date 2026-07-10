@@ -98,7 +98,9 @@ jobs:
                 }]
               }]
             }
-          ' results.json > results.sarif
+          ' results.json > results.sarif.tmp
+          jq empty results.sarif.tmp
+          mv results.sarif.tmp results.sarif
 
       - name: "Upload artifact"
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
