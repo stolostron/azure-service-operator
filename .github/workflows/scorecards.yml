@@ -65,7 +65,7 @@ jobs:
                     "name": "Scorecard",
                     "informationUri": "https://github.com/ossf/scorecard",
                     "semanticVersion": .scorecard.version,
-                    "rules": [.checks[] | {
+                    "rules": [.checks[] | select(.score >= 0) | {
                       "id": check_id,
                       "name": .name,
                       "helpUri": .documentation.url,
@@ -84,7 +84,7 @@ jobs:
                     }]
                   }
                 },
-                "results": [.checks[] | select(.score < 10) | {
+                "results": [.checks[] | select(.score >= 0 and .score < 10) | {
                   "ruleId": check_id,
                   "message": {
                     "text": ("score is " + (.score | tostring) + ": " + .reason)
