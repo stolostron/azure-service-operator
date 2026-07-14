@@ -32,9 +32,15 @@ jobs:
 
     - name: Check for openpgp imports
       run: |
-        if grep -rq '"golang.org/x/crypto/openpgp' --include="*.go" .; then
+        grep_status=0
+        grep_output=$(grep -rn '"golang.org/x/crypto/openpgp' --include="*.go" . 2>&1) || grep_status=$?
+        if [ "$grep_status" -gt 1 ]; then
+          echo "::error::Failed to scan Go files for openpgp imports."
+          echo "$grep_output" >&2
+          exit 1
+        elif [ "$grep_status" -eq 0 ]; then
           echo "::error::Found import of golang.org/x/crypto/openpgp (unmaintained, GO-2026-5932). Migrate to github.com/ProtonMail/go-crypto/openpgp."
-          grep -rn '"golang.org/x/crypto/openpgp' --include="*.go" .
+          echo "$grep_output"
           exit 1
         fi
 
