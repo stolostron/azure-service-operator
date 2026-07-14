@@ -36,15 +36,17 @@ jobs:
           set -euo pipefail
           SCORECARD_VERSION="v5.5.0"
           EXPECTED_SHA="83b90a05c1540ef1390db1cd5711e5fd04be9c1d8537fb84d39d02092d6a8dff"
-          curl -fsSLO "https://github.com/ossf/scorecard/releases/download/${SCORECARD_VERSION}/scorecard_${SCORECARD_VERSION#v}_linux_amd64.tar.gz"
-          echo "${EXPECTED_SHA}  scorecard_${SCORECARD_VERSION#v}_linux_amd64.tar.gz" | sha256sum -c -
-          tar xzf "scorecard_${SCORECARD_VERSION#v}_linux_amd64.tar.gz" scorecard
-          chmod +x scorecard
+          # Install to /tmp: --local walks the filesystem so a binary in the repo root flags itself.
+          curl -fsSL "https://github.com/ossf/scorecard/releases/download/${SCORECARD_VERSION}/scorecard_${SCORECARD_VERSION#v}_linux_amd64.tar.gz" \
+            -o /tmp/scorecard.tar.gz
+          echo "${EXPECTED_SHA}  /tmp/scorecard.tar.gz" | sha256sum -c -
+          tar xzf /tmp/scorecard.tar.gz -C /tmp scorecard
+          chmod +x /tmp/scorecard
 
       - name: "Run analysis"
         run: |
           set -euo pipefail
-          ./scorecard --local=./ --format=json --show-details > results.json.tmp
+          /tmp/scorecard --local=./ --format=json --show-details > results.json.tmp
           mv results.json.tmp results.json
 
       - name: "Convert JSON to SARIF"
