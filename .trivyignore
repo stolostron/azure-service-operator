@@ -1,0 +1,6 @@
+# GO-2026-5932: golang.org/x/crypto/openpgp is unmaintained and unsafe by design.
+# Severity: UNKNOWN. No fix version available.
+# The openpgp sub-package is not imported anywhere in this codebase.
+# Trivy includes UNKNOWN-severity findings in SARIF output despite the severity
+# filter (CRITICAL,HIGH,MEDIUM,LOW), causing a false-positive workflow failure.
+GO-2026-5932
