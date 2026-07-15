@@ -22,27 +22,6 @@ concurrency:
 
 jobs:
   build:
-    name: Build release artifacts
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@900f2210b1d28bbbd0bd22d17926b9e224e8f231 # pinned to 4.1.7
-        with:
-          fetch-depth: 0 # required to access tags
-          submodules: "true"
-
-      - name: Build & run devcontainer image
-        # mirrors the same step in create-release-stolostron.yml
-        id: devcontainer
-        run: |
-          docker build --tag devcontainer:latest .devcontainer
-          mkdir -p $HOME/.docker # in case it doesn't exist
-          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
-          docker start "$container_id"
-          echo "container_id=$container_id" >> $GITHUB_ENV
-
-      - name: Build required release files
-        run: |
-          container_id=${{env.container_id}}
-          docker exec "$container_id" task make-release-artifacts
+    uses: ./.github/workflows/build-release-artifacts.yml
+    with:
+      upload: false
