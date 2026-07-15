@@ -8,7 +8,7 @@ HcpOpenShiftCluster: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (7 properties)
 │   ├── AzureName: Validated<string> (1 rule)
-│   │   └── Rule 0: Pattern: "^[a-zA-Z][-a-zA-Z0-9]{1,52}[a-zA-Z0-9]$"
+│   │   └── Rule 0: Pattern: "^[a-zA-Z]([-a-zA-Z0-9]{0,52}[a-zA-Z0-9])?$"
 │   ├── Identity: *Object (2 properties)
 │   │   ├── Type: *Enum (4 values)
 │   │   │   ├── "None"
@@ -219,7 +219,7 @@ HcpOpenShiftClustersExternalAuth: Resource
 ├── Owner: HcpOpenShiftCluster
 ├── Spec: Object (4 properties)
 │   ├── AzureName: Validated<string> (1 rule)
-│   │   └── Rule 0: Pattern: "^[a-zA-Z][-a-zA-Z0-9]{1,15}$"
+│   │   └── Rule 0: Pattern: "^[a-zA-Z]([-a-zA-Z0-9]{0,13}[a-zA-Z0-9])?$"
 │   ├── OperatorSpec: *Object (2 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   └── SecretExpressions: *core.DestinationExpression[]
@@ -353,7 +353,7 @@ HcpOpenShiftClustersNodePool: Resource
 ├── Owner: HcpOpenShiftCluster
 ├── Spec: Object (7 properties)
 │   ├── AzureName: Validated<string> (1 rule)
-│   │   └── Rule 0: Pattern: "^[a-zA-Z][-a-zA-Z0-9]{1,13}[a-zA-Z0-9]$"
+│   │   └── Rule 0: Pattern: "^[a-zA-Z]([-a-zA-Z0-9]{0,13}[a-zA-Z0-9])?$"
 │   ├── Identity: *Object (2 properties)
 │   │   ├── Type: *Enum (4 values)
 │   │   │   ├── "None"

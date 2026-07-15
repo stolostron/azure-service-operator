@@ -53,6 +53,7 @@ type HcpOpenShiftClusterProperties_STATUS struct {
 
 	// ImageDigestMirrors: imageDigestMirrors is a set of rules to allow pulling images from a
 	// mirrored registry by using digest specifications.
+	// WARNING: Updating this array will redeploy all node pools in the cluster.
 	ImageDigestMirrors []ImageDigestMirror_STATUS `json:"imageDigestMirrors,omitempty"`
 
 	// Network: Cluster network configuration
