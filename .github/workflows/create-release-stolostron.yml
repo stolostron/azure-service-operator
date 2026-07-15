@@ -17,4 +17,3 @@ jobs:
     with:
       upload: true
       tag: ${{ github.ref }}
-    secrets: inherit
