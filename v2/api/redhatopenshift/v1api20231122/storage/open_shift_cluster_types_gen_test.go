@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview/storage"
+	v20240610ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview/storage"
+	v20260630ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260630preview/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -285,7 +286,7 @@ func RunPropertyAssignmentTestForConsoleProfile_STATUS(subject ConsoleProfile_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ConsoleProfile_STATUS
+	var other v20240610ps.ConsoleProfile_STATUS
 	err := copied.AssignProperties_To_ConsoleProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -432,6 +433,48 @@ func AddIndependentPropertyGeneratorsForEffectiveOutboundIP_STATUS(gens map[stri
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_IngressProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IngressProfile to IngressProfile via AssignProperties_To_IngressProfile & AssignProperties_From_IngressProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIngressProfile, IngressProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIngressProfile tests if a specific instance of IngressProfile can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForIngressProfile(subject IngressProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20260630ps.IngressProfile
+	err := copied.AssignProperties_To_IngressProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IngressProfile
+	err = actual.AssignProperties_From_IngressProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_IngressProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -491,6 +534,48 @@ func IngressProfileGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIngressProfile(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Visibility"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_IngressProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IngressProfile_STATUS to IngressProfile_STATUS via AssignProperties_To_IngressProfile_STATUS & AssignProperties_From_IngressProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIngressProfile_STATUS, IngressProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIngressProfile_STATUS tests if a specific instance of IngressProfile_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForIngressProfile_STATUS(subject IngressProfile_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20260630ps.IngressProfile_STATUS
+	err := copied.AssignProperties_To_IngressProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IngressProfile_STATUS
+	err = actual.AssignProperties_From_IngressProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_IngressProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -942,7 +1027,7 @@ func RunPropertyAssignmentTestForNetworkProfile(subject NetworkProfile) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkProfile
+	var other v20240610ps.NetworkProfile
 	err := copied.AssignProperties_To_NetworkProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -1061,7 +1146,7 @@ func RunPropertyAssignmentTestForNetworkProfile_STATUS(subject NetworkProfile_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkProfile_STATUS
+	var other v20240610ps.NetworkProfile_STATUS
 	err := copied.AssignProperties_To_NetworkProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1658,7 +1743,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
+	var other v20240610ps.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()

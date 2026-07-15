@@ -6,7 +6,7 @@ package v1api20240610preview
 import (
 	"encoding/json"
 	v20240610ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview/storage"
-	v20251223ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/storage"
+	v20260630ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260630preview/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForHcpOpenShiftClustersNodePool(subject HcpOpenShi
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20251223ps.HcpOpenShiftClustersNodePool
+	var hub v20260630ps.HcpOpenShiftClustersNodePool
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

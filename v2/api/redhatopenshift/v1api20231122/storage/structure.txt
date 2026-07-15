@@ -147,6 +147,10 @@ OpenShiftCluster: Resource
 
 augmentConversionForConsoleProfile_STATUS: Interface
 
+augmentConversionForIngressProfile: Interface
+
+augmentConversionForIngressProfile_STATUS: Interface
+
 augmentConversionForNetworkProfile: Interface
 
 augmentConversionForNetworkProfile_STATUS: Interface

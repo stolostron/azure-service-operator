@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -25,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240610preview.HcpOpenShiftClustersNodePool
 // Generator information:
-// - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpclusters/preview/2024-06-10-preview/openapi.json
+// - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpopenshiftclusters/preview/2024-06-10-preview/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/nodePools/{nodePoolName}
 type HcpOpenShiftClustersNodePool struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -50,22 +49,36 @@ var _ conversion.Convertible = &HcpOpenShiftClustersNodePool{}
 
 // ConvertFrom populates our HcpOpenShiftClustersNodePool from the provided hub HcpOpenShiftClustersNodePool
 func (pool *HcpOpenShiftClustersNodePool) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.HcpOpenShiftClustersNodePool)
-	if !ok {
-		return fmt.Errorf("expected redhatopenshift/v1api20251223preview/storage/HcpOpenShiftClustersNodePool but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.HcpOpenShiftClustersNodePool
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return pool.AssignProperties_From_HcpOpenShiftClustersNodePool(source)
+	err = pool.AssignProperties_From_HcpOpenShiftClustersNodePool(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to pool")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub HcpOpenShiftClustersNodePool from our HcpOpenShiftClustersNodePool
 func (pool *HcpOpenShiftClustersNodePool) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.HcpOpenShiftClustersNodePool)
-	if !ok {
-		return fmt.Errorf("expected redhatopenshift/v1api20251223preview/storage/HcpOpenShiftClustersNodePool but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.HcpOpenShiftClustersNodePool
+	err := pool.AssignProperties_To_HcpOpenShiftClustersNodePool(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from pool")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return pool.AssignProperties_To_HcpOpenShiftClustersNodePool(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &HcpOpenShiftClustersNodePool{}
@@ -245,7 +258,7 @@ func (pool *HcpOpenShiftClustersNodePool) OriginalGVK() *schema.GroupVersionKind
 // +kubebuilder:object:root=true
 // Storage version of v1api20240610preview.HcpOpenShiftClustersNodePool
 // Generator information:
-// - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpclusters/preview/2024-06-10-preview/openapi.json
+// - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpopenshiftclusters/preview/2024-06-10-preview/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/nodePools/{nodePoolName}
 type HcpOpenShiftClustersNodePoolList struct {
 	metav1.TypeMeta `json:",inline"`
