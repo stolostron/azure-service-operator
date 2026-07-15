@@ -4,7 +4,8 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview/storage"
+	v20240610ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview/storage"
+	v20260630ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260630preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -306,7 +307,7 @@ type ConsoleProfile_STATUS struct {
 }
 
 // AssignProperties_From_ConsoleProfile_STATUS populates our ConsoleProfile_STATUS from the provided source ConsoleProfile_STATUS
-func (profile *ConsoleProfile_STATUS) AssignProperties_From_ConsoleProfile_STATUS(source *storage.ConsoleProfile_STATUS) error {
+func (profile *ConsoleProfile_STATUS) AssignProperties_From_ConsoleProfile_STATUS(source *v20240610ps.ConsoleProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -334,7 +335,7 @@ func (profile *ConsoleProfile_STATUS) AssignProperties_From_ConsoleProfile_STATU
 }
 
 // AssignProperties_To_ConsoleProfile_STATUS populates the provided destination ConsoleProfile_STATUS from our ConsoleProfile_STATUS
-func (profile *ConsoleProfile_STATUS) AssignProperties_To_ConsoleProfile_STATUS(destination *storage.ConsoleProfile_STATUS) error {
+func (profile *ConsoleProfile_STATUS) AssignProperties_To_ConsoleProfile_STATUS(destination *v20240610ps.ConsoleProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -369,6 +370,116 @@ type IngressProfile struct {
 	Visibility  *string                `json:"visibility,omitempty"`
 }
 
+// AssignProperties_From_IngressProfile populates our IngressProfile from the provided source IngressProfile
+func (profile *IngressProfile) AssignProperties_From_IngressProfile(source *v20260630ps.IngressProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Name
+	if propertyBag.Contains("Name") {
+		var name string
+		err := propertyBag.Pull("Name", &name)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Name' from propertyBag")
+		}
+
+		profile.Name = &name
+	} else {
+		profile.Name = nil
+	}
+
+	// Type
+	if source.Type != nil {
+		propertyBag.Add("Type", *source.Type)
+	} else {
+		propertyBag.Remove("Type")
+	}
+
+	// Visibility
+	if propertyBag.Contains("Visibility") {
+		var visibility string
+		err := propertyBag.Pull("Visibility", &visibility)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Visibility' from propertyBag")
+		}
+
+		profile.Visibility = &visibility
+	} else {
+		profile.Visibility = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForIngressProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForIngressProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_IngressProfile populates the provided destination IngressProfile from our IngressProfile
+func (profile *IngressProfile) AssignProperties_To_IngressProfile(destination *v20260630ps.IngressProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Name
+	if profile.Name != nil {
+		propertyBag.Add("Name", *profile.Name)
+	} else {
+		propertyBag.Remove("Name")
+	}
+
+	// Type
+	if propertyBag.Contains("Type") {
+		var typeVar string
+		err := propertyBag.Pull("Type", &typeVar)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Type' from propertyBag")
+		}
+
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
+
+	// Visibility
+	if profile.Visibility != nil {
+		propertyBag.Add("Visibility", *profile.Visibility)
+	} else {
+		propertyBag.Remove("Visibility")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForIngressProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForIngressProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20231122.IngressProfile_STATUS
 // IngressProfile represents an ingress profile.
 type IngressProfile_STATUS struct {
@@ -376,6 +487,136 @@ type IngressProfile_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Visibility  *string                `json:"visibility,omitempty"`
+}
+
+// AssignProperties_From_IngressProfile_STATUS populates our IngressProfile_STATUS from the provided source IngressProfile_STATUS
+func (profile *IngressProfile_STATUS) AssignProperties_From_IngressProfile_STATUS(source *v20260630ps.IngressProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Ip
+	if propertyBag.Contains("Ip") {
+		var ip string
+		err := propertyBag.Pull("Ip", &ip)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Ip' from propertyBag")
+		}
+
+		profile.Ip = &ip
+	} else {
+		profile.Ip = nil
+	}
+
+	// Name
+	if propertyBag.Contains("Name") {
+		var name string
+		err := propertyBag.Pull("Name", &name)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Name' from propertyBag")
+		}
+
+		profile.Name = &name
+	} else {
+		profile.Name = nil
+	}
+
+	// Type
+	if source.Type != nil {
+		propertyBag.Add("Type", *source.Type)
+	} else {
+		propertyBag.Remove("Type")
+	}
+
+	// Visibility
+	if propertyBag.Contains("Visibility") {
+		var visibility string
+		err := propertyBag.Pull("Visibility", &visibility)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Visibility' from propertyBag")
+		}
+
+		profile.Visibility = &visibility
+	} else {
+		profile.Visibility = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForIngressProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForIngressProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_IngressProfile_STATUS populates the provided destination IngressProfile_STATUS from our IngressProfile_STATUS
+func (profile *IngressProfile_STATUS) AssignProperties_To_IngressProfile_STATUS(destination *v20260630ps.IngressProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Ip
+	if profile.Ip != nil {
+		propertyBag.Add("Ip", *profile.Ip)
+	} else {
+		propertyBag.Remove("Ip")
+	}
+
+	// Name
+	if profile.Name != nil {
+		propertyBag.Add("Name", *profile.Name)
+	} else {
+		propertyBag.Remove("Name")
+	}
+
+	// Type
+	if propertyBag.Contains("Type") {
+		var typeVar string
+		err := propertyBag.Pull("Type", &typeVar)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Type' from propertyBag")
+		}
+
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
+
+	// Visibility
+	if profile.Visibility != nil {
+		propertyBag.Add("Visibility", *profile.Visibility)
+	} else {
+		propertyBag.Remove("Visibility")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForIngressProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForIngressProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20231122.MasterProfile
@@ -413,7 +654,7 @@ type NetworkProfile struct {
 }
 
 // AssignProperties_From_NetworkProfile populates our NetworkProfile from the provided source NetworkProfile
-func (profile *NetworkProfile) AssignProperties_From_NetworkProfile(source *storage.NetworkProfile) error {
+func (profile *NetworkProfile) AssignProperties_From_NetworkProfile(source *v20240610ps.NetworkProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -504,7 +745,7 @@ func (profile *NetworkProfile) AssignProperties_From_NetworkProfile(source *stor
 }
 
 // AssignProperties_To_NetworkProfile populates the provided destination NetworkProfile from our NetworkProfile
-func (profile *NetworkProfile) AssignProperties_To_NetworkProfile(destination *storage.NetworkProfile) error {
+func (profile *NetworkProfile) AssignProperties_To_NetworkProfile(destination *v20240610ps.NetworkProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -606,7 +847,7 @@ type NetworkProfile_STATUS struct {
 }
 
 // AssignProperties_From_NetworkProfile_STATUS populates our NetworkProfile_STATUS from the provided source NetworkProfile_STATUS
-func (profile *NetworkProfile_STATUS) AssignProperties_From_NetworkProfile_STATUS(source *storage.NetworkProfile_STATUS) error {
+func (profile *NetworkProfile_STATUS) AssignProperties_From_NetworkProfile_STATUS(source *v20240610ps.NetworkProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -697,7 +938,7 @@ func (profile *NetworkProfile_STATUS) AssignProperties_From_NetworkProfile_STATU
 }
 
 // AssignProperties_To_NetworkProfile_STATUS populates the provided destination NetworkProfile_STATUS from our NetworkProfile_STATUS
-func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(destination *storage.NetworkProfile_STATUS) error {
+func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(destination *v20240610ps.NetworkProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -825,7 +1066,7 @@ type SystemData_STATUS struct {
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20240610ps.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -868,7 +1109,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *s
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20240610ps.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
 
@@ -941,23 +1182,33 @@ type WorkerProfile_STATUS struct {
 }
 
 type augmentConversionForConsoleProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.ConsoleProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.ConsoleProfile_STATUS) error
+	AssignPropertiesFrom(src *v20240610ps.ConsoleProfile_STATUS) error
+	AssignPropertiesTo(dst *v20240610ps.ConsoleProfile_STATUS) error
+}
+
+type augmentConversionForIngressProfile interface {
+	AssignPropertiesFrom(src *v20260630ps.IngressProfile) error
+	AssignPropertiesTo(dst *v20260630ps.IngressProfile) error
+}
+
+type augmentConversionForIngressProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20260630ps.IngressProfile_STATUS) error
+	AssignPropertiesTo(dst *v20260630ps.IngressProfile_STATUS) error
 }
 
 type augmentConversionForNetworkProfile interface {
-	AssignPropertiesFrom(src *storage.NetworkProfile) error
-	AssignPropertiesTo(dst *storage.NetworkProfile) error
+	AssignPropertiesFrom(src *v20240610ps.NetworkProfile) error
+	AssignPropertiesTo(dst *v20240610ps.NetworkProfile) error
 }
 
 type augmentConversionForNetworkProfile_STATUS interface {
-	AssignPropertiesFrom(src *storage.NetworkProfile_STATUS) error
-	AssignPropertiesTo(dst *storage.NetworkProfile_STATUS) error
+	AssignPropertiesFrom(src *v20240610ps.NetworkProfile_STATUS) error
+	AssignPropertiesTo(dst *v20240610ps.NetworkProfile_STATUS) error
 }
 
 type augmentConversionForSystemData_STATUS interface {
-	AssignPropertiesFrom(src *storage.SystemData_STATUS) error
-	AssignPropertiesTo(dst *storage.SystemData_STATUS) error
+	AssignPropertiesFrom(src *v20240610ps.SystemData_STATUS) error
+	AssignPropertiesTo(dst *v20240610ps.SystemData_STATUS) error
 }
 
 // Storage version of v1api20231122.LoadBalancerProfile

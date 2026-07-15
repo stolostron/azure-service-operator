@@ -8,6 +8,8 @@ import (
 	v20240610ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview/storage"
 	v20251223p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview"
 	v20251223ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/storage"
+	v20260630p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260630preview"
+	v20260630ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260630preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -20,5 +22,7 @@ func (extension *HcpOpenShiftClustersNodePoolExtension) GetExtendedResources() [
 		&v20240610p.HcpOpenShiftClustersNodePool{},
 		&v20240610ps.HcpOpenShiftClustersNodePool{},
 		&v20251223p.HcpOpenShiftClustersNodePool{},
-		&v20251223ps.HcpOpenShiftClustersNodePool{}}
+		&v20251223ps.HcpOpenShiftClustersNodePool{},
+		&v20260630p.HcpOpenShiftClustersNodePool{},
+		&v20260630ps.HcpOpenShiftClustersNodePool{}}
 }

@@ -186,7 +186,7 @@ var externalAuthConditionType_STATUS_Values = map[string]ExternalAuthConditionTy
 	"progressing": ExternalAuthConditionType_STATUS_Progressing,
 }
 
-// Representation of the possible values of a external auths condition status.
+// Representation of the possible values of a condition status.
 type StatusType_STATUS string
 
 const (

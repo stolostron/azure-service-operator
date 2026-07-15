@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -25,7 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240610preview.HcpOpenShiftClustersExternalAuth
 // Generator information:
-// - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpclusters/preview/2024-06-10-preview/openapi.json
+// - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpopenshiftclusters/preview/2024-06-10-preview/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/externalAuths/{externalAuthName}
 type HcpOpenShiftClustersExternalAuth struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -50,22 +49,36 @@ var _ conversion.Convertible = &HcpOpenShiftClustersExternalAuth{}
 
 // ConvertFrom populates our HcpOpenShiftClustersExternalAuth from the provided hub HcpOpenShiftClustersExternalAuth
 func (auth *HcpOpenShiftClustersExternalAuth) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.HcpOpenShiftClustersExternalAuth)
-	if !ok {
-		return fmt.Errorf("expected redhatopenshift/v1api20251223preview/storage/HcpOpenShiftClustersExternalAuth but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.HcpOpenShiftClustersExternalAuth
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return auth.AssignProperties_From_HcpOpenShiftClustersExternalAuth(source)
+	err = auth.AssignProperties_From_HcpOpenShiftClustersExternalAuth(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to auth")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub HcpOpenShiftClustersExternalAuth from our HcpOpenShiftClustersExternalAuth
 func (auth *HcpOpenShiftClustersExternalAuth) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.HcpOpenShiftClustersExternalAuth)
-	if !ok {
-		return fmt.Errorf("expected redhatopenshift/v1api20251223preview/storage/HcpOpenShiftClustersExternalAuth but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.HcpOpenShiftClustersExternalAuth
+	err := auth.AssignProperties_To_HcpOpenShiftClustersExternalAuth(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from auth")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return auth.AssignProperties_To_HcpOpenShiftClustersExternalAuth(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &HcpOpenShiftClustersExternalAuth{}
@@ -245,7 +258,7 @@ func (auth *HcpOpenShiftClustersExternalAuth) OriginalGVK() *schema.GroupVersion
 // +kubebuilder:object:root=true
 // Storage version of v1api20240610preview.HcpOpenShiftClustersExternalAuth
 // Generator information:
-// - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpclusters/preview/2024-06-10-preview/openapi.json
+// - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpopenshiftclusters/preview/2024-06-10-preview/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/externalAuths/{externalAuthName}
 type HcpOpenShiftClustersExternalAuthList struct {
 	metav1.TypeMeta `json:",inline"`

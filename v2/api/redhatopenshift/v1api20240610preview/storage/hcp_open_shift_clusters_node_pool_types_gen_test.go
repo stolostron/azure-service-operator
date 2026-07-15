@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/storage"
+	v20251223ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/storage"
+	v20260630ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260630preview/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForHcpOpenShiftClustersNodePool(subject HcpOpenShi
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.HcpOpenShiftClustersNodePool
+	var hub v20260630ps.HcpOpenShiftClustersNodePool
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForHcpOpenShiftClustersNodePool(subject HcpOpenShi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HcpOpenShiftClustersNodePool
+	var other v20251223ps.HcpOpenShiftClustersNodePool
 	err := copied.AssignProperties_To_HcpOpenShiftClustersNodePool(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForHcpOpenShiftClustersNodePoolOperatorSpec(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HcpOpenShiftClustersNodePoolOperatorSpec
+	var other v20251223ps.HcpOpenShiftClustersNodePoolOperatorSpec
 	err := copied.AssignProperties_To_HcpOpenShiftClustersNodePoolOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForHcpOpenShiftClustersNodePool_STATUS(subject Hcp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HcpOpenShiftClustersNodePool_STATUS
+	var other v20251223ps.HcpOpenShiftClustersNodePool_STATUS
 	err := copied.AssignProperties_To_HcpOpenShiftClustersNodePool_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -404,7 +405,7 @@ func RunPropertyAssignmentTestForHcpOpenShiftClustersNodePool_Spec(subject HcpOp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HcpOpenShiftClustersNodePool_Spec
+	var other v20251223ps.HcpOpenShiftClustersNodePool_Spec
 	err := copied.AssignProperties_To_HcpOpenShiftClustersNodePool_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -528,7 +529,7 @@ func RunPropertyAssignmentTestForLabel(subject Label) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Label
+	var other v20251223ps.Label
 	err := copied.AssignProperties_To_Label(&other)
 	if err != nil {
 		return err.Error()
@@ -631,7 +632,7 @@ func RunPropertyAssignmentTestForLabel_STATUS(subject Label_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Label_STATUS
+	var other v20251223ps.Label_STATUS
 	err := copied.AssignProperties_To_Label_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -734,7 +735,7 @@ func RunPropertyAssignmentTestForNodePoolAutoScaling(subject NodePoolAutoScaling
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NodePoolAutoScaling
+	var other v20251223ps.NodePoolAutoScaling
 	err := copied.AssignProperties_To_NodePoolAutoScaling(&other)
 	if err != nil {
 		return err.Error()
@@ -838,7 +839,7 @@ func RunPropertyAssignmentTestForNodePoolAutoScaling_STATUS(subject NodePoolAuto
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NodePoolAutoScaling_STATUS
+	var other v20251223ps.NodePoolAutoScaling_STATUS
 	err := copied.AssignProperties_To_NodePoolAutoScaling_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -942,7 +943,7 @@ func RunPropertyAssignmentTestForNodePoolPlatformProfile(subject NodePoolPlatfor
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NodePoolPlatformProfile
+	var other v20251223ps.NodePoolPlatformProfile
 	err := copied.AssignProperties_To_NodePoolPlatformProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -1061,7 +1062,7 @@ func RunPropertyAssignmentTestForNodePoolPlatformProfile_STATUS(subject NodePool
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NodePoolPlatformProfile_STATUS
+	var other v20251223ps.NodePoolPlatformProfile_STATUS
 	err := copied.AssignProperties_To_NodePoolPlatformProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1181,7 +1182,7 @@ func RunPropertyAssignmentTestForNodePoolProperties(subject NodePoolProperties) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NodePoolProperties
+	var other v20251223ps.NodePoolProperties
 	err := copied.AssignProperties_To_NodePoolProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -1303,7 +1304,7 @@ func RunPropertyAssignmentTestForNodePoolProperties_STATUS(subject NodePoolPrope
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NodePoolProperties_STATUS
+	var other v20251223ps.NodePoolProperties_STATUS
 	err := copied.AssignProperties_To_NodePoolProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1427,7 +1428,7 @@ func RunPropertyAssignmentTestForNodePoolVersionProfile(subject NodePoolVersionP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NodePoolVersionProfile
+	var other v20251223ps.NodePoolVersionProfile
 	err := copied.AssignProperties_To_NodePoolVersionProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -1531,7 +1532,7 @@ func RunPropertyAssignmentTestForNodePoolVersionProfile_STATUS(subject NodePoolV
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NodePoolVersionProfile_STATUS
+	var other v20251223ps.NodePoolVersionProfile_STATUS
 	err := copied.AssignProperties_To_NodePoolVersionProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1635,7 +1636,7 @@ func RunPropertyAssignmentTestForOsDiskProfile(subject OsDiskProfile) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.OsDiskProfile
+	var other v20251223ps.OsDiskProfile
 	err := copied.AssignProperties_To_OsDiskProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -1738,7 +1739,7 @@ func RunPropertyAssignmentTestForOsDiskProfile_STATUS(subject OsDiskProfile_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.OsDiskProfile_STATUS
+	var other v20251223ps.OsDiskProfile_STATUS
 	err := copied.AssignProperties_To_OsDiskProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1843,7 +1844,7 @@ func RunPropertyAssignmentTestForTaint(subject Taint) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Taint
+	var other v20251223ps.Taint
 	err := copied.AssignProperties_To_Taint(&other)
 	if err != nil {
 		return err.Error()
@@ -1947,7 +1948,7 @@ func RunPropertyAssignmentTestForTaint_STATUS(subject Taint_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Taint_STATUS
+	var other v20251223ps.Taint_STATUS
 	err := copied.AssignProperties_To_Taint_STATUS(&other)
 	if err != nil {
 		return err.Error()
