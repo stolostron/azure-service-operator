@@ -73,7 +73,7 @@ jobs:
         # See: https://github.com/moby/moby/issues/41687#issuecomment-733826074 and related issues
         run: |
           docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
-          docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
+          docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest -f .devcontainer/Dockerfile .
         env:
           DOCKER_BUILDKIT: 1
 
