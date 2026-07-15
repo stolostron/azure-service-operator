@@ -30,6 +30,20 @@ jobs:
       with:
         ref: ${{ matrix.branch }}
 
+    - name: Check for openpgp imports
+      run: |
+        grep_status=0
+        grep_output=$(grep -rn -E '^\s*(import\s+)?([A-Za-z_.][A-Za-z0-9_]*\s+)?"golang\.org/x/crypto/openpgp' --include="*.go" . 2>&1) || grep_status=$?
+        if [ "$grep_status" -gt 1 ]; then
+          echo "::error::Failed to scan Go files for openpgp imports."
+          echo "$grep_output" >&2
+          exit 1
+        elif [ "$grep_status" -eq 0 ]; then
+          echo "::error::Found import of golang.org/x/crypto/openpgp (unmaintained, GO-2026-5932). Migrate to github.com/ProtonMail/go-crypto/openpgp."
+          echo "$grep_output"
+          exit 1
+        fi
+
     - name: Capture scanned commit
       id: scanned-commit
       run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
