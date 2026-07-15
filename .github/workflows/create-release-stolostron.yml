@@ -11,6 +11,8 @@ permissions: {}
 
 jobs:
   build-and-push:
+    permissions:
+      contents: write # required to create a GitHub release
     uses: ./.github/workflows/build-release-artifacts.yml
     with:
       upload: true
