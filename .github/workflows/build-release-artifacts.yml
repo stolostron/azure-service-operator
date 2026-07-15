@@ -36,6 +36,7 @@ jobs:
         with:
           fetch-depth: 0 # required to access tags
           submodules: "true"
+          persist-credentials: false
 
       - name: Build & run devcontainer image
         # NB: if you update this also update live-validation.yml, pre-release-tests.yaml and create-release-experimental.yml
