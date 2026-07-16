@@ -4,7 +4,7 @@
 	"name": "Azure Service Operator",
 	"build": {
 		"dockerfile": "Dockerfile",
-		"context": ".."
+		"context": "."
 	},
 	"runArgs": [ 
 		"--cap-add=SYS_PTRACE",
