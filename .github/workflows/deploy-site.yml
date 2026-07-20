@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Create token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         id: app-token
         with:
           # required
@@ -75,7 +75,7 @@ jobs:
           docker exec "$container_id" task build-docs-site
 
       - name: Publish to gh-pages branch
-        uses: JamesIves/github-pages-deploy-action@v4.8.0 # pinned version
+        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4.8.0
         with:
           branch: gh-pages
           token: ${{ steps.app-token.outputs.token }}
