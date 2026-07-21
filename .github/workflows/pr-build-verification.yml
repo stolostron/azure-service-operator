@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+# Verify the Stolostron release build succeeds on every PR.
+# Runs the same build as create-release-stolostron.yml but skips artifact upload.
+# Purpose: catch build breakage early, before a release is attempted.
+
+name: PR build verification
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - backplane-2.17
+      - backplane-2.11
+
+permissions: {}
+
+concurrency:
+  group: pr-build-verification-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-release-artifacts.yml
+    with:
+      upload: false
