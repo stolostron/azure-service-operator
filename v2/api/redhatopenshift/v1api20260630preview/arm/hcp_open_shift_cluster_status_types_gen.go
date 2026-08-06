@@ -45,6 +45,9 @@ type HcpOpenShiftClusterProperties_STATUS struct {
 	// Console: Shows the cluster web console information
 	Console *ConsoleProfile_STATUS `json:"console,omitempty"`
 
+	// CryptoRestrictions: Cryptographic restrictions for kernel and userspace libraries
+	CryptoRestrictions *HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS `json:"cryptoRestrictions,omitempty"`
+
 	// Dns: Cluster DNS configuration
 	Dns *DnsProfile_STATUS `json:"dns,omitempty"`
 
@@ -207,6 +210,19 @@ type EtcdProfile_STATUS struct {
 	// DataEncryption: ETCD Data Encryption settings.
 	// If not specified platform managed keys are used.
 	DataEncryption *EtcdDataEncryptionProfile_STATUS `json:"dataEncryption,omitempty"`
+}
+
+type HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS string
+
+const (
+	HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS_FIPS = HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS("FIPS")
+	HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS_None = HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS("None")
+)
+
+// Mapping from string to HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS
+var hcpOpenShiftClusterProperties_CryptoRestrictions_STATUS_Values = map[string]HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS{
+	"fips": HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS_FIPS,
+	"none": HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS_None,
 }
 
 // ImageDigestMirror specifies a set of mirror registries to redirect image
@@ -467,8 +483,7 @@ type EtcdDataEncryptionProfile_STATUS struct {
 	CustomerManaged *CustomerManagedEncryptionProfile_STATUS `json:"customerManaged,omitempty"`
 
 	// KeyManagementMode: Specify the key management strategy used for the encryption key that encrypts the ETCD data.
-	// By default, "PlatformManaged" is used.
-	KeyManagementMode *EtcdDataEncryptionProfile_KeyManagementMode_STATUS `json:"keyManagementMode,omitempty"`
+	KeyManagementMode *EtcdDataEncryptionKeyManagementModeType_STATUS `json:"keyManagementMode,omitempty"`
 }
 
 type IngressProfile_Type_STATUS string
@@ -543,17 +558,14 @@ type CustomerManagedEncryptionProfile_STATUS struct {
 	Kms *KmsEncryptionProfile_STATUS `json:"kms,omitempty"`
 }
 
-type EtcdDataEncryptionProfile_KeyManagementMode_STATUS string
+// The encryption key management mode types supported for ETCD data encryption.
+type EtcdDataEncryptionKeyManagementModeType_STATUS string
 
-const (
-	EtcdDataEncryptionProfile_KeyManagementMode_STATUS_CustomerManaged = EtcdDataEncryptionProfile_KeyManagementMode_STATUS("CustomerManaged")
-	EtcdDataEncryptionProfile_KeyManagementMode_STATUS_PlatformManaged = EtcdDataEncryptionProfile_KeyManagementMode_STATUS("PlatformManaged")
-)
+const EtcdDataEncryptionKeyManagementModeType_STATUS_CustomerManaged = EtcdDataEncryptionKeyManagementModeType_STATUS("CustomerManaged")
 
-// Mapping from string to EtcdDataEncryptionProfile_KeyManagementMode_STATUS
-var etcdDataEncryptionProfile_KeyManagementMode_STATUS_Values = map[string]EtcdDataEncryptionProfile_KeyManagementMode_STATUS{
-	"customermanaged": EtcdDataEncryptionProfile_KeyManagementMode_STATUS_CustomerManaged,
-	"platformmanaged": EtcdDataEncryptionProfile_KeyManagementMode_STATUS_PlatformManaged,
+// Mapping from string to EtcdDataEncryptionKeyManagementModeType_STATUS
+var etcdDataEncryptionKeyManagementModeType_STATUS_Values = map[string]EtcdDataEncryptionKeyManagementModeType_STATUS{
+	"customermanaged": EtcdDataEncryptionKeyManagementModeType_STATUS_CustomerManaged,
 }
 
 // Representation of the possible values of a condition status.

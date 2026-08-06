@@ -24,7 +24,7 @@ HcpOpenShiftCluster: Resource
 │   │   └── Secrets: *Object (1 property)
 │   │       └── AdminCredentials: *genruntime.SecretDestination
 │   ├── Owner: *genruntime.KnownResourceReference
-│   ├── Properties: *Object (11 properties)
+│   ├── Properties: *Object (12 properties)
 │   │   ├── Api: *Object (2 properties)
 │   │   │   ├── AuthorizedCidrs: Validated<string[]> (1 rule)
 │   │   │   │   └── Rule 0: MaxItems: 500
@@ -43,6 +43,9 @@ HcpOpenShiftCluster: Resource
 │   │   │   └── State: *Enum (2 values)
 │   │   │       ├── "Disabled"
 │   │   │       └── "Enabled"
+│   │   ├── CryptoRestrictions: *Enum (2 values)
+│   │   │   ├── "FIPS"
+│   │   │   └── "None"
 │   │   ├── Dns: *Object (1 property)
 │   │   │   └── BaseDomainPrefix: Validated<*string> (2 rules)
 │   │   │       ├── Rule 0: MaxLength: 15
@@ -66,9 +69,8 @@ HcpOpenShiftCluster: Resource
 │   │   │       │       └── Visibility: *Enum (2 values)
 │   │   │       │           ├── "Private"
 │   │   │       │           └── "Public"
-│   │   │       └── KeyManagementMode: *Enum (2 values)
-│   │   │           ├── "CustomerManaged"
-│   │   │           └── "PlatformManaged"
+│   │   │       └── KeyManagementMode: *Enum (1 value)
+│   │   │           └── "CustomerManaged"
 │   │   ├── ImageDigestMirrors: Validated<Object (2 properties)[]> (1 rule)
 │   │   │   ├── Mirrors: Validated<Validated<string> (1 rule)[]> (2 rules)
 │   │   │   │   ├── Rule 0: MaxLength: 255
@@ -125,7 +127,7 @@ HcpOpenShiftCluster: Resource
     │       └── PrincipalId: *string
     ├── Location: *string
     ├── Name: *string
-    ├── Properties: *Object (14 properties)
+    ├── Properties: *Object (15 properties)
     │   ├── Api: *Object (3 properties)
     │   │   ├── AuthorizedCidrs: string[]
     │   │   ├── Url: *string
@@ -143,6 +145,9 @@ HcpOpenShiftCluster: Resource
     │   │       └── "Enabled"
     │   ├── Console: *Object (1 property)
     │   │   └── Url: *string
+    │   ├── CryptoRestrictions: *Enum (2 values)
+    │   │   ├── "FIPS"
+    │   │   └── "None"
     │   ├── Dns: *Object (2 properties)
     │   │   ├── BaseDomain: *string
     │   │   └── BaseDomainPrefix: *string
@@ -159,9 +164,8 @@ HcpOpenShiftCluster: Resource
     │   │       │       └── Visibility: *Enum (2 values)
     │   │       │           ├── "Private"
     │   │       │           └── "Public"
-    │   │       └── KeyManagementMode: *Enum (2 values)
-    │   │           ├── "CustomerManaged"
-    │   │           └── "PlatformManaged"
+    │   │       └── KeyManagementMode: *Enum (1 value)
+    │   │           └── "CustomerManaged"
     │   ├── ImageDigestMirrors: Object (2 properties)[]
     │   │   ├── Mirrors: Validated<Validated<string> (1 rule)[]> (2 rules)
     │   │   │   ├── Rule 0: MaxLength: 255
@@ -422,8 +426,9 @@ HcpOpenShiftClustersNodePool: Resource
 │   │   │   │   │   ├── "Ephemeral"
 │   │   │   │   │   └── "Managed"
 │   │   │   │   ├── EncryptionSetReference: *genruntime.ResourceReference
-│   │   │   │   └── SizeGiB: Validated<*int> (1 rule)
-│   │   │   │       └── Rule 0: Minimum: 64
+│   │   │   │   └── SizeGiB: Validated<*int> (2 rules)
+│   │   │   │       ├── Rule 0: Maximum: 4095
+│   │   │   │       └── Rule 1: Minimum: 64
 │   │   │   ├── SubnetReference: *genruntime.ResourceReference
 │   │   │   └── VmSize: *string
 │   │   ├── Replicas: Validated<*int> (1 rule)

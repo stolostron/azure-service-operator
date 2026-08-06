@@ -48,6 +48,9 @@ type HcpOpenShiftClusterProperties struct {
 	// ClusterImageRegistry: OpenShift internal image registry
 	ClusterImageRegistry *ClusterImageRegistryProfile `json:"clusterImageRegistry,omitempty"`
 
+	// CryptoRestrictions: Cryptographic restrictions for kernel and userspace libraries
+	CryptoRestrictions *HcpOpenShiftClusterProperties_CryptoRestrictions `json:"cryptoRestrictions,omitempty"`
+
 	// Dns: Cluster DNS configuration
 	Dns *DnsProfile `json:"dns,omitempty"`
 
@@ -158,6 +161,20 @@ type EtcdProfile struct {
 	// DataEncryption: ETCD Data Encryption settings.
 	// If not specified platform managed keys are used.
 	DataEncryption *EtcdDataEncryptionProfile `json:"dataEncryption,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"FIPS","None"}
+type HcpOpenShiftClusterProperties_CryptoRestrictions string
+
+const (
+	HcpOpenShiftClusterProperties_CryptoRestrictions_FIPS = HcpOpenShiftClusterProperties_CryptoRestrictions("FIPS")
+	HcpOpenShiftClusterProperties_CryptoRestrictions_None = HcpOpenShiftClusterProperties_CryptoRestrictions("None")
+)
+
+// Mapping from string to HcpOpenShiftClusterProperties_CryptoRestrictions
+var hcpOpenShiftClusterProperties_CryptoRestrictions_Values = map[string]HcpOpenShiftClusterProperties_CryptoRestrictions{
+	"fips": HcpOpenShiftClusterProperties_CryptoRestrictions_FIPS,
+	"none": HcpOpenShiftClusterProperties_CryptoRestrictions_None,
 }
 
 // ImageDigestMirror specifies a set of mirror registries to redirect image
@@ -316,8 +333,7 @@ type EtcdDataEncryptionProfile struct {
 	CustomerManaged *CustomerManagedEncryptionProfile `json:"customerManaged,omitempty"`
 
 	// KeyManagementMode: Specify the key management strategy used for the encryption key that encrypts the ETCD data.
-	// By default, "PlatformManaged" is used.
-	KeyManagementMode *EtcdDataEncryptionProfile_KeyManagementMode `json:"keyManagementMode,omitempty"`
+	KeyManagementMode *EtcdDataEncryptionKeyManagementModeType `json:"keyManagementMode,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Private","Public"}
@@ -378,18 +394,15 @@ type CustomerManagedEncryptionProfile struct {
 	Kms *KmsEncryptionProfile `json:"kms,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"CustomerManaged","PlatformManaged"}
-type EtcdDataEncryptionProfile_KeyManagementMode string
+// The encryption key management mode types supported for ETCD data encryption.
+// +kubebuilder:validation:Enum={"CustomerManaged"}
+type EtcdDataEncryptionKeyManagementModeType string
 
-const (
-	EtcdDataEncryptionProfile_KeyManagementMode_CustomerManaged = EtcdDataEncryptionProfile_KeyManagementMode("CustomerManaged")
-	EtcdDataEncryptionProfile_KeyManagementMode_PlatformManaged = EtcdDataEncryptionProfile_KeyManagementMode("PlatformManaged")
-)
+const EtcdDataEncryptionKeyManagementModeType_CustomerManaged = EtcdDataEncryptionKeyManagementModeType("CustomerManaged")
 
-// Mapping from string to EtcdDataEncryptionProfile_KeyManagementMode
-var etcdDataEncryptionProfile_KeyManagementMode_Values = map[string]EtcdDataEncryptionProfile_KeyManagementMode{
-	"customermanaged": EtcdDataEncryptionProfile_KeyManagementMode_CustomerManaged,
-	"platformmanaged": EtcdDataEncryptionProfile_KeyManagementMode_PlatformManaged,
+// Mapping from string to EtcdDataEncryptionKeyManagementModeType
+var etcdDataEncryptionKeyManagementModeType_Values = map[string]EtcdDataEncryptionKeyManagementModeType{
+	"customermanaged": EtcdDataEncryptionKeyManagementModeType_CustomerManaged,
 }
 
 // Represents the information related to Azure User-Assigned managed identities needed

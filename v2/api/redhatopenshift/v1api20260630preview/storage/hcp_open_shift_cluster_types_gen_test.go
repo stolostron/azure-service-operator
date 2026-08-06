@@ -1301,6 +1301,7 @@ func HcpOpenShiftClusterPropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHcpOpenShiftClusterProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHcpOpenShiftClusterProperties(gens map[string]gopter.Gen) {
+	gens["CryptoRestrictions"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeDrainTimeoutMinutes"] = gen.PtrOf(gen.Int())
 }
 
@@ -1385,6 +1386,7 @@ func HcpOpenShiftClusterProperties_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHcpOpenShiftClusterProperties_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHcpOpenShiftClusterProperties_STATUS(gens map[string]gopter.Gen) {
+	gens["CryptoRestrictions"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeDrainTimeoutMinutes"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 }

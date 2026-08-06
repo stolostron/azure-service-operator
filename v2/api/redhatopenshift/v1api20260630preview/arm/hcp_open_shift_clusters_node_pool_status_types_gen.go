@@ -189,7 +189,9 @@ type OsDiskProfile_STATUS struct {
 	// https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-customer-managed-keys-portal#set-up-your-disk-encryption-set
 	EncryptionSetId *string `json:"encryptionSetId,omitempty"`
 
-	// SizeGiB: The OS disk size in GiB
+	// SizeGiB: The OS disk size in GiB. Maximum is 4095 GiB for Managed disks. For Ephemeral disks,
+	// the maximum is 2040 GiB; Azure may enforce a lower effective limit based on the
+	// selected VM size's local cache, temp, or NVMe capacity.
 	SizeGiB *int `json:"sizeGiB,omitempty"`
 }
 

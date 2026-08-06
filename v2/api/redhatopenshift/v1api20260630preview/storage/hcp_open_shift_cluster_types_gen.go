@@ -261,6 +261,7 @@ type HcpOpenShiftClusterProperties struct {
 	Api                     *ApiProfile                  `json:"api,omitempty"`
 	Autoscaling             *ClusterAutoscalingProfile   `json:"autoscaling,omitempty"`
 	ClusterImageRegistry    *ClusterImageRegistryProfile `json:"clusterImageRegistry,omitempty"`
+	CryptoRestrictions      *string                      `json:"cryptoRestrictions,omitempty"`
 	Dns                     *DnsProfile                  `json:"dns,omitempty"`
 	Etcd                    *EtcdProfile                 `json:"etcd,omitempty"`
 	ImageDigestMirrors      []ImageDigestMirror          `json:"imageDigestMirrors,omitempty"`
@@ -279,6 +280,7 @@ type HcpOpenShiftClusterProperties_STATUS struct {
 	Autoscaling             *ClusterAutoscalingProfile_STATUS   `json:"autoscaling,omitempty"`
 	ClusterImageRegistry    *ClusterImageRegistryProfile_STATUS `json:"clusterImageRegistry,omitempty"`
 	Console                 *ConsoleProfile_STATUS              `json:"console,omitempty"`
+	CryptoRestrictions      *string                             `json:"cryptoRestrictions,omitempty"`
 	Dns                     *DnsProfile_STATUS                  `json:"dns,omitempty"`
 	Etcd                    *EtcdProfile_STATUS                 `json:"etcd,omitempty"`
 	ImageDigestMirrors      []ImageDigestMirror_STATUS          `json:"imageDigestMirrors,omitempty"`

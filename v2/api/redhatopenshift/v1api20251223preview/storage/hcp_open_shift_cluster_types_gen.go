@@ -941,6 +941,13 @@ func (properties *HcpOpenShiftClusterProperties) AssignProperties_From_HcpOpenSh
 		properties.ClusterImageRegistry = nil
 	}
 
+	// CryptoRestrictions
+	if source.CryptoRestrictions != nil {
+		propertyBag.Add("CryptoRestrictions", *source.CryptoRestrictions)
+	} else {
+		propertyBag.Remove("CryptoRestrictions")
+	}
+
 	// Dns
 	if source.Dns != nil {
 		var dnsDNS DnsProfile
@@ -1088,6 +1095,19 @@ func (properties *HcpOpenShiftClusterProperties) AssignProperties_To_HcpOpenShif
 		destination.ClusterImageRegistry = &clusterImageRegistry
 	} else {
 		destination.ClusterImageRegistry = nil
+	}
+
+	// CryptoRestrictions
+	if propertyBag.Contains("CryptoRestrictions") {
+		var cryptoRestriction string
+		err := propertyBag.Pull("CryptoRestrictions", &cryptoRestriction)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'CryptoRestrictions' from propertyBag")
+		}
+
+		destination.CryptoRestrictions = &cryptoRestriction
+	} else {
+		destination.CryptoRestrictions = nil
 	}
 
 	// Dns
@@ -1275,6 +1295,13 @@ func (properties *HcpOpenShiftClusterProperties_STATUS) AssignProperties_From_Hc
 		properties.Console = nil
 	}
 
+	// CryptoRestrictions
+	if source.CryptoRestrictions != nil {
+		propertyBag.Add("CryptoRestrictions", *source.CryptoRestrictions)
+	} else {
+		propertyBag.Remove("CryptoRestrictions")
+	}
+
 	// Dns
 	if source.Dns != nil {
 		var dnsDNS DnsProfile_STATUS
@@ -1444,6 +1471,19 @@ func (properties *HcpOpenShiftClusterProperties_STATUS) AssignProperties_To_HcpO
 		destination.Console = &console
 	} else {
 		destination.Console = nil
+	}
+
+	// CryptoRestrictions
+	if propertyBag.Contains("CryptoRestrictions") {
+		var cryptoRestriction string
+		err := propertyBag.Pull("CryptoRestrictions", &cryptoRestriction)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'CryptoRestrictions' from propertyBag")
+		}
+
+		destination.CryptoRestrictions = &cryptoRestriction
+	} else {
+		destination.CryptoRestrictions = nil
 	}
 
 	// Dns

@@ -405,7 +405,7 @@ func EtcdDataEncryptionProfileGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEtcdDataEncryptionProfile is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEtcdDataEncryptionProfile(gens map[string]gopter.Gen) {
-	gens["KeyManagementMode"] = gen.PtrOf(gen.OneConstOf(EtcdDataEncryptionProfile_KeyManagementMode_CustomerManaged, EtcdDataEncryptionProfile_KeyManagementMode_PlatformManaged))
+	gens["KeyManagementMode"] = gen.PtrOf(gen.OneConstOf(EtcdDataEncryptionKeyManagementModeType_CustomerManaged))
 }
 
 // AddRelatedPropertyGeneratorsForEtcdDataEncryptionProfile is a factory method for creating gopter generators
@@ -540,6 +540,7 @@ func HcpOpenShiftClusterPropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHcpOpenShiftClusterProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHcpOpenShiftClusterProperties(gens map[string]gopter.Gen) {
+	gens["CryptoRestrictions"] = gen.PtrOf(gen.OneConstOf(HcpOpenShiftClusterProperties_CryptoRestrictions_FIPS, HcpOpenShiftClusterProperties_CryptoRestrictions_None))
 	gens["NodeDrainTimeoutMinutes"] = gen.PtrOf(gen.Int())
 }
 

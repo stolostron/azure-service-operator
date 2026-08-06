@@ -1059,6 +1059,9 @@ type HcpOpenShiftClusterProperties struct {
 	// ClusterImageRegistry: OpenShift internal image registry
 	ClusterImageRegistry *ClusterImageRegistryProfile `json:"clusterImageRegistry,omitempty"`
 
+	// CryptoRestrictions: Cryptographic restrictions for kernel and userspace libraries
+	CryptoRestrictions *HcpOpenShiftClusterProperties_CryptoRestrictions `json:"cryptoRestrictions,omitempty"`
+
 	// Dns: Cluster DNS configuration
 	Dns *DnsProfile `json:"dns,omitempty"`
 
@@ -1136,6 +1139,14 @@ func (properties *HcpOpenShiftClusterProperties) ConvertToARM(resolved genruntim
 		}
 		clusterImageRegistry := *clusterImageRegistry_ARM.(*arm.ClusterImageRegistryProfile)
 		result.ClusterImageRegistry = &clusterImageRegistry
+	}
+
+	// Set property "CryptoRestrictions":
+	if properties.CryptoRestrictions != nil {
+		var temp string
+		temp = string(*properties.CryptoRestrictions)
+		cryptoRestrictions := arm.HcpOpenShiftClusterProperties_CryptoRestrictions(temp)
+		result.CryptoRestrictions = &cryptoRestrictions
 	}
 
 	// Set property "Dns":
@@ -1258,6 +1269,14 @@ func (properties *HcpOpenShiftClusterProperties) PopulateFromARM(owner genruntim
 		}
 		clusterImageRegistry := clusterImageRegistry1
 		properties.ClusterImageRegistry = &clusterImageRegistry
+	}
+
+	// Set property "CryptoRestrictions":
+	if typedInput.CryptoRestrictions != nil {
+		var temp string
+		temp = string(*typedInput.CryptoRestrictions)
+		cryptoRestrictions := HcpOpenShiftClusterProperties_CryptoRestrictions(temp)
+		properties.CryptoRestrictions = &cryptoRestrictions
 	}
 
 	// Set property "Dns":
@@ -1383,6 +1402,15 @@ func (properties *HcpOpenShiftClusterProperties) AssignProperties_From_HcpOpenSh
 		properties.ClusterImageRegistry = &clusterImageRegistry
 	} else {
 		properties.ClusterImageRegistry = nil
+	}
+
+	// CryptoRestrictions
+	if source.CryptoRestrictions != nil {
+		cryptoRestriction := *source.CryptoRestrictions
+		cryptoRestrictionTemp := genruntime.ToEnum(cryptoRestriction, hcpOpenShiftClusterProperties_CryptoRestrictions_Values)
+		properties.CryptoRestrictions = &cryptoRestrictionTemp
+	} else {
+		properties.CryptoRestrictions = nil
 	}
 
 	// Dns
@@ -1521,6 +1549,14 @@ func (properties *HcpOpenShiftClusterProperties) AssignProperties_To_HcpOpenShif
 		destination.ClusterImageRegistry = &clusterImageRegistry
 	} else {
 		destination.ClusterImageRegistry = nil
+	}
+
+	// CryptoRestrictions
+	if properties.CryptoRestrictions != nil {
+		cryptoRestriction := string(*properties.CryptoRestrictions)
+		destination.CryptoRestrictions = &cryptoRestriction
+	} else {
+		destination.CryptoRestrictions = nil
 	}
 
 	// Dns
@@ -1666,6 +1702,14 @@ func (properties *HcpOpenShiftClusterProperties) Initialize_From_HcpOpenShiftClu
 		properties.ClusterImageRegistry = nil
 	}
 
+	// CryptoRestrictions
+	if source.CryptoRestrictions != nil {
+		cryptoRestriction := genruntime.ToEnum(string(*source.CryptoRestrictions), hcpOpenShiftClusterProperties_CryptoRestrictions_Values)
+		properties.CryptoRestrictions = &cryptoRestriction
+	} else {
+		properties.CryptoRestrictions = nil
+	}
+
 	// Dns
 	if source.Dns != nil {
 		var dnsDNS DnsProfile
@@ -1777,6 +1821,9 @@ type HcpOpenShiftClusterProperties_STATUS struct {
 	// Console: Shows the cluster web console information
 	Console *ConsoleProfile_STATUS `json:"console,omitempty"`
 
+	// CryptoRestrictions: Cryptographic restrictions for kernel and userspace libraries
+	CryptoRestrictions *HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS `json:"cryptoRestrictions,omitempty"`
+
 	// Dns: Cluster DNS configuration
 	Dns *DnsProfile_STATUS `json:"dns,omitempty"`
 
@@ -1874,6 +1921,14 @@ func (properties *HcpOpenShiftClusterProperties_STATUS) PopulateFromARM(owner ge
 		}
 		console := console1
 		properties.Console = &console
+	}
+
+	// Set property "CryptoRestrictions":
+	if typedInput.CryptoRestrictions != nil {
+		var temp string
+		temp = string(*typedInput.CryptoRestrictions)
+		cryptoRestrictions := HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS(temp)
+		properties.CryptoRestrictions = &cryptoRestrictions
 	}
 
 	// Set property "Dns":
@@ -2030,6 +2085,15 @@ func (properties *HcpOpenShiftClusterProperties_STATUS) AssignProperties_From_Hc
 		properties.Console = &console
 	} else {
 		properties.Console = nil
+	}
+
+	// CryptoRestrictions
+	if source.CryptoRestrictions != nil {
+		cryptoRestriction := *source.CryptoRestrictions
+		cryptoRestrictionTemp := genruntime.ToEnum(cryptoRestriction, hcpOpenShiftClusterProperties_CryptoRestrictions_STATUS_Values)
+		properties.CryptoRestrictions = &cryptoRestrictionTemp
+	} else {
+		properties.CryptoRestrictions = nil
 	}
 
 	// Dns
@@ -2201,6 +2265,14 @@ func (properties *HcpOpenShiftClusterProperties_STATUS) AssignProperties_To_HcpO
 		destination.Console = &console
 	} else {
 		destination.Console = nil
+	}
+
+	// CryptoRestrictions
+	if properties.CryptoRestrictions != nil {
+		cryptoRestriction := string(*properties.CryptoRestrictions)
+		destination.CryptoRestrictions = &cryptoRestriction
+	} else {
+		destination.CryptoRestrictions = nil
 	}
 
 	// Dns
@@ -4005,6 +4077,33 @@ func (secrets *HcpOpenShiftClusterOperatorSecrets) AssignProperties_To_HcpOpenSh
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"FIPS","None"}
+type HcpOpenShiftClusterProperties_CryptoRestrictions string
+
+const (
+	HcpOpenShiftClusterProperties_CryptoRestrictions_FIPS = HcpOpenShiftClusterProperties_CryptoRestrictions("FIPS")
+	HcpOpenShiftClusterProperties_CryptoRestrictions_None = HcpOpenShiftClusterProperties_CryptoRestrictions("None")
+)
+
+// Mapping from string to HcpOpenShiftClusterProperties_CryptoRestrictions
+var hcpOpenShiftClusterProperties_CryptoRestrictions_Values = map[string]HcpOpenShiftClusterProperties_CryptoRestrictions{
+	"fips": HcpOpenShiftClusterProperties_CryptoRestrictions_FIPS,
+	"none": HcpOpenShiftClusterProperties_CryptoRestrictions_None,
+}
+
+type HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS string
+
+const (
+	HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS_FIPS = HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS("FIPS")
+	HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS_None = HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS("None")
+)
+
+// Mapping from string to HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS
+var hcpOpenShiftClusterProperties_CryptoRestrictions_STATUS_Values = map[string]HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS{
+	"fips": HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS_FIPS,
+	"none": HcpOpenShiftClusterProperties_CryptoRestrictions_STATUS_None,
 }
 
 // ImageDigestMirror specifies a set of mirror registries to redirect image
@@ -6052,9 +6151,9 @@ type EtcdDataEncryptionProfile struct {
 	// Required when keyManagementMode is "CustomerManaged".
 	CustomerManaged *CustomerManagedEncryptionProfile `json:"customerManaged,omitempty"`
 
+	// +kubebuilder:validation:Required
 	// KeyManagementMode: Specify the key management strategy used for the encryption key that encrypts the ETCD data.
-	// By default, "PlatformManaged" is used.
-	KeyManagementMode *EtcdDataEncryptionProfile_KeyManagementMode `json:"keyManagementMode,omitempty"`
+	KeyManagementMode *EtcdDataEncryptionKeyManagementModeType `json:"keyManagementMode,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EtcdDataEncryptionProfile{}
@@ -6080,7 +6179,7 @@ func (profile *EtcdDataEncryptionProfile) ConvertToARM(resolved genruntime.Conve
 	if profile.KeyManagementMode != nil {
 		var temp string
 		temp = string(*profile.KeyManagementMode)
-		keyManagementMode := arm.EtcdDataEncryptionProfile_KeyManagementMode(temp)
+		keyManagementMode := arm.EtcdDataEncryptionKeyManagementModeType(temp)
 		result.KeyManagementMode = &keyManagementMode
 	}
 	return result, nil
@@ -6113,7 +6212,7 @@ func (profile *EtcdDataEncryptionProfile) PopulateFromARM(owner genruntime.Arbit
 	if typedInput.KeyManagementMode != nil {
 		var temp string
 		temp = string(*typedInput.KeyManagementMode)
-		keyManagementMode := EtcdDataEncryptionProfile_KeyManagementMode(temp)
+		keyManagementMode := EtcdDataEncryptionKeyManagementModeType(temp)
 		profile.KeyManagementMode = &keyManagementMode
 	}
 
@@ -6139,7 +6238,7 @@ func (profile *EtcdDataEncryptionProfile) AssignProperties_From_EtcdDataEncrypti
 	// KeyManagementMode
 	if source.KeyManagementMode != nil {
 		keyManagementMode := *source.KeyManagementMode
-		keyManagementModeTemp := genruntime.ToEnum(keyManagementMode, etcdDataEncryptionProfile_KeyManagementMode_Values)
+		keyManagementModeTemp := genruntime.ToEnum(keyManagementMode, etcdDataEncryptionKeyManagementModeType_Values)
 		profile.KeyManagementMode = &keyManagementModeTemp
 	} else {
 		profile.KeyManagementMode = nil
@@ -6202,7 +6301,7 @@ func (profile *EtcdDataEncryptionProfile) Initialize_From_EtcdDataEncryptionProf
 
 	// KeyManagementMode
 	if source.KeyManagementMode != nil {
-		keyManagementMode := genruntime.ToEnum(string(*source.KeyManagementMode), etcdDataEncryptionProfile_KeyManagementMode_Values)
+		keyManagementMode := genruntime.ToEnum(string(*source.KeyManagementMode), etcdDataEncryptionKeyManagementModeType_Values)
 		profile.KeyManagementMode = &keyManagementMode
 	} else {
 		profile.KeyManagementMode = nil
@@ -6219,8 +6318,7 @@ type EtcdDataEncryptionProfile_STATUS struct {
 	CustomerManaged *CustomerManagedEncryptionProfile_STATUS `json:"customerManaged,omitempty"`
 
 	// KeyManagementMode: Specify the key management strategy used for the encryption key that encrypts the ETCD data.
-	// By default, "PlatformManaged" is used.
-	KeyManagementMode *EtcdDataEncryptionProfile_KeyManagementMode_STATUS `json:"keyManagementMode,omitempty"`
+	KeyManagementMode *EtcdDataEncryptionKeyManagementModeType_STATUS `json:"keyManagementMode,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EtcdDataEncryptionProfile_STATUS{}
@@ -6252,7 +6350,7 @@ func (profile *EtcdDataEncryptionProfile_STATUS) PopulateFromARM(owner genruntim
 	if typedInput.KeyManagementMode != nil {
 		var temp string
 		temp = string(*typedInput.KeyManagementMode)
-		keyManagementMode := EtcdDataEncryptionProfile_KeyManagementMode_STATUS(temp)
+		keyManagementMode := EtcdDataEncryptionKeyManagementModeType_STATUS(temp)
 		profile.KeyManagementMode = &keyManagementMode
 	}
 
@@ -6278,7 +6376,7 @@ func (profile *EtcdDataEncryptionProfile_STATUS) AssignProperties_From_EtcdDataE
 	// KeyManagementMode
 	if source.KeyManagementMode != nil {
 		keyManagementMode := *source.KeyManagementMode
-		keyManagementModeTemp := genruntime.ToEnum(keyManagementMode, etcdDataEncryptionProfile_KeyManagementMode_STATUS_Values)
+		keyManagementModeTemp := genruntime.ToEnum(keyManagementMode, etcdDataEncryptionKeyManagementModeType_STATUS_Values)
 		profile.KeyManagementMode = &keyManagementModeTemp
 	} else {
 		profile.KeyManagementMode = nil
@@ -6907,31 +7005,25 @@ func (profile *CustomerManagedEncryptionProfile_STATUS) AssignProperties_To_Cust
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"CustomerManaged","PlatformManaged"}
-type EtcdDataEncryptionProfile_KeyManagementMode string
+// The encryption key management mode types supported for ETCD data encryption.
+// +kubebuilder:validation:Enum={"CustomerManaged"}
+type EtcdDataEncryptionKeyManagementModeType string
 
-const (
-	EtcdDataEncryptionProfile_KeyManagementMode_CustomerManaged = EtcdDataEncryptionProfile_KeyManagementMode("CustomerManaged")
-	EtcdDataEncryptionProfile_KeyManagementMode_PlatformManaged = EtcdDataEncryptionProfile_KeyManagementMode("PlatformManaged")
-)
+const EtcdDataEncryptionKeyManagementModeType_CustomerManaged = EtcdDataEncryptionKeyManagementModeType("CustomerManaged")
 
-// Mapping from string to EtcdDataEncryptionProfile_KeyManagementMode
-var etcdDataEncryptionProfile_KeyManagementMode_Values = map[string]EtcdDataEncryptionProfile_KeyManagementMode{
-	"customermanaged": EtcdDataEncryptionProfile_KeyManagementMode_CustomerManaged,
-	"platformmanaged": EtcdDataEncryptionProfile_KeyManagementMode_PlatformManaged,
+// Mapping from string to EtcdDataEncryptionKeyManagementModeType
+var etcdDataEncryptionKeyManagementModeType_Values = map[string]EtcdDataEncryptionKeyManagementModeType{
+	"customermanaged": EtcdDataEncryptionKeyManagementModeType_CustomerManaged,
 }
 
-type EtcdDataEncryptionProfile_KeyManagementMode_STATUS string
+// The encryption key management mode types supported for ETCD data encryption.
+type EtcdDataEncryptionKeyManagementModeType_STATUS string
 
-const (
-	EtcdDataEncryptionProfile_KeyManagementMode_STATUS_CustomerManaged = EtcdDataEncryptionProfile_KeyManagementMode_STATUS("CustomerManaged")
-	EtcdDataEncryptionProfile_KeyManagementMode_STATUS_PlatformManaged = EtcdDataEncryptionProfile_KeyManagementMode_STATUS("PlatformManaged")
-)
+const EtcdDataEncryptionKeyManagementModeType_STATUS_CustomerManaged = EtcdDataEncryptionKeyManagementModeType_STATUS("CustomerManaged")
 
-// Mapping from string to EtcdDataEncryptionProfile_KeyManagementMode_STATUS
-var etcdDataEncryptionProfile_KeyManagementMode_STATUS_Values = map[string]EtcdDataEncryptionProfile_KeyManagementMode_STATUS{
-	"customermanaged": EtcdDataEncryptionProfile_KeyManagementMode_STATUS_CustomerManaged,
-	"platformmanaged": EtcdDataEncryptionProfile_KeyManagementMode_STATUS_PlatformManaged,
+// Mapping from string to EtcdDataEncryptionKeyManagementModeType_STATUS
+var etcdDataEncryptionKeyManagementModeType_STATUS_Values = map[string]EtcdDataEncryptionKeyManagementModeType_STATUS{
+	"customermanaged": EtcdDataEncryptionKeyManagementModeType_STATUS_CustomerManaged,
 }
 
 // Representation of the possible values of a condition status.

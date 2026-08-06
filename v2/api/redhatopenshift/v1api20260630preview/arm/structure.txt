@@ -16,7 +16,7 @@ HcpOpenShiftCluster_STATUS: Object (8 properties)
 │       └── PrincipalId: *string
 ├── Location: *string
 ├── Name: *string
-├── Properties: *Object (14 properties)
+├── Properties: *Object (15 properties)
 │   ├── Api: *Object (3 properties)
 │   │   ├── AuthorizedCidrs: string[]
 │   │   ├── Url: *string
@@ -34,6 +34,9 @@ HcpOpenShiftCluster_STATUS: Object (8 properties)
 │   │       └── "Enabled"
 │   ├── Console: *Object (1 property)
 │   │   └── Url: *string
+│   ├── CryptoRestrictions: *Enum (2 values)
+│   │   ├── "FIPS"
+│   │   └── "None"
 │   ├── Dns: *Object (2 properties)
 │   │   ├── BaseDomain: *string
 │   │   └── BaseDomainPrefix: *string
@@ -50,9 +53,8 @@ HcpOpenShiftCluster_STATUS: Object (8 properties)
 │   │       │       └── Visibility: *Enum (2 values)
 │   │       │           ├── "Private"
 │   │       │           └── "Public"
-│   │       └── KeyManagementMode: *Enum (2 values)
-│   │           ├── "CustomerManaged"
-│   │           └── "PlatformManaged"
+│   │       └── KeyManagementMode: *Enum (1 value)
+│   │           └── "CustomerManaged"
 │   ├── ImageDigestMirrors: Object (2 properties)[]
 │   │   ├── Mirrors: string[]
 │   │   └── Source: *string
@@ -135,7 +137,7 @@ HcpOpenShiftCluster_Spec: Object (5 properties)
 │   └── UserAssignedIdentities: map[string]Object (0 properties)
 ├── Location: *string
 ├── Name: string
-├── Properties: *Object (11 properties)
+├── Properties: *Object (12 properties)
 │   ├── Api: *Object (2 properties)
 │   │   ├── AuthorizedCidrs: string[]
 │   │   └── Visibility: *Enum (2 values)
@@ -150,6 +152,9 @@ HcpOpenShiftCluster_Spec: Object (5 properties)
 │   │   └── State: *Enum (2 values)
 │   │       ├── "Disabled"
 │   │       └── "Enabled"
+│   ├── CryptoRestrictions: *Enum (2 values)
+│   │   ├── "FIPS"
+│   │   └── "None"
 │   ├── Dns: *Object (1 property)
 │   │   └── BaseDomainPrefix: *string
 │   ├── Etcd: *Object (1 property)
@@ -165,9 +170,8 @@ HcpOpenShiftCluster_Spec: Object (5 properties)
 │   │       │       └── Visibility: *Enum (2 values)
 │   │       │           ├── "Private"
 │   │       │           └── "Public"
-│   │       └── KeyManagementMode: *Enum (2 values)
-│   │           ├── "CustomerManaged"
-│   │           └── "PlatformManaged"
+│   │       └── KeyManagementMode: *Enum (1 value)
+│   │           └── "CustomerManaged"
 │   ├── ImageDigestMirrors: Object (2 properties)[]
 │   │   ├── Mirrors: string[]
 │   │   └── Source: *string

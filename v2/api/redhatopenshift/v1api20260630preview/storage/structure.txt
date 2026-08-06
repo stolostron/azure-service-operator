@@ -24,7 +24,7 @@ HcpOpenShiftCluster: Resource
 │   │       └── PropertyBag: genruntime.PropertyBag
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
-│   ├── Properties: *Object (12 properties)
+│   ├── Properties: *Object (13 properties)
 │   │   ├── Api: *Object (3 properties)
 │   │   │   ├── AuthorizedCidrs: string[]
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -38,6 +38,7 @@ HcpOpenShiftCluster: Resource
 │   │   ├── ClusterImageRegistry: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── State: *string
+│   │   ├── CryptoRestrictions: *string
 │   │   ├── Dns: *Object (2 properties)
 │   │   │   ├── BaseDomainPrefix: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
@@ -107,7 +108,7 @@ HcpOpenShiftCluster: Resource
     │       └── PropertyBag: genruntime.PropertyBag
     ├── Location: *string
     ├── Name: *string
-    ├── Properties: *Object (15 properties)
+    ├── Properties: *Object (16 properties)
     │   ├── Api: *Object (4 properties)
     │   │   ├── AuthorizedCidrs: string[]
     │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -125,6 +126,7 @@ HcpOpenShiftCluster: Resource
     │   ├── Console: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Url: *string
+    │   ├── CryptoRestrictions: *string
     │   ├── Dns: *Object (3 properties)
     │   │   ├── BaseDomain: *string
     │   │   ├── BaseDomainPrefix: *string

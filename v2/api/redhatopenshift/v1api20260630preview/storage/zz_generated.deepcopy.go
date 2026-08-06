@@ -1059,6 +1059,11 @@ func (in *HcpOpenShiftClusterProperties) DeepCopyInto(out *HcpOpenShiftClusterPr
 		*out = new(ClusterImageRegistryProfile)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.CryptoRestrictions != nil {
+		in, out := &in.CryptoRestrictions, &out.CryptoRestrictions
+		*out = new(string)
+		**out = **in
+	}
 	if in.Dns != nil {
 		in, out := &in.Dns, &out.Dns
 		*out = new(DnsProfile)
@@ -1142,6 +1147,11 @@ func (in *HcpOpenShiftClusterProperties_STATUS) DeepCopyInto(out *HcpOpenShiftCl
 		in, out := &in.Console, &out.Console
 		*out = new(ConsoleProfile_STATUS)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.CryptoRestrictions != nil {
+		in, out := &in.CryptoRestrictions, &out.CryptoRestrictions
+		*out = new(string)
+		**out = **in
 	}
 	if in.Dns != nil {
 		in, out := &in.Dns, &out.Dns
