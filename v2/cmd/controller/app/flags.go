@@ -6,6 +6,7 @@ Licensed under the MIT license.
 package app
 
 import (
+	"crypto/tls"
 	"flag"
 	"fmt"
 )
@@ -20,11 +21,12 @@ type Flags struct {
 	EnableLeaderElection bool
 	CRDManagementMode    string
 	CRDPatterns          string // This is a ';' delimited string containing a collection of patterns
+	TLSMinVersion        string
 }
 
 func (f Flags) String() string {
 	return fmt.Sprintf(
-		"MetricsAddr: %s, SecureMetrics: %t, ProfilingMetrics: %t, HealthAddr: %s, WebhookPort: %d, WebhookCertDir: %s, EnableLeaderElection: %t, CRDManagementMode: %s, CRDPatterns: %s",
+		"MetricsAddr: %s, SecureMetrics: %t, ProfilingMetrics: %t, HealthAddr: %s, WebhookPort: %d, WebhookCertDir: %s, EnableLeaderElection: %t, CRDManagementMode: %s, CRDPatterns: %s, TLSMinVersion: %s",
 		f.MetricsAddr,
 		f.SecureMetrics,
 		f.ProfilingMetrics,
@@ -33,7 +35,8 @@ func (f Flags) String() string {
 		f.WebhookCertDir,
 		f.EnableLeaderElection,
 		f.CRDManagementMode,
-		f.CRDPatterns)
+		f.CRDPatterns,
+		f.TLSMinVersion)
 }
 
 func InitFlags(flagSet *flag.FlagSet) *Flags {
@@ -51,6 +54,20 @@ func InitFlags(flagSet *flag.FlagSet) *Flags {
 	flagSet.StringVar(&result.CRDManagementMode, "crd-management", "auto",
 		"Instructs the operator on how it should manage the Custom Resource Definitions. One of 'auto', 'none'")
 	flagSet.StringVar(&result.CRDPatterns, "crd-pattern", "", "Install these CRDs. CRDs already in the cluster will also always be upgraded.")
+	flagSet.StringVar(&result.TLSMinVersion, "tls-min-version", "VersionTLS12", "The minimum TLS version in use by the webhook and metrics servers. Possible values: VersionTLS12, VersionTLS13.")
 
 	return result
+}
+
+var tlsVersionMap = map[string]uint16{
+	"VersionTLS12": tls.VersionTLS12,
+	"VersionTLS13": tls.VersionTLS13,
+}
+
+func (f Flags) TLSVersion() (uint16, error) {
+	v, ok := tlsVersionMap[f.TLSMinVersion]
+	if !ok {
+		return 0, fmt.Errorf("invalid TLS version %q, must be one of: VersionTLS12, VersionTLS13", f.TLSMinVersion)
+	}
+	return v, nil
 }
