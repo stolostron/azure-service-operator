@@ -289,9 +289,6 @@ import (
 	redhatopenshift_v20231122 "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122"
 	redhatopenshift_v20231122s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/storage"
 	redhatopenshift_v20231122w "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20231122/webhook"
-	redhatopenshift_v20240610p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview"
-	redhatopenshift_v20240610ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview/storage"
-	redhatopenshift_v20240610pw "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview/webhook"
 	redhatopenshift_v20251223p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview"
 	redhatopenshift_v20251223ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/storage"
 	redhatopenshift_v20251223pw "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/webhook"
@@ -4034,28 +4031,6 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
-			Obj:       new(redhatopenshift_v20240610p.HcpOpenShiftCluster),
-			Defaulter: &redhatopenshift_v20240610pw.HcpOpenShiftCluster{},
-			Validator: &redhatopenshift_v20240610pw.HcpOpenShiftCluster{},
-		},
-		&registration.KnownType{
-			Obj:       new(redhatopenshift_v20240610p.HcpOpenShiftClustersExternalAuth),
-			Defaulter: &redhatopenshift_v20240610pw.HcpOpenShiftClustersExternalAuth{},
-			Validator: &redhatopenshift_v20240610pw.HcpOpenShiftClustersExternalAuth{},
-		},
-		&registration.KnownType{
-			Obj:       new(redhatopenshift_v20240610p.HcpOpenShiftClustersNodePool),
-			Defaulter: &redhatopenshift_v20240610pw.HcpOpenShiftClustersNodePool{},
-			Validator: &redhatopenshift_v20240610pw.HcpOpenShiftClustersNodePool{},
-		})
-	result = append(
-		result,
-		&registration.KnownType{Obj: new(redhatopenshift_v20240610ps.HcpOpenShiftCluster)},
-		&registration.KnownType{Obj: new(redhatopenshift_v20240610ps.HcpOpenShiftClustersExternalAuth)},
-		&registration.KnownType{Obj: new(redhatopenshift_v20240610ps.HcpOpenShiftClustersNodePool)})
-	result = append(
-		result,
-		&registration.KnownType{
 			Obj:       new(redhatopenshift_v20251223p.HcpOpenShiftCluster),
 			Defaulter: &redhatopenshift_v20251223pw.HcpOpenShiftCluster{},
 			Validator: &redhatopenshift_v20251223pw.HcpOpenShiftCluster{},
@@ -4826,8 +4801,6 @@ func createScheme() *runtime.Scheme {
 	_ = operationalinsights_v20210601s.AddToScheme(scheme)
 	_ = redhatopenshift_v20231122.AddToScheme(scheme)
 	_ = redhatopenshift_v20231122s.AddToScheme(scheme)
-	_ = redhatopenshift_v20240610p.AddToScheme(scheme)
-	_ = redhatopenshift_v20240610ps.AddToScheme(scheme)
 	_ = redhatopenshift_v20251223p.AddToScheme(scheme)
 	_ = redhatopenshift_v20251223ps.AddToScheme(scheme)
 	_ = redhatopenshift_v20260630p.AddToScheme(scheme)

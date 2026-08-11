@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20240610ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview/storage"
+	v20251223ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/storage"
 	v20260630ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260630preview/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -286,7 +286,7 @@ func RunPropertyAssignmentTestForConsoleProfile_STATUS(subject ConsoleProfile_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240610ps.ConsoleProfile_STATUS
+	var other v20251223ps.ConsoleProfile_STATUS
 	err := copied.AssignProperties_To_ConsoleProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1027,7 +1027,7 @@ func RunPropertyAssignmentTestForNetworkProfile(subject NetworkProfile) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240610ps.NetworkProfile
+	var other v20251223ps.NetworkProfile
 	err := copied.AssignProperties_To_NetworkProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -1146,7 +1146,7 @@ func RunPropertyAssignmentTestForNetworkProfile_STATUS(subject NetworkProfile_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240610ps.NetworkProfile_STATUS
+	var other v20251223ps.NetworkProfile_STATUS
 	err := copied.AssignProperties_To_NetworkProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1743,7 +1743,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20240610ps.SystemData_STATUS
+	var other v20251223ps.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()

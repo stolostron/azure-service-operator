@@ -4,7 +4,7 @@
 package storage
 
 import (
-	v20240610ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview/storage"
+	v20251223ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/storage"
 	v20260630ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260630preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -307,7 +307,7 @@ type ConsoleProfile_STATUS struct {
 }
 
 // AssignProperties_From_ConsoleProfile_STATUS populates our ConsoleProfile_STATUS from the provided source ConsoleProfile_STATUS
-func (profile *ConsoleProfile_STATUS) AssignProperties_From_ConsoleProfile_STATUS(source *v20240610ps.ConsoleProfile_STATUS) error {
+func (profile *ConsoleProfile_STATUS) AssignProperties_From_ConsoleProfile_STATUS(source *v20251223ps.ConsoleProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -335,7 +335,7 @@ func (profile *ConsoleProfile_STATUS) AssignProperties_From_ConsoleProfile_STATU
 }
 
 // AssignProperties_To_ConsoleProfile_STATUS populates the provided destination ConsoleProfile_STATUS from our ConsoleProfile_STATUS
-func (profile *ConsoleProfile_STATUS) AssignProperties_To_ConsoleProfile_STATUS(destination *v20240610ps.ConsoleProfile_STATUS) error {
+func (profile *ConsoleProfile_STATUS) AssignProperties_To_ConsoleProfile_STATUS(destination *v20251223ps.ConsoleProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -654,7 +654,7 @@ type NetworkProfile struct {
 }
 
 // AssignProperties_From_NetworkProfile populates our NetworkProfile from the provided source NetworkProfile
-func (profile *NetworkProfile) AssignProperties_From_NetworkProfile(source *v20240610ps.NetworkProfile) error {
+func (profile *NetworkProfile) AssignProperties_From_NetworkProfile(source *v20251223ps.NetworkProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -745,7 +745,7 @@ func (profile *NetworkProfile) AssignProperties_From_NetworkProfile(source *v202
 }
 
 // AssignProperties_To_NetworkProfile populates the provided destination NetworkProfile from our NetworkProfile
-func (profile *NetworkProfile) AssignProperties_To_NetworkProfile(destination *v20240610ps.NetworkProfile) error {
+func (profile *NetworkProfile) AssignProperties_To_NetworkProfile(destination *v20251223ps.NetworkProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -847,7 +847,7 @@ type NetworkProfile_STATUS struct {
 }
 
 // AssignProperties_From_NetworkProfile_STATUS populates our NetworkProfile_STATUS from the provided source NetworkProfile_STATUS
-func (profile *NetworkProfile_STATUS) AssignProperties_From_NetworkProfile_STATUS(source *v20240610ps.NetworkProfile_STATUS) error {
+func (profile *NetworkProfile_STATUS) AssignProperties_From_NetworkProfile_STATUS(source *v20251223ps.NetworkProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -938,7 +938,7 @@ func (profile *NetworkProfile_STATUS) AssignProperties_From_NetworkProfile_STATU
 }
 
 // AssignProperties_To_NetworkProfile_STATUS populates the provided destination NetworkProfile_STATUS from our NetworkProfile_STATUS
-func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(destination *v20240610ps.NetworkProfile_STATUS) error {
+func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(destination *v20251223ps.NetworkProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -1066,7 +1066,7 @@ type SystemData_STATUS struct {
 }
 
 // AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20240610ps.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v20251223ps.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1109,7 +1109,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 }
 
 // AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
-func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20240610ps.SystemData_STATUS) error {
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v20251223ps.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
 
@@ -1182,8 +1182,8 @@ type WorkerProfile_STATUS struct {
 }
 
 type augmentConversionForConsoleProfile_STATUS interface {
-	AssignPropertiesFrom(src *v20240610ps.ConsoleProfile_STATUS) error
-	AssignPropertiesTo(dst *v20240610ps.ConsoleProfile_STATUS) error
+	AssignPropertiesFrom(src *v20251223ps.ConsoleProfile_STATUS) error
+	AssignPropertiesTo(dst *v20251223ps.ConsoleProfile_STATUS) error
 }
 
 type augmentConversionForIngressProfile interface {
@@ -1197,18 +1197,18 @@ type augmentConversionForIngressProfile_STATUS interface {
 }
 
 type augmentConversionForNetworkProfile interface {
-	AssignPropertiesFrom(src *v20240610ps.NetworkProfile) error
-	AssignPropertiesTo(dst *v20240610ps.NetworkProfile) error
+	AssignPropertiesFrom(src *v20251223ps.NetworkProfile) error
+	AssignPropertiesTo(dst *v20251223ps.NetworkProfile) error
 }
 
 type augmentConversionForNetworkProfile_STATUS interface {
-	AssignPropertiesFrom(src *v20240610ps.NetworkProfile_STATUS) error
-	AssignPropertiesTo(dst *v20240610ps.NetworkProfile_STATUS) error
+	AssignPropertiesFrom(src *v20251223ps.NetworkProfile_STATUS) error
+	AssignPropertiesTo(dst *v20251223ps.NetworkProfile_STATUS) error
 }
 
 type augmentConversionForSystemData_STATUS interface {
-	AssignPropertiesFrom(src *v20240610ps.SystemData_STATUS) error
-	AssignPropertiesTo(dst *v20240610ps.SystemData_STATUS) error
+	AssignPropertiesFrom(src *v20251223ps.SystemData_STATUS) error
+	AssignPropertiesTo(dst *v20251223ps.SystemData_STATUS) error
 }
 
 // Storage version of v1api20231122.LoadBalancerProfile

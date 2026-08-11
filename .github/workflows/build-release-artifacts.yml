@@ -18,7 +18,8 @@ on:
         type: string
         default: ""
 
-permissions: {}
+permissions:
+  contents: write
 
 jobs:
   build-and-push:
