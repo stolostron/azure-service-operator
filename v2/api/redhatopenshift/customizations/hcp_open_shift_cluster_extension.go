@@ -4,16 +4,23 @@ package customizations
 
 import (
 	"context"
+	"crypto/rand"
+	"crypto/rsa"
+	"crypto/x509"
+	"crypto/x509/pkix"
+	"encoding/pem"
 	"strings"
 	"time"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
 	armhcp20260630preview "github.com/Azure/ARO-HCP/test/sdk/v20260630preview/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp"
+	armhcp20260901preview "github.com/Azure/ARO-HCP/test/sdk/v20260901preview/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
+	"k8s.io/client-go/tools/clientcmd"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	"github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260630preview/storage"
@@ -101,47 +108,12 @@ func (ext *HcpOpenShiftClusterExtension) ExportKubernetesSecrets(
 		return nil, err
 	}
 
-	subscription := id.SubscriptionID
-	// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
-	// connection each time through
-	var clusterClient *armhcp20260630preview.HcpOpenShiftClustersClient
-	clusterClient, err = armhcp20260630preview.NewHcpOpenShiftClustersClient(subscription, armClient.Creds(), armClient.ClientOptions())
-	if err != nil {
-		return nil, eris.Wrapf(err, "failed to create new NewOpenShiftClustersClient")
-	}
-
 	var adminCredentials string
 	if requestedSecrets.Contains(adminCredentialsKey) {
-		log.V(Debug).Info("Starting BeginRequestAdminCredential")
-		var poller *runtime.Poller[armhcp20260630preview.HcpOpenShiftClustersClientRequestAdminCredentialResponse]
-		poller, err = clusterClient.BeginRequestAdminCredential(ctx, id.ResourceGroupName, typedObj.AzureName(), nil)
+		adminCredentials, err = requestAdminCredential(
+			ctx, armClient, id.SubscriptionID, id.ResourceGroupName, typedObj.AzureName(), log)
 		if err != nil {
-			return nil, eris.Wrapf(err, "failed creating admin credentials")
-		}
-
-		log.V(Debug).Info("Waiting for admin credential request to complete")
-		pollCtx, cancel := context.WithTimeout(ctx, 5*time.Minute)
-		defer cancel()
-		resp, pollErr := poller.PollUntilDone(pollCtx, &runtime.PollUntilDoneOptions{
-			Frequency: 15 * time.Second,
-		})
-		if pollErr != nil {
-			if ctx.Err() != nil {
-				return nil, eris.Wrapf(pollErr, "parent context cancelled while waiting for admin credentials")
-			}
-			if pollCtx.Err() == context.DeadlineExceeded {
-				return nil, eris.Wrapf(pollErr, "timed out after 5 minutes waiting for admin credentials to be ready")
-			}
-			return nil, eris.Wrapf(pollErr, "failed waiting for admin credentials to be ready")
-		}
-
-		log.V(Debug).Info("Admin credential request completed")
-		adminCredentials = to.Value(resp.HcpOpenShiftClusterAdminCredential.Kubeconfig)
-		if adminCredentials == "" {
-			return nil, eris.Errorf(
-				"admin credential response for cluster %s in resource group %s contained an empty kubeconfig",
-				typedObj.AzureName(), id.ResourceGroupName,
-			)
+			return nil, err
 		}
 	}
 
@@ -158,6 +130,174 @@ func (ext *HcpOpenShiftClusterExtension) ExportKubernetesSecrets(
 		Objs:       secrets.SliceToClientObjectSlice(secretSlice),
 		RawSecrets: secrets.SelectSecrets(additionalSecrets, resolvedSecrets),
 	}, nil
+}
+
+// requestAdminCredential retrieves an admin kubeconfig for the ARO-HCP cluster.
+//
+// It first tries the newer CSR-based admin-credential API: a private key and
+// certificate signing request are generated client-side, and the Azure RP returns
+// a kubeconfig referencing the signed client certificate (but not the private
+// key), which is then injected client-side. If that request cannot be started
+// (for example because the newer API version is not yet available), it falls back
+// to the legacy API which mints both the key and certificate server-side and
+// returns a complete kubeconfig.
+func requestAdminCredential(
+	ctx context.Context,
+	armClient *genericarmclient.GenericClient,
+	subscriptionID string,
+	resourceGroupName string,
+	clusterName string,
+	log logr.Logger,
+) (string, error) {
+	// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
+	// connection each time through
+	hcpClient, err := armhcp20260901preview.NewHcpOpenShiftClustersClient(subscriptionID, armClient.Creds(), armClient.ClientOptions())
+	if err != nil {
+		return "", eris.Wrapf(err, "failed to create new HcpOpenShiftClustersClient")
+	}
+
+	// Generate a private key and certificate signing request. The RP signs the CSR
+	// and returns a kubeconfig referencing the signed certificate; the matching
+	// private key never leaves this process and is injected into the kubeconfig below.
+	privateKey, err := rsa.GenerateKey(rand.Reader, 4096)
+	if err != nil {
+		return "", eris.Wrapf(err, "failed to generate private key for admin credential request")
+	}
+
+	csrDER, err := x509.CreateCertificateRequest(rand.Reader, &x509.CertificateRequest{
+		Subject: pkix.Name{
+			CommonName:   "system:customer-break-glass:system-admin",
+			Organization: []string{"system:masters"},
+		},
+	}, privateKey)
+	if err != nil {
+		return "", eris.Wrapf(err, "failed to create certificate signing request for admin credentials")
+	}
+	csrPEM := pem.EncodeToMemory(&pem.Block{Type: "CERTIFICATE REQUEST", Bytes: csrDER})
+
+	log.V(Debug).Info("Starting CSR-based BeginRequestAdminCredential")
+	poller, err := hcpClient.BeginRequestAdminCredential(
+		ctx,
+		resourceGroupName,
+		clusterName,
+		armhcp20260901preview.HcpOpenShiftClusterAdminCredentialRequest{
+			CertificateSigningRequest: to.Ptr(string(csrPEM)),
+		},
+		nil)
+	if err != nil {
+		// The newer CSR-based API version may not be available yet. Fall back to the
+		// legacy admin-credential API during the transition period.
+		log.V(Info).Info("CSR-based admin credential request failed, falling back to legacy API", "error", err.Error())
+		return requestAdminCredentialLegacy(ctx, armClient, subscriptionID, resourceGroupName, clusterName, log)
+	}
+
+	log.V(Debug).Info("Waiting for CSR-based admin credential request to complete")
+	resp, err := pollAdminCredential(ctx, poller)
+	if err != nil {
+		return "", err
+	}
+
+	log.V(Debug).Info("CSR-based admin credential request completed")
+	kubeconfig := to.Value(resp.HcpOpenShiftClusterAdminCredential.Kubeconfig)
+	if kubeconfig == "" {
+		return "", eris.Errorf(
+			"admin credential response for cluster %s in resource group %s contained an empty kubeconfig",
+			clusterName, resourceGroupName,
+		)
+	}
+
+	// The CSR-based API returns a kubeconfig whose user has the signed client
+	// certificate but no private key. Inject the private key generated above so the
+	// resulting kubeconfig can authenticate.
+	return injectClientKey(kubeconfig, privateKey)
+}
+
+// requestAdminCredentialLegacy retrieves an admin kubeconfig using the legacy
+// admin-credential API, which mints both the private key and certificate
+// server-side and returns a complete kubeconfig.
+func requestAdminCredentialLegacy(
+	ctx context.Context,
+	armClient *genericarmclient.GenericClient,
+	subscriptionID string,
+	resourceGroupName string,
+	clusterName string,
+	log logr.Logger,
+) (string, error) {
+	// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
+	// connection each time through
+	clusterClient, err := armhcp20260630preview.NewHcpOpenShiftClustersClient(subscriptionID, armClient.Creds(), armClient.ClientOptions())
+	if err != nil {
+		return "", eris.Wrapf(err, "failed to create new NewOpenShiftClustersClient")
+	}
+
+	log.V(Debug).Info("Starting BeginRequestAdminCredential")
+	poller, err := clusterClient.BeginRequestAdminCredential(ctx, resourceGroupName, clusterName, nil)
+	if err != nil {
+		return "", eris.Wrapf(err, "failed creating admin credentials")
+	}
+
+	log.V(Debug).Info("Waiting for admin credential request to complete")
+	resp, err := pollAdminCredential(ctx, poller)
+	if err != nil {
+		return "", err
+	}
+
+	log.V(Debug).Info("Admin credential request completed")
+	kubeconfig := to.Value(resp.HcpOpenShiftClusterAdminCredential.Kubeconfig)
+	if kubeconfig == "" {
+		return "", eris.Errorf(
+			"admin credential response for cluster %s in resource group %s contained an empty kubeconfig",
+			clusterName, resourceGroupName,
+		)
+	}
+	return kubeconfig, nil
+}
+
+// pollAdminCredential waits for an admin credential request poller to complete,
+// applying a bounded timeout and translating cancellation/timeout into
+// descriptive errors.
+func pollAdminCredential[T any](ctx context.Context, poller *runtime.Poller[T]) (T, error) {
+	pollCtx, cancel := context.WithTimeout(ctx, 5*time.Minute)
+	defer cancel()
+
+	resp, pollErr := poller.PollUntilDone(pollCtx, &runtime.PollUntilDoneOptions{
+		Frequency: 15 * time.Second,
+	})
+	if pollErr != nil {
+		if ctx.Err() != nil {
+			return resp, eris.Wrapf(pollErr, "parent context cancelled while waiting for admin credentials")
+		}
+		if pollCtx.Err() == context.DeadlineExceeded {
+			return resp, eris.Wrapf(pollErr, "timed out after 5 minutes waiting for admin credentials to be ready")
+		}
+		return resp, eris.Wrapf(pollErr, "failed waiting for admin credentials to be ready")
+	}
+	return resp, nil
+}
+
+// injectClientKey loads the given kubeconfig, sets the supplied private key as the
+// client key for every user entry, and returns the re-serialized kubeconfig.
+func injectClientKey(kubeconfig string, privateKey *rsa.PrivateKey) (string, error) {
+	privateKeyPEM := pem.EncodeToMemory(&pem.Block{
+		Type:  "RSA PRIVATE KEY",
+		Bytes: x509.MarshalPKCS1PrivateKey(privateKey),
+	})
+
+	config, err := clientcmd.Load([]byte(kubeconfig))
+	if err != nil {
+		return "", eris.Wrapf(err, "failed to load admin kubeconfig")
+	}
+
+	for _, authInfo := range config.AuthInfos {
+		authInfo.ClientKeyData = privateKeyPEM
+	}
+
+	merged, err := clientcmd.Write(*config)
+	if err != nil {
+		return "", eris.Wrapf(err, "failed to serialize admin kubeconfig")
+	}
+
+	return string(merged), nil
 }
 
 func secretsSpecifiedHcp(obj *storage.HcpOpenShiftCluster) set.Set[string] {
