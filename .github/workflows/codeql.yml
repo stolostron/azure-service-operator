@@ -25,8 +25,9 @@ permissions: {}
 jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
-    # We moved CodeQL to our self-hosted pool because the self hosted runners are not big enough - CodeQL gets OOM killed on those.
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=codeql-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
+    # Upstream uses self-hosted 1ES pool; this fork uses ubuntu-latest
+    # with a scoped-down config that excludes upstream generated API types.
+    runs-on: ubuntu-latest
     permissions:
       # required for all workflows
       security-events: write
@@ -42,7 +43,7 @@ jobs:
       matrix:
         include:
           - language: go
-            build-mode: autobuild
+            build-mode: manual
 
     steps:
     - name: Checkout repository
@@ -52,6 +53,7 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@5595ccaf912efad79be6eef63a5619ff05969be3 # pinned to v4.37.6
       with:
+        config-file: .github/codeql/codeql-config.yml
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
         # If you wish to specify custom queries, you can do so here or in a config file.
@@ -68,13 +70,8 @@ jobs:
       # ℹ️ Command-line programs to run using the OS shell.
       # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
     - if: matrix.build-mode == 'manual'
-      run: |
-        echo 'If you are using a "manual" build mode for one or more of the' \
-          'languages you are analyzing, replace this with the commands to build' \
-          'your code, for example:'
-        echo '  make bootstrap'
-        echo '  make release'
-        exit 1
+      working-directory: v2
+      run: go build ./api/redhatopenshift/...
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@5595ccaf912efad79be6eef63a5619ff05969be3 # pinned to v4.37.6
