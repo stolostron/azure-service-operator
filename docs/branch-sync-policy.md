@@ -112,8 +112,9 @@ customizations were silently reverted to their upstream form. This audit compare
   `mce-52-pull-request` (both present ✅). `mce-50` maps to `backplane-5.0`, which
   is fed from `release-2.18`, so its pull-request pipeline correctly lives on
   `release-2.18` (cel: `target_branch == "backplane-5.0" || target_branch ==
-  "release-2.18"`) rather than on `main`; it was added there by PR #472 (PR #471,
-  which had targeted `main`, was closed unmerged and superseded). `mce-217`
+  "release-2.18"`) rather than on `main`; PR #472 updated that pipeline's cel
+  expression to trigger on `release-2.18` pull requests (PR #471, which had
+  targeted `main`, was closed unmerged and superseded). `mce-217`
   likewise lives on `release-2.18`, and all `-push` pipelines target their own
   branches; none of these need to live on `main`.
 
