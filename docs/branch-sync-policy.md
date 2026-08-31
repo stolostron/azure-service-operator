@@ -51,12 +51,9 @@ required posture:
 > The mapping table above is authoritative. If a ruleset and this table ever
 > disagree, update whichever is wrong so they match.
 
-> **Gap to reconcile.** The live `backplane-branches-lockdown` ruleset currently
-> includes only `backplane-5.0` and `backplane-5.1`; `backplane-5.2` is not yet a
-> member. Per the rule above, add `refs/heads/backplane-5.2` to that ruleset so its
-> enforcement matches this table. Until then, `backplane-5.2` is protected from
-> direct PRs by `protect-backplane-branches.yaml` but not from force-push/deletion
-> at the ruleset level.
+> **Note.** The `backplane-branches-lockdown` ruleset targets `backplane-5.0`,
+> `backplane-5.1`, and `backplane-5.2`. `backplane-5.2` was added after the initial
+> ARO-29174 rollout so the ruleset enforcement matches this table.
 
 > **Bot bypass required.** The FFWD and sync workflows push with the Actions
 > `GITHUB_TOKEN`. For those pushes to succeed against the protected
