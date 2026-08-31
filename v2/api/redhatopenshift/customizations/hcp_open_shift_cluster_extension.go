@@ -14,7 +14,6 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
-	armhcp20260630preview "github.com/Azure/ARO-HCP/test/sdk/v20260630preview/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp"
 	armhcp20260901preview "github.com/Azure/ARO-HCP/test/sdk/v20260901preview/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"github.com/go-logr/logr"
@@ -134,13 +133,10 @@ func (ext *HcpOpenShiftClusterExtension) ExportKubernetesSecrets(
 
 // requestAdminCredential retrieves an admin kubeconfig for the ARO-HCP cluster.
 //
-// It first tries the newer CSR-based admin-credential API: a private key and
-// certificate signing request are generated client-side, and the Azure RP returns
-// a kubeconfig referencing the signed client certificate (but not the private
-// key), which is then injected client-side. If that request cannot be started
-// (for example because the newer API version is not yet available), it falls back
-// to the legacy API which mints both the key and certificate server-side and
-// returns a complete kubeconfig.
+// It uses the CSR-based admin-credential API: a private key and certificate
+// signing request are generated client-side, and the Azure RP returns a
+// kubeconfig referencing the signed client certificate (but not the private
+// key), which is then injected client-side.
 func requestAdminCredential(
 	ctx context.Context,
 	armClient *genericarmclient.GenericClient,
@@ -185,10 +181,7 @@ func requestAdminCredential(
 		},
 		nil)
 	if err != nil {
-		// The newer CSR-based API version may not be available yet. Fall back to the
-		// legacy admin-credential API during the transition period.
-		log.V(Info).Info("CSR-based admin credential request failed, falling back to legacy API", "error", err.Error())
-		return requestAdminCredentialLegacy(ctx, armClient, subscriptionID, resourceGroupName, clusterName, log)
+		return "", eris.Wrapf(err, "failed creating admin credentials")
 	}
 
 	log.V(Debug).Info("Waiting for CSR-based admin credential request to complete")
@@ -210,47 +203,6 @@ func requestAdminCredential(
 	// certificate but no private key. Inject the private key generated above so the
 	// resulting kubeconfig can authenticate.
 	return injectClientKey(kubeconfig, privateKey)
-}
-
-// requestAdminCredentialLegacy retrieves an admin kubeconfig using the legacy
-// admin-credential API, which mints both the private key and certificate
-// server-side and returns a complete kubeconfig.
-func requestAdminCredentialLegacy(
-	ctx context.Context,
-	armClient *genericarmclient.GenericClient,
-	subscriptionID string,
-	resourceGroupName string,
-	clusterName string,
-	log logr.Logger,
-) (string, error) {
-	// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
-	// connection each time through
-	clusterClient, err := armhcp20260630preview.NewHcpOpenShiftClustersClient(subscriptionID, armClient.Creds(), armClient.ClientOptions())
-	if err != nil {
-		return "", eris.Wrapf(err, "failed to create new NewOpenShiftClustersClient")
-	}
-
-	log.V(Debug).Info("Starting BeginRequestAdminCredential")
-	poller, err := clusterClient.BeginRequestAdminCredential(ctx, resourceGroupName, clusterName, nil)
-	if err != nil {
-		return "", eris.Wrapf(err, "failed creating admin credentials")
-	}
-
-	log.V(Debug).Info("Waiting for admin credential request to complete")
-	resp, err := pollAdminCredential(ctx, poller)
-	if err != nil {
-		return "", err
-	}
-
-	log.V(Debug).Info("Admin credential request completed")
-	kubeconfig := to.Value(resp.HcpOpenShiftClusterAdminCredential.Kubeconfig)
-	if kubeconfig == "" {
-		return "", eris.Errorf(
-			"admin credential response for cluster %s in resource group %s contained an empty kubeconfig",
-			clusterName, resourceGroupName,
-		)
-	}
-	return kubeconfig, nil
 }
 
 // pollAdminCredential waits for an admin credential request poller to complete,
