@@ -13,7 +13,8 @@ branch reorganization in ARO-27857).
 |---|---|---|---|
 | `main` | upstream `Azure/main` + ARO-HCP (2026-06-30-preview) customizations | Periodic **merge** from `Azure/main` via [`sync-upstream-main.yaml`](../.github/workflows/sync-upstream-main.yaml) (opens a PR — not a fast-forward, because `main` carries ARO-HCP customizations) | Open for PRs (default branch) |
 | `backplane-5.1` | `stolostron/main` | **FFWD only** from `main` via [`ffwd-branch.yaml`](../.github/workflows/ffwd-branch.yaml) | No direct PRs (blocked by [`protect-backplane-branches.yaml`](../.github/workflows/protect-backplane-branches.yaml) + ruleset) |
-| `backplane-5.0` | `stolostron/release-2.18` | **FFWD only, one-directional** from `release-2.18` via [`ffwd-release-2.18.yaml`](../.github/workflows/ffwd-release-2.18.yaml) | No direct PRs (blocked by `protect-backplane-branches.yaml` + ruleset) |
+| `backplane-5.2` | `stolostron/main` | **FFWD only** from `main` via [`ffwd-branch.yaml`](../.github/workflows/ffwd-branch.yaml) (the same workflow fast-forwards `main` into both `backplane-5.1` and `backplane-5.2`) | No direct PRs (blocked by [`protect-backplane-branches.yaml`](../.github/workflows/protect-backplane-branches.yaml) + ruleset) |
+| `backplane-5.0` | `stolostron/release-2.18` | **FFWD only, one-directional** from `release-2.18` via [`ffwd-branch.yaml` (on `release-2.18`)](https://github.com/stolostron/azure-service-operator/blob/release-2.18/.github/workflows/ffwd-branch.yaml) | No direct PRs (blocked by `protect-backplane-branches.yaml` + ruleset) |
 | `release-2.19` | upstream v2.19 + ARO-HCP | Manual, security updates only | Immutable except security updates |
 | `release-2.18` | upstream v2.18 + ARO-HCP | Manual, security updates only (also feeds `backplane-5.0`) | Immutable except security updates |
 | `release-2.13` | upstream v2.13 + ARO-HCP (**former `main`**) | Manual, security updates only | Immutable except security findings |
@@ -26,9 +27,9 @@ branch reorganization in ARO-27857).
   runs weekly (and on demand). Because `main` carries ARO-HCP customizations, it
   performs a **merge** on a `sync/upstream-main` branch and opens a PR for review.
   Conflicts fail the job so they are resolved manually. Nothing is force-pushed to `main`.
-- **`main` → `backplane-5.1`** — [`ffwd-branch.yaml`](../.github/workflows/ffwd-branch.yaml)
-  fast-forwards every push to `main` into `backplane-5.1`. One-directional.
-- **`release-2.18` → `backplane-5.0`** — [`ffwd-release-2.18.yaml`](../.github/workflows/ffwd-release-2.18.yaml)
+- **`main` → `backplane-5.1`, `backplane-5.2`** — [`ffwd-branch.yaml`](../.github/workflows/ffwd-branch.yaml)
+  fast-forwards every push to `main` into both `backplane-5.1` and `backplane-5.2`. One-directional.
+- **`release-2.18` → `backplane-5.0`** — [`ffwd-branch.yaml` (on the `release-2.18` branch)](https://github.com/stolostron/azure-service-operator/blob/release-2.18/.github/workflows/ffwd-branch.yaml)
   fast-forwards every push to `release-2.18` into `backplane-5.0`. One-directional.
 
 Fast-forward is deliberate: the `backplane-*` targets must never diverge from
@@ -42,13 +43,20 @@ required posture:
 
 | Branch(es) | Ruleset enforcement |
 |---|---|
-| `backplane-5.0`, `backplane-5.1` | Non-fast-forward blocked, deletion blocked; updates only via the FFWD bots. Direct PRs rejected by `protect-backplane-branches.yaml`. |
+| `backplane-5.0`, `backplane-5.1`, `backplane-5.2` | Non-fast-forward blocked, deletion blocked; updates only via the FFWD bots. Direct PRs rejected by `protect-backplane-branches.yaml`. |
 | `release-2.13`, `backplane-2.17`, `backplane-2.11` | Immutable: no direct pushes, no deletion, no force-push. Changes only for security findings, via reviewed PR. |
 | `release-2.18`, `release-2.19` | Protected: no force-push, no deletion. Security updates only, via reviewed PR. |
 | `main` | Default protections (PR review + status checks); receives upstream via the sync PR. |
 
 > The mapping table above is authoritative. If a ruleset and this table ever
 > disagree, update whichever is wrong so they match.
+
+> **Gap to reconcile.** The live `backplane-branches-lockdown` ruleset currently
+> includes only `backplane-5.0` and `backplane-5.1`; `backplane-5.2` is not yet a
+> member. Per the rule above, add `refs/heads/backplane-5.2` to that ruleset so its
+> enforcement matches this table. Until then, `backplane-5.2` is protected from
+> direct PRs by `protect-backplane-branches.yaml` but not from force-push/deletion
+> at the ruleset level.
 
 > **Bot bypass required.** The FFWD and sync workflows push with the Actions
 > `GITHUB_TOKEN`. For those pushes to succeed against the protected
@@ -101,11 +109,16 @@ customizations were silently reverted to their upstream form. This audit compare
   Renovate. Restored to `updates: []`.
 - **Konflux / Tekton** — old `main` carried `.tekton` pipelines for `mce-217`,
   `mce-50`, and `mce-51`. Pipelines-as-Code resolves `.tekton` files by cel
-  expression, and only files whose expression includes `target_branch == "main"`
-  need to live on `main`: `mce-51-pull-request` (present ✅) and
-  `mce-50-pull-request` (**dropped in the re-seed**). The `mce-50` pipelines are
-  restored by PR #471. `mce-217` and all `-push` pipelines target their own
-  backplane branches and correctly do not live on `main`.
+  expression, so a pipeline only needs to live on the branches its expression
+  matches. The pull-request pipelines whose expression includes
+  `target_branch == "main"` live on `main`: `mce-51-pull-request` and
+  `mce-52-pull-request` (both present ✅). `mce-50` maps to `backplane-5.0`, which
+  is fed from `release-2.18`, so its pull-request pipeline correctly lives on
+  `release-2.18` (cel: `target_branch == "backplane-5.0" || target_branch ==
+  "release-2.18"`) rather than on `main`; it was added there by PR #472 (PR #471,
+  which had targeted `main`, was closed unmerged and superseded). `mce-217`
+  likewise lives on `release-2.18`, and all `-push` pipelines target their own
+  branches; none of these need to live on `main`.
 
 Branch rulesets and protection are repository-level settings (not files), so they
 are reapplied via the admin API per the table above rather than carried by the
