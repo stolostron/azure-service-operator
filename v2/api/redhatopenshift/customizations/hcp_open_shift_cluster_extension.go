@@ -9,7 +9,7 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
-	armstorage "github.com/Azure/ARO-HCP/test/sdk/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp"
+	armhcp20260630preview "github.com/Azure/ARO-HCP/test/sdk/v20260630preview/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
@@ -105,8 +105,8 @@ func (ext *HcpOpenShiftClusterExtension) ExportKubernetesSecrets(
 	subscription := id.SubscriptionID
 	// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
 	// connection each time through
-	var clusterClient *armstorage.HcpOpenShiftClustersClient
-	clusterClient, err = armstorage.NewHcpOpenShiftClustersClient(subscription, armClient.Creds(), armClient.ClientOptions())
+	var clusterClient *armhcp20260630preview.HcpOpenShiftClustersClient
+	clusterClient, err = armhcp20260630preview.NewHcpOpenShiftClustersClient(subscription, armClient.Creds(), armClient.ClientOptions())
 	if err != nil {
 		return nil, eris.Wrapf(err, "failed to create new NewOpenShiftClustersClient")
 	}
@@ -114,7 +114,7 @@ func (ext *HcpOpenShiftClusterExtension) ExportKubernetesSecrets(
 	var adminCredentials string
 	if requestedSecrets.Contains(adminCredentialsKey) {
 		log.V(Debug).Info("Starting BeginRequestAdminCredential")
-		var poller *runtime.Poller[armstorage.HcpOpenShiftClustersClientRequestAdminCredentialResponse]
+		var poller *runtime.Poller[armhcp20260630preview.HcpOpenShiftClustersClientRequestAdminCredentialResponse]
 		poller, err = clusterClient.BeginRequestAdminCredential(ctx, id.ResourceGroupName, typedObj.AzureName(), nil)
 		if err != nil {
 			return nil, eris.Wrapf(err, "failed creating admin credentials")

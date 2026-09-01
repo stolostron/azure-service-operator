@@ -3,7 +3,6 @@ module github.com/Azure/azure-service-operator/v2
 go 1.25.7
 
 require (
-	github.com/Azure/ARO-HCP/test/sdk/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp v0.0.0-20251215192205-b81971652ba7
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.21.1
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.13.1
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement/v2 v2.1.0
@@ -63,6 +62,8 @@ require (
 	sigs.k8s.io/controller-runtime v0.20.4
 	sigs.k8s.io/yaml v1.6.0
 )
+
+require github.com/Azure/ARO-HCP/test/sdk/v20260630preview/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp v0.0.0-20260901061919-8f3f7787bb89
 
 require (
 	cel.dev/expr v0.25.1 // indirect
