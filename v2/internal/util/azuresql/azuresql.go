@@ -37,7 +37,8 @@ func ConnectToDB(
 		database,
 		user,
 		password,
-		port)
+		port,
+	)
 
 	db, err := sql.Open(driverName, connString)
 	if err != nil {
@@ -92,21 +93,18 @@ func CreateOrUpdateUser(ctx context.Context, db *sql.DB, username string, passwo
 	if err := findBadChars(username); err != nil {
 		return eris.Wrap(err, "problem found with username")
 	}
-	if err := findBadChars(password); err != nil {
-		return eris.Wrap(err, "problem found with password")
-	}
 
-	tsql := `
-IF NOT EXISTS (SELECT name FROM sysusers WHERE name='%[1]s')
+	//nolint:gosec // SQL identifiers cannot be parameterized; values are escaped for their SQL contexts.
+	tsql := fmt.Sprintf(`
+IF NOT EXISTS (SELECT name FROM sysusers WHERE name=%[1]s)
 	BEGIN
-		CREATE USER "%[1]s" WITH PASSWORD='%[2]s';
+		CREATE USER %[2]s WITH PASSWORD=%[3]s;
 	END
 ELSE
 	BEGIN
-		ALTER USER "%[1]s" WITH PASSWORD='%[2]s';
+		ALTER USER %[2]s WITH PASSWORD=%[3]s;
 	END;
-`
-	tsql = fmt.Sprintf(tsql, username, password)
+`, escapeStringLiteral(username), escapeIdentifier(username), escapeStringLiteral(password))
 	_, err := db.ExecContext(ctx, tsql)
 	if err != nil {
 		return err
@@ -170,6 +168,18 @@ func DropUser(ctx context.Context, db *sql.DB, username string) error {
 	tsql := fmt.Sprintf("DROP USER [%s]", username)
 	_, err := db.ExecContext(ctx, tsql)
 	return err
+}
+
+// escapeStringLiteral escapes and wraps a value for use as a SQL string literal.
+func escapeStringLiteral(value string) string {
+	escaped := strings.ReplaceAll(value, "'", "''")
+	return "'" + escaped + "'"
+}
+
+// escapeIdentifier escapes and wraps a value for use as a double-quoted SQL identifier.
+func escapeIdentifier(value string) string {
+	escaped := strings.ReplaceAll(value, "\"", "\"\"")
+	return "\"" + escaped + "\""
 }
 
 func findBadChars(str string) error {
