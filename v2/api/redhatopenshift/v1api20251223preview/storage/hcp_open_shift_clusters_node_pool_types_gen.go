@@ -5,7 +5,7 @@ package storage
 
 import (
 	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260630preview/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -53,7 +53,7 @@ var _ conversion.Convertible = &HcpOpenShiftClustersNodePool{}
 func (pool *HcpOpenShiftClustersNodePool) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*storage.HcpOpenShiftClustersNodePool)
 	if !ok {
-		return fmt.Errorf("expected redhatopenshift/v1api20260630preview/storage/HcpOpenShiftClustersNodePool but received %T instead", hub)
+		return fmt.Errorf("expected redhatopenshift/v1api20260901preview/storage/HcpOpenShiftClustersNodePool but received %T instead", hub)
 	}
 
 	return pool.AssignProperties_From_HcpOpenShiftClustersNodePool(source)
@@ -63,7 +63,7 @@ func (pool *HcpOpenShiftClustersNodePool) ConvertFrom(hub conversion.Hub) error 
 func (pool *HcpOpenShiftClustersNodePool) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*storage.HcpOpenShiftClustersNodePool)
 	if !ok {
-		return fmt.Errorf("expected redhatopenshift/v1api20260630preview/storage/HcpOpenShiftClustersNodePool but received %T instead", hub)
+		return fmt.Errorf("expected redhatopenshift/v1api20260901preview/storage/HcpOpenShiftClustersNodePool but received %T instead", hub)
 	}
 
 	return pool.AssignProperties_To_HcpOpenShiftClustersNodePool(destination)

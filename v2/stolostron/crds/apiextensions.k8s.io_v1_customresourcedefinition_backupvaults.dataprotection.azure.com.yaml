@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: backupvaults.dataprotection.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: dataprotection.azure.com
   names:
+    categories:
+    - azure
+    - dataprotection
     kind: BackupVault
     listKind: BackupVaultList
     plural: backupvaults
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/dataprotection.json
+          - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/DataProtection/stable/2023-01-01/dataprotection.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}
         properties:
           apiVersion:
@@ -529,7 +532,7 @@ spec:
         description: |-
           Storage version of v1api20230101.BackupVault
           Generator information:
-          - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/dataprotection.json
+          - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/DataProtection/stable/2023-01-01/dataprotection.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}
         properties:
           apiVersion:
@@ -1139,7 +1142,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/dataprotection.json
+          - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/DataProtection/stable/2023-11-01/dataprotection.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}
         properties:
           apiVersion:
@@ -1697,7 +1700,7 @@ spec:
         description: |-
           Storage version of v1api20231101.BackupVault
           Generator information:
-          - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/dataprotection.json
+          - Generated from: /dataprotection/resource-manager/Microsoft.DataProtection/DataProtection/stable/2023-11-01/dataprotection.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}
         properties:
           apiVersion:

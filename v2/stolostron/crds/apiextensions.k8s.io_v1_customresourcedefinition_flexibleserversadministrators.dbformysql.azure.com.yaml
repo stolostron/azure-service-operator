@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: flexibleserversadministrators.dbformysql.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: dbformysql.azure.com
   names:
+    categories:
+    - azure
+    - dbformysql
     kind: FlexibleServersAdministrator
     listKind: FlexibleServersAdministratorList
     plural: flexibleserversadministrators
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/AAD/stable/2022-01-01/AzureADAdministrator.json
+          - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2022-01-01/AzureADAdministrator.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators/{administratorName}
         properties:
           apiVersion:
@@ -349,7 +352,7 @@ spec:
         description: |-
           Storage version of v1api20220101.FlexibleServersAdministrator
           Generator information:
-          - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/AAD/stable/2022-01-01/AzureADAdministrator.json
+          - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2022-01-01/AzureADAdministrator.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators/{administratorName}
         properties:
           apiVersion:
@@ -655,7 +658,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/AAD/stable/2023-06-30/AzureADAdministrator.json
+          - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-06-30/AzureADAdministrator.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators/{administratorName}
         properties:
           apiVersion:
@@ -958,7 +961,7 @@ spec:
         description: |-
           Storage version of v1api20230630.FlexibleServersAdministrator
           Generator information:
-          - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/AAD/stable/2023-06-30/AzureADAdministrator.json
+          - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-06-30/AzureADAdministrator.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators/{administratorName}
         properties:
           apiVersion:
@@ -1264,7 +1267,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/AAD/stable/2023-12-30/AzureADAdministrator.json
+          - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/AzureADAdministrator.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators/{administratorName}
         properties:
           apiVersion:
@@ -1567,7 +1570,7 @@ spec:
         description: |-
           Storage version of v1api20231230.FlexibleServersAdministrator
           Generator information:
-          - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/AAD/stable/2023-12-30/AzureADAdministrator.json
+          - Generated from: /mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/AzureADAdministrator.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators/{administratorName}
         properties:
           apiVersion:

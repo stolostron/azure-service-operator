@@ -5,7 +5,7 @@ package storage
 
 import (
 	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260630preview/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -53,7 +53,7 @@ var _ conversion.Convertible = &HcpOpenShiftClustersExternalAuth{}
 func (auth *HcpOpenShiftClustersExternalAuth) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*storage.HcpOpenShiftClustersExternalAuth)
 	if !ok {
-		return fmt.Errorf("expected redhatopenshift/v1api20260630preview/storage/HcpOpenShiftClustersExternalAuth but received %T instead", hub)
+		return fmt.Errorf("expected redhatopenshift/v1api20260901preview/storage/HcpOpenShiftClustersExternalAuth but received %T instead", hub)
 	}
 
 	return auth.AssignProperties_From_HcpOpenShiftClustersExternalAuth(source)
@@ -63,7 +63,7 @@ func (auth *HcpOpenShiftClustersExternalAuth) ConvertFrom(hub conversion.Hub) er
 func (auth *HcpOpenShiftClustersExternalAuth) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*storage.HcpOpenShiftClustersExternalAuth)
 	if !ok {
-		return fmt.Errorf("expected redhatopenshift/v1api20260630preview/storage/HcpOpenShiftClustersExternalAuth but received %T instead", hub)
+		return fmt.Errorf("expected redhatopenshift/v1api20260901preview/storage/HcpOpenShiftClustersExternalAuth but received %T instead", hub)
 	}
 
 	return auth.AssignProperties_To_HcpOpenShiftClustersExternalAuth(destination)

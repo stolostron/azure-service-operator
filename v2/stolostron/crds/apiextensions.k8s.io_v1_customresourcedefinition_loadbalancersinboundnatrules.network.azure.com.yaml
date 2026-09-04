@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: loadbalancersinboundnatrules.network.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: network.azure.com
   names:
+    categories:
+    - azure
+    - network
     kind: LoadBalancersInboundNatRule
     listKind: LoadBalancersInboundNatRuleList
     plural: loadbalancersinboundnatrules
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/loadBalancer.json
+          - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}
         properties:
           apiVersion:
@@ -356,7 +359,7 @@ spec:
         description: |-
           Storage version of v1api20201101.LoadBalancersInboundNatRule
           Generator information:
-          - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/loadBalancer.json
+          - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/loadBalancer.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}
         properties:
           apiVersion:
@@ -658,7 +661,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/loadBalancer.json
+          - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/loadBalancer.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}
         properties:
           apiVersion:
@@ -1024,7 +1027,7 @@ spec:
         description: |-
           Storage version of v1api20240301.LoadBalancersInboundNatRule
           Generator information:
-          - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/loadBalancer.json
+          - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/loadBalancer.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatRules/{inboundNatRuleName}
         properties:
           apiVersion:

@@ -1,0 +1,922 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: azureserviceoperator-system/azureserviceoperator-serving-cert
+    controller-gen.kubebuilder.io/version: v0.18.0
+  labels:
+    app.kubernetes.io/name: azure-service-operator
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
+  name: capacityreservationgroups.compute.azure.com
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        service:
+          name: azureserviceoperator-webhook-service
+          namespace: azureserviceoperator-system
+          path: /convert
+          port: 443
+      conversionReviewVersions:
+      - v1
+  group: compute.azure.com
+  names:
+    categories:
+    - azure
+    - compute
+    kind: CapacityReservationGroup
+    listKind: CapacityReservationGroupList
+    plural: capacityreservationgroups
+    singular: capacityreservationgroup
+  preserveUnknownFields: false
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20250401
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/ComputeRP.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              location:
+                description: 'Location: The geo-location where the resource lives'
+                type: string
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              reservationType:
+                description: |-
+                  ReservationType: Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations
+                  and 'Targeted' for reservations that enable a VM to consume a specific capacity reservation when a capacity reservation
+                  group is provided. The reservation type is immutable and cannot be changed after it is assigned.
+                enum:
+                - Block
+                - Targeted
+                type: string
+              sharingProfile:
+                description: |-
+                  SharingProfile: Specifies the settings to enable sharing across subscriptions for the capacity reservation group
+                  resource. The capacity reservation group resource can generally be shared across subscriptions belonging to a single
+                  Azure AAD tenant or across AAD tenants if there is a trust relationship established between the tenants.  Block capacity
+                  reservation does not support sharing across subscriptions. Note: Minimum api-version: 2023-09-01. Please refer to
+                  https://aka.ms/computereservationsharing for more details.
+                properties:
+                  subscriptionIds:
+                    description: |-
+                      SubscriptionIds: Specifies an array of subscription resource IDs that capacity reservation group is shared with. Block
+                      Capacity Reservations does not support sharing across subscriptions. Note: Minimum api-version: 2023-09-01. Please refer
+                      to https://aka.ms/computereservationsharing for more details.
+                    items:
+                      properties:
+                        reference:
+                          description: 'Reference: Resource Id'
+                          properties:
+                            armId:
+                              description: |-
+                                ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                              pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                              type: string
+                            group:
+                              description: Group is the Kubernetes group of the resource.
+                              type: string
+                            kind:
+                              description: Kind is the Kubernetes kind of the resource.
+                              type: string
+                            name:
+                              description: Name is the Kubernetes name of the resource.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags.'
+                type: object
+              zones:
+                description: 'Zones: The availability zones.'
+                items:
+                  type: string
+                type: array
+            required:
+            - location
+            - owner
+            type: object
+          status:
+            description: |-
+              Specifies information about the capacity reservation group that the capacity reservations should be assigned to.
+              Currently, a capacity reservation can only be added to a capacity reservation group at creation time. An existing
+              capacity reservation cannot be added or moved to another capacity reservation group.
+            properties:
+              capacityReservations:
+                description: 'CapacityReservations: A list of all capacity reservation
+                  resource ids that belong to capacity reservation group.'
+                items:
+                  properties:
+                    id:
+                      description: 'Id: Resource Id'
+                      type: string
+                  type: object
+                type: array
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              id:
+                description: |-
+                  Id: Fully qualified resource ID for the resource. Ex -
+                  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+                type: string
+              instanceView:
+                description: |-
+                  InstanceView: The capacity reservation group instance view which has the list of instance views for all the capacity
+                  reservations that belong to the capacity reservation group.
+                properties:
+                  capacityReservations:
+                    description: 'CapacityReservations: List of instance view of the
+                      capacity reservations under the capacity reservation group.'
+                    items:
+                      description: |-
+                        The instance view of a capacity reservation that includes the name of the capacity reservation. It is used for the
+                        response to the instance view of a capacity reservation group.
+                      properties:
+                        name:
+                          description: 'Name: The name of the capacity reservation.'
+                          type: string
+                        statuses:
+                          description: 'Statuses: The resource status information.'
+                          items:
+                            description: Instance view status.
+                            properties:
+                              code:
+                                description: 'Code: The status code.'
+                                type: string
+                              displayStatus:
+                                description: 'DisplayStatus: The short localizable
+                                  label for the status.'
+                                type: string
+                              level:
+                                description: 'Level: The level code.'
+                                type: string
+                              message:
+                                description: 'Message: The detailed status message,
+                                  including for alerts and error messages.'
+                                type: string
+                              time:
+                                description: 'Time: The time of the status.'
+                                type: string
+                            type: object
+                          type: array
+                        utilizationInfo:
+                          description: 'UtilizationInfo: Unutilized capacity of the
+                            capacity reservation.'
+                          properties:
+                            currentCapacity:
+                              description: |-
+                                CurrentCapacity: The value provides the current capacity of the VM size which was reserved successfully and for which
+                                the customer is getting billed. Minimum api-version: 2022-08-01.
+                              type: integer
+                            virtualMachinesAllocated:
+                              description: 'VirtualMachinesAllocated: A list of all
+                                virtual machines resource ids allocated against the
+                                capacity reservation.'
+                              items:
+                                properties:
+                                  id:
+                                    description: 'Id: Resource Id'
+                                    type: string
+                                type: object
+                              type: array
+                          type: object
+                      type: object
+                    type: array
+                  sharedSubscriptionIds:
+                    description: |-
+                      SharedSubscriptionIds: List of the subscriptions that the capacity reservation group is shared with. Note: Minimum
+                      api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
+                    items:
+                      properties:
+                        id:
+                          description: 'Id: Resource Id'
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              location:
+                description: 'Location: The geo-location where the resource lives'
+                type: string
+              name:
+                description: 'Name: The name of the resource'
+                type: string
+              reservationType:
+                description: |-
+                  ReservationType: Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations
+                  and 'Targeted' for reservations that enable a VM to consume a specific capacity reservation when a capacity reservation
+                  group is provided. The reservation type is immutable and cannot be changed after it is assigned.
+                type: string
+              sharingProfile:
+                description: |-
+                  SharingProfile: Specifies the settings to enable sharing across subscriptions for the capacity reservation group
+                  resource. The capacity reservation group resource can generally be shared across subscriptions belonging to a single
+                  Azure AAD tenant or across AAD tenants if there is a trust relationship established between the tenants.  Block capacity
+                  reservation does not support sharing across subscriptions. Note: Minimum api-version: 2023-09-01. Please refer to
+                  https://aka.ms/computereservationsharing for more details.
+                properties:
+                  subscriptionIds:
+                    description: |-
+                      SubscriptionIds: Specifies an array of subscription resource IDs that capacity reservation group is shared with. Block
+                      Capacity Reservations does not support sharing across subscriptions. Note: Minimum api-version: 2023-09-01. Please refer
+                      to https://aka.ms/computereservationsharing for more details.
+                    items:
+                      properties:
+                        id:
+                          description: 'Id: Resource Id'
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              systemData:
+                description: 'SystemData: Azure Resource Manager metadata containing
+                  createdBy and modifiedBy information.'
+                properties:
+                  createdAt:
+                    description: 'CreatedAt: The timestamp of resource creation (UTC).'
+                    type: string
+                  createdBy:
+                    description: 'CreatedBy: The identity that created the resource.'
+                    type: string
+                  createdByType:
+                    description: 'CreatedByType: The type of identity that created
+                      the resource.'
+                    type: string
+                  lastModifiedAt:
+                    description: 'LastModifiedAt: The timestamp of resource last modification
+                      (UTC)'
+                    type: string
+                  lastModifiedBy:
+                    description: 'LastModifiedBy: The identity that last modified
+                      the resource.'
+                    type: string
+                  lastModifiedByType:
+                    description: 'LastModifiedByType: The type of identity that last
+                      modified the resource.'
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Resource tags.'
+                type: object
+              type:
+                description: 'Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines"
+                  or "Microsoft.Storage/storageAccounts"'
+                type: string
+              virtualMachinesAssociated:
+                description: 'VirtualMachinesAssociated: A list of references to all
+                  virtual machines associated to the capacity reservation group.'
+                items:
+                  properties:
+                    id:
+                      description: 'Id: Resource Id'
+                      type: string
+                  type: object
+                type: array
+              zones:
+                description: 'Zones: The availability zones.'
+                items:
+                  type: string
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v1api20250401storage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v1api20250401.CapacityReservationGroup
+          Generator information:
+          - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/ComputeRP.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v1api20250401.CapacityReservationGroup_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              location:
+                type: string
+              operatorSpec:
+                description: |-
+                  Storage version of v1api20250401.CapacityReservationGroupOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a resources.azure.com/ResourceGroup resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              reservationType:
+                type: string
+              sharingProfile:
+                description: Storage version of v1api20250401.ResourceSharingProfile
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  subscriptionIds:
+                    items:
+                      description: Storage version of v1api20250401.SubResource
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        reference:
+                          description: 'Reference: Resource Id'
+                          properties:
+                            armId:
+                              description: |-
+                                ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                              pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                              type: string
+                            group:
+                              description: Group is the Kubernetes group of the resource.
+                              type: string
+                            kind:
+                              description: Kind is the Kubernetes kind of the resource.
+                              type: string
+                            name:
+                              description: Name is the Kubernetes name of the resource.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              zones:
+                items:
+                  type: string
+                type: array
+            required:
+            - owner
+            type: object
+          status:
+            description: |-
+              Storage version of v1api20250401.CapacityReservationGroup_STATUS
+              Specifies information about the capacity reservation group that the capacity reservations should be assigned to.
+              Currently, a capacity reservation can only be added to a capacity reservation group at creation time. An existing
+              capacity reservation cannot be added or moved to another capacity reservation group.
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              capacityReservations:
+                items:
+                  description: Storage version of v1api20250401.SubResourceReadOnly_STATUS
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    id:
+                      type: string
+                  type: object
+                type: array
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              id:
+                type: string
+              instanceView:
+                description: Storage version of v1api20250401.CapacityReservationGroupInstanceView_STATUS
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  capacityReservations:
+                    items:
+                      description: |-
+                        Storage version of v1api20250401.CapacityReservationInstanceViewWithName_STATUS
+                        The instance view of a capacity reservation that includes the name of the capacity reservation. It is used for the
+                        response to the instance view of a capacity reservation group.
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        name:
+                          type: string
+                        statuses:
+                          items:
+                            description: |-
+                              Storage version of v1api20250401.InstanceViewStatus_STATUS
+                              Instance view status.
+                            properties:
+                              $propertyBag:
+                                additionalProperties:
+                                  type: string
+                                description: |-
+                                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                  resources, allowing for full fidelity round trip conversions
+                                type: object
+                              code:
+                                type: string
+                              displayStatus:
+                                type: string
+                              level:
+                                type: string
+                              message:
+                                type: string
+                              time:
+                                type: string
+                            type: object
+                          type: array
+                        utilizationInfo:
+                          description: |-
+                            Storage version of v1api20250401.CapacityReservationUtilization_STATUS
+                            Represents the capacity reservation utilization in terms of resources allocated.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            currentCapacity:
+                              type: integer
+                            virtualMachinesAllocated:
+                              items:
+                                description: Storage version of v1api20250401.SubResourceReadOnly_STATUS
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  id:
+                                    type: string
+                                type: object
+                              type: array
+                          type: object
+                      type: object
+                    type: array
+                  sharedSubscriptionIds:
+                    items:
+                      description: Storage version of v1api20250401.SubResourceReadOnly_STATUS
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              location:
+                type: string
+              name:
+                type: string
+              reservationType:
+                type: string
+              sharingProfile:
+                description: Storage version of v1api20250401.ResourceSharingProfile_STATUS
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  subscriptionIds:
+                    items:
+                      description: Storage version of v1api20250401.SubResource_STATUS
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        id:
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              systemData:
+                description: |-
+                  Storage version of v1api20250401.SystemData_STATUS
+                  Metadata pertaining to creation and last modification of the resource.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  createdAt:
+                    type: string
+                  createdBy:
+                    type: string
+                  createdByType:
+                    type: string
+                  lastModifiedAt:
+                    type: string
+                  lastModifiedBy:
+                    type: string
+                  lastModifiedByType:
+                    type: string
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                type: string
+              virtualMachinesAssociated:
+                items:
+                  description: Storage version of v1api20250401.SubResourceReadOnly_STATUS
+                  properties:
+                    $propertyBag:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                        resources, allowing for full fidelity round trip conversions
+                      type: object
+                    id:
+                      type: string
+                  type: object
+                type: array
+              zones:
+                items:
+                  type: string
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

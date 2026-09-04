@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: domainstopics.eventgrid.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: eventgrid.azure.com
   names:
+    categories:
+    - azure
+    - eventgrid
     kind: DomainsTopic
     listKind: DomainsTopicList
     plural: domainstopics
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
+          - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/EventGrid/stable/2020-06-01/EventGrid.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{domainTopicName}
         properties:
           apiVersion:
@@ -273,7 +276,7 @@ spec:
         description: |-
           Storage version of v1api20200601.DomainsTopic
           Generator information:
-          - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
+          - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/EventGrid/stable/2020-06-01/EventGrid.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{domainTopicName}
         properties:
           apiVersion:

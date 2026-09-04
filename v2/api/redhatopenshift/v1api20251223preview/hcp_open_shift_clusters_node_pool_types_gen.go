@@ -2445,10 +2445,6 @@ type NodePoolVersionProfile struct {
 	// ChannelGroup: ChannelGroup is the name of the set to which this version belongs.
 	// Each version belongs to only a single set.
 	// If not specified, the default value is 'stable'.
-	// Note: The default value is not declared in the API specification because
-	// of a TypeSpec bug with updatable fields. The default value will be
-	// declared in a future API version once the TypeSpec bug is fixed.
-	// https://github.com/Azure/typespec-azure/issues/1586
 	ChannelGroup *string `json:"channelGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -2547,10 +2543,6 @@ type NodePoolVersionProfile_STATUS struct {
 	// ChannelGroup: ChannelGroup is the name of the set to which this version belongs.
 	// Each version belongs to only a single set.
 	// If not specified, the default value is 'stable'.
-	// Note: The default value is not declared in the API specification because
-	// of a TypeSpec bug with updatable fields. The default value will be
-	// declared in a future API version once the TypeSpec bug is fixed.
-	// https://github.com/Azure/typespec-azure/issues/1586
 	ChannelGroup *string `json:"channelGroup,omitempty"`
 
 	// Id: ID is the unique identifier of the version.

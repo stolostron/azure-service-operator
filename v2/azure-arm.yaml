@@ -104,7 +104,7 @@ typeFilters:
 
   - action: include
     group: redhatopenshift
-    version: v*20251223preview;v*20260630preview
+    version: v*20251223preview;v*20260901preview
     because: We want to export ARO-HCP resources from these preview versions
 
   - action: include
@@ -4643,7 +4643,7 @@ objectModelConfiguration:
         $exportAs: ResourceGroup
         $supportedFrom: v2.0.0-alpha.1
   redhatopenshift:
-    $hubVersion: 2026-06-30-preview
+    $hubVersion: 2026-09-01-preview
     2023-11-22:
       OpenShiftCluster:
         $exportAs: OpenShiftCluster
@@ -4689,7 +4689,7 @@ objectModelConfiguration:
       VersionProfile:
         Id:
           $referenceType: simple
-    2026-06-30-preview:
+    2026-09-01-preview:
       HcpOpenShiftClusters_NodePool:
         $supportedFrom: v2.13.0
         $exportAs: HcpOpenShiftClustersNodePool

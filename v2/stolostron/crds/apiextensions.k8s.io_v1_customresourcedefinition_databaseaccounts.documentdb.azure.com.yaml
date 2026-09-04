@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: databaseaccounts.documentdb.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: documentdb.azure.com
   names:
+    categories:
+    - azure
+    - documentdb
     kind: DatabaseAccount
     listKind: DatabaseAccountList
     plural: databaseaccounts
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2021-05-15/cosmos-db.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}
         properties:
           apiVersion:
@@ -1083,7 +1086,7 @@ spec:
         description: |-
           Storage version of v1api20210515.DatabaseAccount
           Generator information:
-          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2021-05-15/cosmos-db.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}
         properties:
           apiVersion:
@@ -2086,7 +2089,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/cosmos-db.json
+          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2023-11-15/cosmos-db.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}
         properties:
           apiVersion:
@@ -2356,11 +2359,6 @@ spec:
                 enum:
                 - Default
                 - Restore
-                type: string
-              customerManagedKeyStatus:
-                description: |-
-                  CustomerManagedKeyStatus: Indicates the status of the Customer Managed Key feature on the account. In case there are
-                  errors, the property provides troubleshooting guidance.
                 type: string
               databaseAccountOfferType:
                 description: 'DatabaseAccountOfferType: The offer type for the database'
@@ -3542,7 +3540,7 @@ spec:
         description: |-
           Storage version of v1api20231115.DatabaseAccount
           Generator information:
-          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/cosmos-db.json
+          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2023-11-15/cosmos-db.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}
         properties:
           apiVersion:
@@ -3793,8 +3791,6 @@ spec:
                   type: object
                 type: array
               createMode:
-                type: string
-              customerManagedKeyStatus:
                 type: string
               databaseAccountOfferType:
                 type: string
@@ -4959,7 +4955,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-08-15/cosmos-db.json
+          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2024-08-15/cosmos-db.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}
         properties:
           apiVersion:
@@ -5232,11 +5228,6 @@ spec:
                 enum:
                 - Default
                 - Restore
-                type: string
-              customerManagedKeyStatus:
-                description: |-
-                  CustomerManagedKeyStatus: Indicates the status of the Customer Managed Key feature on the account. In case there are
-                  errors, the property provides troubleshooting guidance.
                 type: string
               databaseAccountOfferType:
                 description: 'DatabaseAccountOfferType: The offer type for the database'
@@ -6428,7 +6419,7 @@ spec:
         description: |-
           Storage version of v1api20240815.DatabaseAccount
           Generator information:
-          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-08-15/cosmos-db.json
+          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2024-08-15/cosmos-db.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}
         properties:
           apiVersion:
@@ -6679,8 +6670,6 @@ spec:
                   type: object
                 type: array
               createMode:
-                type: string
-              customerManagedKeyStatus:
                 type: string
               databaseAccountOfferType:
                 type: string

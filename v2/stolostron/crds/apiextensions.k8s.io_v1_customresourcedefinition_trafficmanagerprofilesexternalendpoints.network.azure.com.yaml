@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: trafficmanagerprofilesexternalendpoints.network.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: network.azure.com
   names:
+    categories:
+    - azure
+    - network
     kind: TrafficManagerProfilesExternalEndpoint
     listKind: TrafficManagerProfilesExternalEndpointList
     plural: trafficmanagerprofilesexternalendpoints
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/trafficmanager.json
+          - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/ExternalEndpoints/{endpointName}
         properties:
           apiVersion:
@@ -85,6 +88,7 @@ spec:
               customHeaders:
                 description: 'CustomHeaders: List of custom headers.'
                 items:
+                  description: Custom header name and value.
                   properties:
                     name:
                       description: 'Name: Header name.'
@@ -235,6 +239,7 @@ spec:
                   Subnets: The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the 'Subnet'
                   traffic routing method. An empty list will match all ranges not covered by other endpoints.
                 items:
+                  description: Subnet first address, scope, and/or last address.
                   properties:
                     first:
                       description: 'First: First address in the subnet.'
@@ -343,6 +348,7 @@ spec:
               customHeaders:
                 description: 'CustomHeaders: List of custom headers.'
                 items:
+                  description: Custom header name and value.
                   properties:
                     name:
                       description: 'Name: Header name.'
@@ -409,6 +415,7 @@ spec:
                   Subnets: The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the 'Subnet'
                   traffic routing method. An empty list will match all ranges not covered by other endpoints.
                 items:
+                  description: Subnet first address, scope, and/or last address.
                   properties:
                     first:
                       description: 'First: First address in the subnet.'
@@ -463,7 +470,7 @@ spec:
         description: |-
           Storage version of v1api20220401.TrafficManagerProfilesExternalEndpoint
           Generator information:
-          - Generated from: /trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/trafficmanager.json
+          - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}/ExternalEndpoints/{endpointName}
         properties:
           apiVersion:
@@ -502,7 +509,9 @@ spec:
                 type: string
               customHeaders:
                 items:
-                  description: Storage version of v1api20220401.EndpointProperties_CustomHeaders
+                  description: |-
+                    Storage version of v1api20220401.EndpointPropertiesCustomHeadersItem
+                    Custom header name and value.
                   properties:
                     $propertyBag:
                       additionalProperties:
@@ -623,7 +632,9 @@ spec:
                 type: integer
               subnets:
                 items:
-                  description: Storage version of v1api20220401.EndpointProperties_Subnets
+                  description: |-
+                    Storage version of v1api20220401.EndpointPropertiesSubnetsItem
+                    Subnet first address, scope, and/or last address.
                   properties:
                     $propertyBag:
                       additionalProperties:
@@ -732,7 +743,9 @@ spec:
                 type: array
               customHeaders:
                 items:
-                  description: Storage version of v1api20220401.EndpointProperties_CustomHeaders_STATUS
+                  description: |-
+                    Storage version of v1api20220401.EndpointPropertiesCustomHeadersItem_STATUS
+                    Custom header name and value.
                   properties:
                     $propertyBag:
                       additionalProperties:
@@ -771,7 +784,9 @@ spec:
                 type: integer
               subnets:
                 items:
-                  description: Storage version of v1api20220401.EndpointProperties_Subnets_STATUS
+                  description: |-
+                    Storage version of v1api20220401.EndpointPropertiesSubnetsItem_STATUS
+                    Subnet first address, scope, and/or last address.
                   properties:
                     $propertyBag:
                       additionalProperties:

@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: networkinterfaces.network.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: network.azure.com
   names:
+    categories:
+    - azure
+    - network
     kind: NetworkInterface
     listKind: NetworkInterfaceList
     plural: networkinterfaces
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/networkInterface.json
+          - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkInterface.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}
         properties:
           apiVersion:
@@ -850,7 +853,7 @@ spec:
         description: |-
           Storage version of v1api20201101.NetworkInterface
           Generator information:
-          - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/networkInterface.json
+          - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/networkInterface.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}
         properties:
           apiVersion:
@@ -1361,7 +1364,7 @@ spec:
             type: object
           status:
             description: |-
-              Storage version of v1api20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+              Storage version of v1api20201101.NetworkInterface_STATUS
               A network interface in a resource group.
             properties:
               $propertyBag:
@@ -1781,7 +1784,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/networkInterface.json
+          - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/networkInterface.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}
         properties:
           apiVersion:
@@ -2673,7 +2676,7 @@ spec:
         description: |-
           Storage version of v1api20240301.NetworkInterface
           Generator information:
-          - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/networkInterface.json
+          - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/networkInterface.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}
         properties:
           apiVersion:
@@ -3227,7 +3230,7 @@ spec:
             type: object
           status:
             description: |-
-              Storage version of v1api20240301.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
+              Storage version of v1api20240301.NetworkInterface_STATUS
               A network interface in a resource group.
             properties:
               $propertyBag:

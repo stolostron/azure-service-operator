@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: privatednszonesvirtualnetworklinks.network.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: network.azure.com
   names:
+    categories:
+    - azure
+    - network
     kind: PrivateDnsZonesVirtualNetworkLink
     listKind: PrivateDnsZonesVirtualNetworkLinkList
     plural: privatednszonesvirtualnetworklinks
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/privatedns.json
+          - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2020-06-01/privatedns.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/virtualNetworkLinks/{virtualNetworkLinkName}
         properties:
           apiVersion:
@@ -317,7 +320,7 @@ spec:
         description: |-
           Storage version of v1api20200601.PrivateDnsZonesVirtualNetworkLink
           Generator information:
-          - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/privatedns.json
+          - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2020-06-01/privatedns.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/virtualNetworkLinks/{virtualNetworkLinkName}
         properties:
           apiVersion:
@@ -600,7 +603,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json
+          - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/virtualNetworkLinks/{virtualNetworkLinkName}
         properties:
           apiVersion:
@@ -815,8 +818,8 @@ spec:
                 type: string
               id:
                 description: |-
-                  Id: Fully qualified resource Id for the resource. Example -
-                  '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateDnsZoneName}'.
+                  Id: Fully qualified resource ID for the resource. Ex -
+                  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
                 type: string
               location:
                 description: 'Location: The Azure Region where the resource lives'
@@ -840,13 +843,41 @@ spec:
                   privatelink zones, and for A,AAAA,CNAME queries. When set to 'NxDomainRedirect', Azure DNS resolver falls back to public
                   resolution if private dns query resolution results in non-existent domain response.
                 type: string
+              systemData:
+                description: 'SystemData: Azure Resource Manager metadata containing
+                  createdBy and modifiedBy information.'
+                properties:
+                  createdAt:
+                    description: 'CreatedAt: The timestamp of resource creation (UTC).'
+                    type: string
+                  createdBy:
+                    description: 'CreatedBy: The identity that created the resource.'
+                    type: string
+                  createdByType:
+                    description: 'CreatedByType: The type of identity that created
+                      the resource.'
+                    type: string
+                  lastModifiedAt:
+                    description: 'LastModifiedAt: The timestamp of resource last modification
+                      (UTC)'
+                    type: string
+                  lastModifiedBy:
+                    description: 'LastModifiedBy: The identity that last modified
+                      the resource.'
+                    type: string
+                  lastModifiedByType:
+                    description: 'LastModifiedByType: The type of identity that last
+                      modified the resource.'
+                    type: string
+                type: object
               tags:
                 additionalProperties:
                   type: string
                 description: 'Tags: Resource tags.'
                 type: object
               type:
-                description: 'Type: The type of the resource. Example - ''Microsoft.Network/privateDnsZones''.'
+                description: 'Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines"
+                  or "Microsoft.Storage/storageAccounts"'
                 type: string
               virtualNetwork:
                 description: 'VirtualNetwork: The reference of the virtual network.'
@@ -885,7 +916,7 @@ spec:
         description: |-
           Storage version of v1api20240601.PrivateDnsZonesVirtualNetworkLink
           Generator information:
-          - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/privatedns.json
+          - Generated from: /privatedns/resource-manager/Microsoft.Network/PrivateDns/stable/2024-06-01/privatedns.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/virtualNetworkLinks/{virtualNetworkLinkName}
         properties:
           apiVersion:
@@ -1125,6 +1156,31 @@ spec:
                 type: boolean
               resolutionPolicy:
                 type: string
+              systemData:
+                description: |-
+                  Storage version of v1api20240601.SystemData_STATUS
+                  Metadata pertaining to creation and last modification of the resource.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  createdAt:
+                    type: string
+                  createdBy:
+                    type: string
+                  createdByType:
+                    type: string
+                  lastModifiedAt:
+                    type: string
+                  lastModifiedBy:
+                    type: string
+                  lastModifiedByType:
+                    type: string
+                type: object
               tags:
                 additionalProperties:
                   type: string

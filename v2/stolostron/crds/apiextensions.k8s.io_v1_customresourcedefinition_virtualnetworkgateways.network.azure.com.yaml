@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: virtualnetworkgateways.network.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: network.azure.com
   names:
+    categories:
+    - azure
+    - network
     kind: VirtualNetworkGateway
     listKind: VirtualNetworkGatewayList
     plural: virtualnetworkgateways
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetworkGateway.json
+          - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetworkGateway.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}
         properties:
           apiVersion:
@@ -1104,7 +1107,7 @@ spec:
         description: |-
           Storage version of v1api20201101.VirtualNetworkGateway
           Generator information:
-          - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetworkGateway.json
+          - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2020-11-01/virtualNetworkGateway.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}
         properties:
           apiVersion:
@@ -2061,7 +2064,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/virtualNetworkGateway.json
+          - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/virtualNetworkGateway.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}
         properties:
           apiVersion:
@@ -3566,7 +3569,7 @@ spec:
         description: |-
           Storage version of v1api20240301.VirtualNetworkGateway
           Generator information:
-          - Generated from: /network/resource-manager/Microsoft.Network/stable/2024-03-01/virtualNetworkGateway.json
+          - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2024-03-01/virtualNetworkGateway.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}
         properties:
           apiVersion:
@@ -4312,7 +4315,7 @@ spec:
             type: object
           status:
             description: |-
-              Storage version of v1api20240301.VirtualNetworkGateway_STATUS_VirtualNetworkGateway_SubResourceEmbedded
+              Storage version of v1api20240301.VirtualNetworkGateway_STATUS
               A common class for general resource information.
             properties:
               $propertyBag:

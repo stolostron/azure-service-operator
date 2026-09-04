@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: workspaces.machinelearningservices.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: machinelearningservices.azure.com
   names:
+    categories:
+    - azure
+    - machinelearningservices
     kind: Workspace
     listKind: WorkspaceList
     plural: workspaces
@@ -141,6 +144,28 @@ spec:
                           assigned identity that will be used to access the customer
                           managed key vault'
                         type: string
+                      userAssignedIdentityReference:
+                        description: |-
+                          UserAssignedIdentityReference: The ArmId of the user assigned identity that will be used to access the customer managed
+                          key vault
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
                     type: object
                   keyVaultProperties:
                     description: 'KeyVaultProperties: Customer Key vault properties.'
@@ -157,9 +182,31 @@ spec:
                         description: 'KeyVaultArmId: The ArmId of the keyVault where
                           the customer owned encryption key is present.'
                         type: string
+                      keyVaultArmReference:
+                        description: 'KeyVaultArmReference: The ArmId of the keyVault
+                          where the customer owned encryption key is present.'
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
                     required:
                     - keyIdentifier
                     - keyVaultArmId
+                    - keyVaultArmReference
                     type: object
                 required:
                 - keyVaultProperties
@@ -1076,6 +1123,28 @@ spec:
                         type: object
                       userAssignedIdentity:
                         type: string
+                      userAssignedIdentityReference:
+                        description: |-
+                          UserAssignedIdentityReference: The ArmId of the user assigned identity that will be used to access the customer managed
+                          key vault
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
                     type: object
                   keyVaultProperties:
                     description: Storage version of v1api20210701.KeyVaultProperties
@@ -1093,6 +1162,29 @@ spec:
                         type: string
                       keyVaultArmId:
                         type: string
+                      keyVaultArmReference:
+                        description: 'KeyVaultArmReference: The ArmId of the keyVault
+                          where the customer owned encryption key is present.'
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                    required:
+                    - keyVaultArmReference
                     type: object
                 type: object
               friendlyName:

@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: aliases.subscription.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: subscription.azure.com
   names:
+    categories:
+    - azure
+    - subscription
     kind: Alias
     listKind: AliasList
     plural: aliases
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/subscriptions.json
+          - Generated from: /subscription/resource-manager/Microsoft.Subscription/Subscription/stable/2021-10-01/subscriptions.json
           - ARM URI: /providers/Microsoft.Subscription/aliases/{aliasName}
         properties:
           apiVersion:
@@ -342,7 +345,7 @@ spec:
         description: |-
           Storage version of v1api20211001.Alias
           Generator information:
-          - Generated from: /subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/subscriptions.json
+          - Generated from: /subscription/resource-manager/Microsoft.Subscription/Subscription/stable/2021-10-01/subscriptions.json
           - ARM URI: /providers/Microsoft.Subscription/aliases/{aliasName}
         properties:
           apiVersion:

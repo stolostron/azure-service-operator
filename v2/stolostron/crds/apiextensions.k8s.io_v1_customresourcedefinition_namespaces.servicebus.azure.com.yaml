@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: namespaces.servicebus.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: servicebus.azure.com
   names:
+    categories:
+    - azure
+    - servicebus
     kind: Namespace
     listKind: NamespaceList
     plural: namespaces
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/namespace-preview.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/namespace-preview.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}
         properties:
           apiVersion:
@@ -619,7 +622,7 @@ spec:
         description: |-
           Storage version of v1api20210101preview.Namespace
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/namespace-preview.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/namespace-preview.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}
         properties:
           apiVersion:
@@ -1258,7 +1261,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2021-11-01/namespace-preview.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2021-11-01/namespace-preview.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}
         properties:
           apiVersion:
@@ -1846,7 +1849,7 @@ spec:
         description: |-
           Storage version of v1api20211101.Namespace
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2021-11-01/namespace-preview.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2021-11-01/namespace-preview.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}
         properties:
           apiVersion:
@@ -2493,7 +2496,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/namespace-preview.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2022-10-01-preview/namespace-preview.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}
         properties:
           apiVersion:
@@ -3121,7 +3124,7 @@ spec:
         description: |-
           Storage version of v1api20221001preview.Namespace
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/namespace-preview.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2022-10-01-preview/namespace-preview.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}
         properties:
           apiVersion:
@@ -3780,7 +3783,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/namespace-preview.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2024-01-01/namespace-preview.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}
         properties:
           apiVersion:
@@ -4147,8 +4150,9 @@ spec:
                 description: 'Tags: Resource tags'
                 type: object
               zoneRedundant:
-                description: 'ZoneRedundant: Enabling this property creates a Premium
-                  Service Bus Namespace in regions supported availability zones.'
+                description: |-
+                  ZoneRedundant: This property reflects if zone redundancy has been enabled for namespaces in regions that support
+                  availability zones.
                 type: boolean
             required:
             - location
@@ -4380,8 +4384,9 @@ spec:
                 description: 'UpdatedAt: The time the namespace was updated.'
                 type: string
               zoneRedundant:
-                description: 'ZoneRedundant: Enabling this property creates a Premium
-                  Service Bus Namespace in regions supported availability zones.'
+                description: |-
+                  ZoneRedundant: This property reflects if zone redundancy has been enabled for namespaces in regions that support
+                  availability zones.
                 type: boolean
             type: object
         type: object
@@ -4408,7 +4413,7 @@ spec:
         description: |-
           Storage version of v1api20240101.Namespace
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/namespace-preview.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2024-01-01/namespace-preview.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}
         properties:
           apiVersion:

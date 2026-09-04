@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: namespacestopicssubscriptionsrules.servicebus.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: servicebus.azure.com
   names:
+    categories:
+    - azure
+    - servicebus
     kind: NamespacesTopicsSubscriptionsRule
     listKind: NamespacesTopicsSubscriptionsRuleList
     plural: namespacestopicssubscriptionsrules
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Rules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/Rules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
         properties:
           apiVersion:
@@ -425,7 +428,7 @@ spec:
         description: |-
           Storage version of v1api20210101preview.NamespacesTopicsSubscriptionsRule
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Rules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/Rules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
         properties:
           apiVersion:
@@ -813,7 +816,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2021-11-01/Rules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2021-11-01/Rules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
         properties:
           apiVersion:
@@ -1195,7 +1198,7 @@ spec:
         description: |-
           Storage version of v1api20211101.NamespacesTopicsSubscriptionsRule
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2021-11-01/Rules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2021-11-01/Rules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
         properties:
           apiVersion:
@@ -1585,7 +1588,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/Rules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2022-10-01-preview/Rules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
         properties:
           apiVersion:
@@ -1967,7 +1970,7 @@ spec:
         description: |-
           Storage version of v1api20221001preview.NamespacesTopicsSubscriptionsRule
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/Rules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2022-10-01-preview/Rules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
         properties:
           apiVersion:
@@ -2357,7 +2360,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/Rules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2024-01-01/Rules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
         properties:
           apiVersion:
@@ -2739,7 +2742,7 @@ spec:
         description: |-
           Storage version of v1api20240101.NamespacesTopicsSubscriptionsRule
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/Rules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2024-01-01/Rules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
         properties:
           apiVersion:

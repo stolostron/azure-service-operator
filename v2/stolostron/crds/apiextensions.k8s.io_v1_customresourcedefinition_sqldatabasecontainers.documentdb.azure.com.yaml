@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: sqldatabasecontainers.documentdb.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: documentdb.azure.com
   names:
+    categories:
+    - azure
+    - documentdb
     kind: SqlDatabaseContainer
     listKind: SqlDatabaseContainerList
     plural: sqldatabasecontainers
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2021-05-15/cosmos-db.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}
         properties:
           apiVersion:
@@ -664,7 +667,7 @@ spec:
         description: |-
           Storage version of v1api20210515.SqlDatabaseContainer
           Generator information:
-          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
+          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2021-05-15/cosmos-db.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}
         properties:
           apiVersion:
@@ -1350,7 +1353,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/cosmos-db.json
+          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2023-11-15/cosmos-db.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}
         properties:
           apiVersion:
@@ -2118,7 +2121,7 @@ spec:
         description: |-
           Storage version of v1api20231115.SqlDatabaseContainer
           Generator information:
-          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/cosmos-db.json
+          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2023-11-15/cosmos-db.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}
         properties:
           apiVersion:
@@ -2956,7 +2959,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-08-15/cosmos-db.json
+          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2024-08-15/cosmos-db.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}
         properties:
           apiVersion:
@@ -3734,7 +3737,7 @@ spec:
         description: |-
           Storage version of v1api20240815.SqlDatabaseContainer
           Generator information:
-          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-08-15/cosmos-db.json
+          - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2024-08-15/cosmos-db.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}
         properties:
           apiVersion:

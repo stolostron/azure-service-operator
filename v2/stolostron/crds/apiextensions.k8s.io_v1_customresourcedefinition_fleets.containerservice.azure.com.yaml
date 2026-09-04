@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: fleets.containerservice.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: containerservice.azure.com
   names:
+    categories:
+    - azure
+    - containerservice
     kind: Fleet
     listKind: FleetList
     plural: fleets
@@ -42,12 +45,12 @@ spec:
     - jsonPath: .status.conditions[?(@.type=='Ready')].message
       name: Message
       type: string
-    name: v1api20230315preview
+    name: v1api20250301
     schema:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json
+          - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2025-03-01/fleets.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}
         properties:
           apiVersion:
@@ -81,6 +84,71 @@ spec:
                 description: 'HubProfile: The FleetHubProfile configures the Fleet''s
                   hub.'
                 properties:
+                  agentProfile:
+                    description: 'AgentProfile: The agent profile for the Fleet hub.'
+                    properties:
+                      subnetReference:
+                        description: |-
+                          SubnetReference: The ID of the subnet which the Fleet hub node will join on startup. If this is not specified, a vnet
+                          and subnet will be generated and used.
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                      vmSize:
+                        description: 'VmSize: The virtual machine size of the Fleet
+                          hub.'
+                        type: string
+                    type: object
+                  apiServerAccessProfile:
+                    description: 'ApiServerAccessProfile: The access profile for the
+                      Fleet hub API server.'
+                    properties:
+                      enablePrivateCluster:
+                        description: 'EnablePrivateCluster: Whether to create the
+                          Fleet hub as a private cluster or not.'
+                        type: boolean
+                      enableVnetIntegration:
+                        description: 'EnableVnetIntegration: Whether to enable apiserver
+                          vnet integration for the Fleet hub or not.'
+                        type: boolean
+                      subnetReference:
+                        description: |-
+                          SubnetReference: The subnet to be used when apiserver vnet integration is enabled. It is required when creating a new
+                          Fleet with BYO vnet.
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                    type: object
                   dnsPrefix:
                     description: 'DnsPrefix: DNS prefix used to create the FQDN for
                       the Fleet hub.'
@@ -88,6 +156,50 @@ spec:
                     minLength: 1
                     pattern: ^[a-zA-Z0-9]$|^[a-zA-Z0-9][a-zA-Z0-9-]{0,52}[a-zA-Z0-9]$
                     type: string
+                type: object
+              identity:
+                description: 'Identity: Managed identity.'
+                properties:
+                  type:
+                    description: 'Type: Type of managed service identity (where both
+                      SystemAssigned and UserAssigned types are allowed).'
+                    enum:
+                    - None
+                    - SystemAssigned
+                    - SystemAssigned, UserAssigned
+                    - UserAssigned
+                    type: string
+                  userAssignedIdentities:
+                    items:
+                      description: Information about the user assigned identity for
+                        the resource
+                      properties:
+                        reference:
+                          description: ResourceReference represents a resource reference,
+                            either to a Kubernetes resource or directly to an Azure
+                            resource via ARMID
+                          properties:
+                            armId:
+                              description: |-
+                                ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                              pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                              type: string
+                            group:
+                              description: Group is the Kubernetes group of the resource.
+                              type: string
+                            kind:
+                              description: Kind is the Kubernetes kind of the resource.
+                              type: string
+                            name:
+                              description: Name is the Kubernetes name of the resource.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                required:
+                - type
                 type: object
               location:
                 description: 'Location: The geo-location where the resource lives'
@@ -267,6 +379,37 @@ spec:
                 description: 'HubProfile: The FleetHubProfile configures the Fleet''s
                   hub.'
                 properties:
+                  agentProfile:
+                    description: 'AgentProfile: The agent profile for the Fleet hub.'
+                    properties:
+                      subnetId:
+                        description: |-
+                          SubnetId: The ID of the subnet which the Fleet hub node will join on startup. If this is not specified, a vnet and
+                          subnet will be generated and used.
+                        type: string
+                      vmSize:
+                        description: 'VmSize: The virtual machine size of the Fleet
+                          hub.'
+                        type: string
+                    type: object
+                  apiServerAccessProfile:
+                    description: 'ApiServerAccessProfile: The access profile for the
+                      Fleet hub API server.'
+                    properties:
+                      enablePrivateCluster:
+                        description: 'EnablePrivateCluster: Whether to create the
+                          Fleet hub as a private cluster or not.'
+                        type: boolean
+                      enableVnetIntegration:
+                        description: 'EnableVnetIntegration: Whether to enable apiserver
+                          vnet integration for the Fleet hub or not.'
+                        type: boolean
+                      subnetId:
+                        description: |-
+                          SubnetId: The subnet to be used when apiserver vnet integration is enabled. It is required when creating a new Fleet
+                          with BYO vnet.
+                        type: string
+                    type: object
                   dnsPrefix:
                     description: 'DnsPrefix: DNS prefix used to create the FQDN for
                       the Fleet hub.'
@@ -278,12 +421,46 @@ spec:
                     description: 'KubernetesVersion: The Kubernetes version of the
                       Fleet hub.'
                     type: string
+                  portalFqdn:
+                    description: 'PortalFqdn: The Azure Portal FQDN of the Fleet hub.'
+                    type: string
                 type: object
               id:
                 description: |-
-                  Id: Fully qualified resource ID for the resource. Ex -
-                  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+                  Id: Fully qualified resource ID for the resource. E.g.
+                  "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
                 type: string
+              identity:
+                description: 'Identity: Managed identity.'
+                properties:
+                  principalId:
+                    description: |-
+                      PrincipalId: The service principal ID of the system assigned identity. This property will only be provided for a system
+                      assigned identity.
+                    type: string
+                  tenantId:
+                    description: |-
+                      TenantId: The tenant ID of the system assigned identity. This property will only be provided for a system assigned
+                      identity.
+                    type: string
+                  type:
+                    description: 'Type: Type of managed service identity (where both
+                      SystemAssigned and UserAssigned types are allowed).'
+                    type: string
+                  userAssignedIdentities:
+                    additionalProperties:
+                      description: User assigned identity properties
+                      properties:
+                        clientId:
+                          description: 'ClientId: The client ID of the assigned identity.'
+                          type: string
+                        principalId:
+                          description: 'PrincipalId: The principal ID of the assigned
+                            identity.'
+                          type: string
+                      type: object
+                    type: object
+                type: object
               location:
                 description: 'Location: The geo-location where the resource lives'
                 type: string
@@ -293,6 +470,73 @@ spec:
               provisioningState:
                 description: 'ProvisioningState: The status of the last operation.'
                 type: string
+              status:
+                description: 'Status: Status information for the fleet.'
+                properties:
+                  lastOperationError:
+                    description: 'LastOperationError: The last operation error for
+                      the fleet.'
+                    properties:
+                      additionalInfo:
+                        description: 'AdditionalInfo: The error additional info.'
+                        items:
+                          description: The resource management error additional info.
+                          properties:
+                            info:
+                              additionalProperties:
+                                x-kubernetes-preserve-unknown-fields: true
+                              description: 'Info: The additional info.'
+                              type: object
+                            type:
+                              description: 'Type: The additional info type.'
+                              type: string
+                          type: object
+                        type: array
+                      code:
+                        description: 'Code: The error code.'
+                        type: string
+                      details:
+                        description: 'Details: The error details.'
+                        items:
+                          properties:
+                            additionalInfo:
+                              description: 'AdditionalInfo: The error additional info.'
+                              items:
+                                description: The resource management error additional
+                                  info.
+                                properties:
+                                  info:
+                                    additionalProperties:
+                                      x-kubernetes-preserve-unknown-fields: true
+                                    description: 'Info: The additional info.'
+                                    type: object
+                                  type:
+                                    description: 'Type: The additional info type.'
+                                    type: string
+                                type: object
+                              type: array
+                            code:
+                              description: 'Code: The error code.'
+                              type: string
+                            message:
+                              description: 'Message: The error message.'
+                              type: string
+                            target:
+                              description: 'Target: The error target.'
+                              type: string
+                          type: object
+                        type: array
+                      message:
+                        description: 'Message: The error message.'
+                        type: string
+                      target:
+                        description: 'Target: The error target.'
+                        type: string
+                    type: object
+                  lastOperationId:
+                    description: 'LastOperationId: The last operation ID for the fleet.'
+                    type: string
+                type: object
               systemData:
                 description: 'SystemData: Azure Resource Manager metadata containing
                   createdBy and modifiedBy information.'
@@ -348,13 +592,13 @@ spec:
     - jsonPath: .status.conditions[?(@.type=='Ready')].message
       name: Message
       type: string
-    name: v1api20230315previewstorage
+    name: v1api20250301storage
     schema:
       openAPIV3Schema:
         description: |-
-          Storage version of v1api20230315preview.Fleet
+          Storage version of v1api20250301.Fleet
           Generator information:
-          - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2023-03-15-preview/fleets.json
+          - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2025-03-01/fleets.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}
         properties:
           apiVersion:
@@ -375,7 +619,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: Storage version of v1api20230315preview.Fleet_Spec
+            description: Storage version of v1api20250301.Fleet_Spec
             properties:
               $propertyBag:
                 additionalProperties:
@@ -391,7 +635,7 @@ spec:
                 type: string
               hubProfile:
                 description: |-
-                  Storage version of v1api20230315preview.FleetHubProfile
+                  Storage version of v1api20250301.FleetHubProfile
                   The FleetHubProfile configures the fleet hub.
                 properties:
                   $propertyBag:
@@ -401,14 +645,142 @@ spec:
                       PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
                       resources, allowing for full fidelity round trip conversions
                     type: object
+                  agentProfile:
+                    description: |-
+                      Storage version of v1api20250301.AgentProfile
+                      Agent profile for the Fleet hub.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      subnetReference:
+                        description: |-
+                          SubnetReference: The ID of the subnet which the Fleet hub node will join on startup. If this is not specified, a vnet
+                          and subnet will be generated and used.
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                      vmSize:
+                        type: string
+                    type: object
+                  apiServerAccessProfile:
+                    description: |-
+                      Storage version of v1api20250301.APIServerAccessProfile
+                      Access profile for the Fleet hub API server.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      enablePrivateCluster:
+                        type: boolean
+                      enableVnetIntegration:
+                        type: boolean
+                      subnetReference:
+                        description: |-
+                          SubnetReference: The subnet to be used when apiserver vnet integration is enabled. It is required when creating a new
+                          Fleet with BYO vnet.
+                        properties:
+                          armId:
+                            description: |-
+                              ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                              The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                              ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                            pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                            type: string
+                          group:
+                            description: Group is the Kubernetes group of the resource.
+                            type: string
+                          kind:
+                            description: Kind is the Kubernetes kind of the resource.
+                            type: string
+                          name:
+                            description: Name is the Kubernetes name of the resource.
+                            type: string
+                        type: object
+                    type: object
                   dnsPrefix:
                     type: string
+                type: object
+              identity:
+                description: |-
+                  Storage version of v1api20250301.ManagedServiceIdentity
+                  Managed service identity (system assigned and/or user assigned identities)
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  type:
+                    type: string
+                  userAssignedIdentities:
+                    items:
+                      description: |-
+                        Storage version of v1api20250301.UserAssignedIdentityDetails
+                        Information about the user assigned identity for the resource
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        reference:
+                          description: ResourceReference represents a resource reference,
+                            either to a Kubernetes resource or directly to an Azure
+                            resource via ARMID
+                          properties:
+                            armId:
+                              description: |-
+                                ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                                The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                                ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                              pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                              type: string
+                            group:
+                              description: Group is the Kubernetes group of the resource.
+                              type: string
+                            kind:
+                              description: Kind is the Kubernetes kind of the resource.
+                              type: string
+                            name:
+                              description: Name is the Kubernetes name of the resource.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
                 type: object
               location:
                 type: string
               operatorSpec:
                 description: |-
-                  Storage version of v1api20230315preview.FleetOperatorSpec
+                  Storage version of v1api20250301.FleetOperatorSpec
                   Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
                 properties:
                   $propertyBag:
@@ -477,7 +849,7 @@ spec:
                       type: object
                     type: array
                   secrets:
-                    description: Storage version of v1api20230315preview.FleetOperatorSecrets
+                    description: Storage version of v1api20250301.FleetOperatorSecrets
                     properties:
                       $propertyBag:
                         additionalProperties:
@@ -531,7 +903,7 @@ spec:
             type: object
           status:
             description: |-
-              Storage version of v1api20230315preview.Fleet_STATUS
+              Storage version of v1api20250301.Fleet_STATUS
               The Fleet resource.
             properties:
               $propertyBag:
@@ -592,7 +964,7 @@ spec:
                 type: string
               hubProfile:
                 description: |-
-                  Storage version of v1api20230315preview.FleetHubProfile_STATUS
+                  Storage version of v1api20250301.FleetHubProfile_STATUS
                   The FleetHubProfile configures the fleet hub.
                 properties:
                   $propertyBag:
@@ -602,24 +974,195 @@ spec:
                       PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
                       resources, allowing for full fidelity round trip conversions
                     type: object
+                  agentProfile:
+                    description: |-
+                      Storage version of v1api20250301.AgentProfile_STATUS
+                      Agent profile for the Fleet hub.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      subnetId:
+                        type: string
+                      vmSize:
+                        type: string
+                    type: object
+                  apiServerAccessProfile:
+                    description: |-
+                      Storage version of v1api20250301.APIServerAccessProfile_STATUS
+                      Access profile for the Fleet hub API server.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      enablePrivateCluster:
+                        type: boolean
+                      enableVnetIntegration:
+                        type: boolean
+                      subnetId:
+                        type: string
+                    type: object
                   dnsPrefix:
                     type: string
                   fqdn:
                     type: string
                   kubernetesVersion:
                     type: string
+                  portalFqdn:
+                    type: string
                 type: object
               id:
                 type: string
+              identity:
+                description: |-
+                  Storage version of v1api20250301.ManagedServiceIdentity_STATUS
+                  Managed service identity (system assigned and/or user assigned identities)
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  principalId:
+                    type: string
+                  tenantId:
+                    type: string
+                  type:
+                    type: string
+                  userAssignedIdentities:
+                    additionalProperties:
+                      description: |-
+                        Storage version of v1api20250301.CommonUserAssignedIdentity_STATUS
+                        User assigned identity properties
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        clientId:
+                          type: string
+                        principalId:
+                          type: string
+                      type: object
+                    type: object
+                type: object
               location:
                 type: string
               name:
                 type: string
               provisioningState:
                 type: string
+              status:
+                description: |-
+                  Storage version of v1api20250301.FleetStatus_STATUS
+                  Status information for the fleet.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  lastOperationError:
+                    description: |-
+                      Storage version of v1api20250301.ErrorDetail_STATUS
+                      The error detail.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      additionalInfo:
+                        items:
+                          description: |-
+                            Storage version of v1api20250301.ErrorAdditionalInfo_STATUS
+                            The resource management error additional info.
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            info:
+                              additionalProperties:
+                                x-kubernetes-preserve-unknown-fields: true
+                              type: object
+                            type:
+                              type: string
+                          type: object
+                        type: array
+                      code:
+                        type: string
+                      details:
+                        items:
+                          description: Storage version of v1api20250301.ErrorDetail_STATUS_Unrolled
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            additionalInfo:
+                              items:
+                                description: |-
+                                  Storage version of v1api20250301.ErrorAdditionalInfo_STATUS
+                                  The resource management error additional info.
+                                properties:
+                                  $propertyBag:
+                                    additionalProperties:
+                                      type: string
+                                    description: |-
+                                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                      resources, allowing for full fidelity round trip conversions
+                                    type: object
+                                  info:
+                                    additionalProperties:
+                                      x-kubernetes-preserve-unknown-fields: true
+                                    type: object
+                                  type:
+                                    type: string
+                                type: object
+                              type: array
+                            code:
+                              type: string
+                            message:
+                              type: string
+                            target:
+                              type: string
+                          type: object
+                        type: array
+                      message:
+                        type: string
+                      target:
+                        type: string
+                    type: object
+                  lastOperationId:
+                    type: string
+                type: object
               systemData:
                 description: |-
-                  Storage version of v1api20230315preview.SystemData_STATUS
+                  Storage version of v1api20250301.SystemData_STATUS
                   Metadata pertaining to creation and last modification of the resource.
                 properties:
                   $propertyBag:

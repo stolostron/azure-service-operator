@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: namespaceseventhubsconsumergroups.eventhub.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: eventhub.azure.com
   names:
+    categories:
+    - azure
+    - eventhub
     kind: NamespacesEventhubsConsumerGroup
     listKind: NamespacesEventhubsConsumerGroupList
     plural: namespaceseventhubsconsumergroups
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/consumergroups.json
+          - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2021-11-01/consumergroups.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}
         properties:
           apiVersion:
@@ -294,7 +297,7 @@ spec:
         description: |-
           Storage version of v1api20211101.NamespacesEventhubsConsumerGroup
           Generator information:
-          - Generated from: /eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/consumergroups.json
+          - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2021-11-01/consumergroups.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}
         properties:
           apiVersion:
@@ -540,7 +543,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/consumergroups.json
+          - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/consumergroups.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}
         properties:
           apiVersion:
@@ -787,7 +790,7 @@ spec:
         description: |-
           Storage version of v1api20240101.NamespacesEventhubsConsumerGroup
           Generator information:
-          - Generated from: /eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/consumergroups.json
+          - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/consumergroups.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups/{consumerGroupName}
         properties:
           apiVersion:

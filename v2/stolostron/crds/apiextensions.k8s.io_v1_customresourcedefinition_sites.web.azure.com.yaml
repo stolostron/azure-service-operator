@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: sites.web.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: web.azure.com
   names:
+    categories:
+    - azure
+    - web
     kind: Site
     listKind: SiteList
     plural: sites
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /web/resource-manager/Microsoft.Web/stable/2022-03-01/WebApps.json
+          - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/WebApps.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}
         properties:
           apiVersion:
@@ -2528,7 +2531,7 @@ spec:
         description: |-
           Storage version of v1api20220301.Site
           Generator information:
-          - Generated from: /web/resource-manager/Microsoft.Web/stable/2022-03-01/WebApps.json
+          - Generated from: /web/resource-manager/Microsoft.Web/AppService/stable/2022-03-01/WebApps.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}
         properties:
           apiVersion:

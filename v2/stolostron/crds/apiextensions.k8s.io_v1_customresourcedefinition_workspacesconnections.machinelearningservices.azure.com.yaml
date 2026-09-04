@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: workspacesconnections.machinelearningservices.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: machinelearningservices.azure.com
   names:
+    categories:
+    - azure
+    - machinelearningservices
     kind: WorkspacesConnection
     listKind: WorkspacesConnectionList
     plural: workspacesconnections
@@ -1863,6 +1866,7 @@ spec:
                         properties:
                           authUrl:
                             description: 'AuthUrl: Required by Concur connection category'
+                            pattern: ^https?://[^\s]+$
                             type: string
                           clientId:
                             description: 'ClientId: Client id in the format of UUID'

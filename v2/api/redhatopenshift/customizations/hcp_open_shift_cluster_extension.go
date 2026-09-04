@@ -14,15 +14,15 @@ import (
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
-	armhcp20260901preview "github.com/Azure/ARO-HCP/test/sdk/v20260901preview/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
+	armhcp20260901preview "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp"
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/clientcmd"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	"github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260630preview/storage"
+	"github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"

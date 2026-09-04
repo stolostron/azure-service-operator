@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: diskencryptionsets.compute.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: compute.azure.com
   names:
+    categories:
+    - azure
+    - compute
     kind: DiskEncryptionSet
     listKind: DiskEncryptionSetList
     plural: diskencryptionsets
@@ -993,7 +996,7 @@ spec:
                     type: string
                   userAssignedIdentities:
                     additionalProperties:
-                      description: Storage version of v1api20220702.EncryptionSetIdentity_UserAssignedIdentities_STATUS
+                      description: Storage version of v1api20220702.UserAssignedIdentitiesValue_STATUS
                       properties:
                         $propertyBag:
                           additionalProperties:
@@ -1082,7 +1085,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/diskEncryptionSet.json
+          - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
         properties:
           apiVersion:
@@ -1197,7 +1200,7 @@ spec:
               identity:
                 description: |-
                   Identity: The managed identity for the disk encryption set. It should be given permission on the key vault before it can
-                  be used  to encrypt disks.
+                  be used to encrypt disks.
                 properties:
                   type:
                     description: |-
@@ -1245,7 +1248,7 @@ spec:
                     type: array
                 type: object
               location:
-                description: 'Location: Resource location'
+                description: 'Location: The geo-location where the resource lives'
                 type: string
               operatorSpec:
                 description: |-
@@ -1336,7 +1339,7 @@ spec:
               tags:
                 additionalProperties:
                   type: string
-                description: 'Tags: Resource tags'
+                description: 'Tags: Resource tags.'
                 type: object
             required:
             - location
@@ -1464,12 +1467,14 @@ spec:
                   'None' will clear the property.
                 type: string
               id:
-                description: 'Id: Resource Id'
+                description: |-
+                  Id: Fully qualified resource ID for the resource. Ex -
+                  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
                 type: string
               identity:
                 description: |-
                   Identity: The managed identity for the disk encryption set. It should be given permission on the key vault before it can
-                  be used  to encrypt disks.
+                  be used to encrypt disks.
                 properties:
                   principalId:
                     description: |-
@@ -1509,10 +1514,10 @@ spec:
                   of this disk encryption set was updated.'
                 type: string
               location:
-                description: 'Location: Resource location'
+                description: 'Location: The geo-location where the resource lives'
                 type: string
               name:
-                description: 'Name: Resource name'
+                description: 'Name: The name of the resource'
                 type: string
               previousKeys:
                 description: |-
@@ -1547,13 +1552,41 @@ spec:
                   RotationToLatestKeyVersionEnabled: Set this flag to true to enable auto-updating of this disk encryption set to the
                   latest key version.
                 type: boolean
+              systemData:
+                description: 'SystemData: Azure Resource Manager metadata containing
+                  createdBy and modifiedBy information.'
+                properties:
+                  createdAt:
+                    description: 'CreatedAt: The timestamp of resource creation (UTC).'
+                    type: string
+                  createdBy:
+                    description: 'CreatedBy: The identity that created the resource.'
+                    type: string
+                  createdByType:
+                    description: 'CreatedByType: The type of identity that created
+                      the resource.'
+                    type: string
+                  lastModifiedAt:
+                    description: 'LastModifiedAt: The timestamp of resource last modification
+                      (UTC)'
+                    type: string
+                  lastModifiedBy:
+                    description: 'LastModifiedBy: The identity that last modified
+                      the resource.'
+                    type: string
+                  lastModifiedByType:
+                    description: 'LastModifiedByType: The type of identity that last
+                      modified the resource.'
+                    type: string
+                type: object
               tags:
                 additionalProperties:
                   type: string
-                description: 'Tags: Resource tags'
+                description: 'Tags: Resource tags.'
                 type: object
               type:
-                description: 'Type: Resource type'
+                description: 'Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines"
+                  or "Microsoft.Storage/storageAccounts"'
                 type: string
             type: object
         type: object
@@ -1580,7 +1613,7 @@ spec:
         description: |-
           Storage version of v1api20240302.DiskEncryptionSet
           Generator information:
-          - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/diskEncryptionSet.json
+          - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
         properties:
           apiVersion:
@@ -2028,7 +2061,7 @@ spec:
                     type: string
                   userAssignedIdentities:
                     additionalProperties:
-                      description: Storage version of v1api20240302.EncryptionSetIdentity_UserAssignedIdentities_STATUS
+                      description: Storage version of v1api20240302.UserAssignedIdentitiesValue_STATUS
                       properties:
                         $propertyBag:
                           additionalProperties:
@@ -2087,6 +2120,31 @@ spec:
                 type: string
               rotationToLatestKeyVersionEnabled:
                 type: boolean
+              systemData:
+                description: |-
+                  Storage version of v1api20240302.SystemData_STATUS
+                  Metadata pertaining to creation and last modification of the resource.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  createdAt:
+                    type: string
+                  createdBy:
+                    type: string
+                  createdByType:
+                    type: string
+                  lastModifiedAt:
+                    type: string
+                  lastModifiedBy:
+                    type: string
+                  lastModifiedByType:
+                    type: string
+                type: object
               tags:
                 additionalProperties:
                   type: string

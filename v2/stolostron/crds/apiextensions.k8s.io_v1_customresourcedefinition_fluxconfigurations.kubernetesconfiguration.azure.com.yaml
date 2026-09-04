@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: fluxconfigurations.kubernetesconfiguration.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: kubernetesconfiguration.azure.com
   names:
+    categories:
+    - azure
+    - kubernetesconfiguration
     kind: FluxConfiguration
     listKind: FluxConfigurationList
     plural: fluxconfigurations
@@ -2511,6 +2514,7 @@ spec:
                   url:
                     description: 'Url: The URL to sync for the flux configuration
                       OCI repository.'
+                    pattern: ^[a-zA-Z][a-zA-Z0-9+-.]*:[^\s]*$
                     type: string
                   useWorkloadIdentity:
                     description: 'UseWorkloadIdentity: Specifies whether to use Workload

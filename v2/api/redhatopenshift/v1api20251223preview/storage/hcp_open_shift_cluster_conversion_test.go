@@ -9,12 +9,12 @@ import (
 	. "github.com/onsi/gomega"
 
 	v20251223s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/storage"
-	v20260630s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260630preview/storage"
+	v20260901s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_HcpOpenShiftCluster_v20251223_To_v20260630_RoundTrips(t *testing.T) {
+func Test_HcpOpenShiftCluster_v20251223_To_v20260901_RoundTrips(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -66,8 +66,8 @@ func Test_HcpOpenShiftCluster_v20251223_To_v20260630_RoundTrips(t *testing.T) {
 		Tags: map[string]string{"env": "test"},
 	}
 
-	// Convert v20251223preview -> v20260630preview (hub)
-	hub := v20260630s.HcpOpenShiftCluster{}
+	// Convert v20251223preview -> v20260901preview (hub)
+	hub := v20260901s.HcpOpenShiftCluster{}
 	g.Expect(src.AssignProperties_To_HcpOpenShiftCluster(&hub)).To(Succeed())
 
 	// Verify fields arrived at the hub
@@ -80,7 +80,7 @@ func Test_HcpOpenShiftCluster_v20251223_To_v20260630_RoundTrips(t *testing.T) {
 	g.Expect(*hub.Spec.Properties.Etcd.DataEncryption.CustomerManaged.Kms.ActiveKey.Name).To(Equal("etcd-key"))
 	g.Expect(*hub.Spec.Properties.Version.Id).To(Equal("4.19"))
 
-	// Convert back v20260630preview (hub) -> v20251223preview
+	// Convert back v20260901preview (hub) -> v20251223preview
 	roundTripped := v20251223s.HcpOpenShiftCluster{}
 	g.Expect(roundTripped.AssignProperties_From_HcpOpenShiftCluster(&hub)).To(Succeed())
 
@@ -96,27 +96,27 @@ func Test_HcpOpenShiftCluster_v20251223_To_v20260630_RoundTrips(t *testing.T) {
 	g.Expect(roundTripped.Spec.Tags).To(HaveKeyWithValue("env", "test"))
 }
 
-func Test_HcpOpenShiftCluster_v20260630_NewFields_SurviveRoundTrip(t *testing.T) {
+func Test_HcpOpenShiftCluster_v20260901_NewFields_SurviveRoundTrip(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	// Start with a hub resource that has new v20260630preview-only fields
-	hub := v20260630s.HcpOpenShiftCluster{}
-	hub.Spec = v20260630s.HcpOpenShiftCluster_Spec{
+	// Start with a hub resource that has new v20260901preview-only fields
+	hub := v20260901s.HcpOpenShiftCluster{}
+	hub.Spec = v20260901s.HcpOpenShiftCluster_Spec{
 		AzureName: "test-cluster-new",
 		Location:  to.Ptr("uksouth"),
 		Owner: &genruntime.KnownResourceReference{
 			Name: "test-rg",
 		},
-		Properties: &v20260630s.HcpOpenShiftClusterProperties{
+		Properties: &v20260901s.HcpOpenShiftClusterProperties{
 			CryptoRestrictions: to.Ptr("FIPS"),
-			Ingress: &v20260630s.IngressProfile{
+			Ingress: &v20260901s.IngressProfile{
 				Type: to.Ptr("Public"),
 			},
-			Api: &v20260630s.ApiProfile{
+			Api: &v20260901s.ApiProfile{
 				Visibility: to.Ptr("Private"),
 			},
-			Version: &v20260630s.VersionProfile{
+			Version: &v20260901s.VersionProfile{
 				ChannelGroup: to.Ptr("stable"),
 				Id:           to.Ptr("4.19"),
 			},
@@ -134,7 +134,7 @@ func Test_HcpOpenShiftCluster_v20260630_NewFields_SurviveRoundTrip(t *testing.T)
 	g.Expect(spoke.Spec.Properties.PropertyBag).ToNot(BeNil())
 
 	// Convert spoke back -> hub
-	hubRoundTripped := v20260630s.HcpOpenShiftCluster{}
+	hubRoundTripped := v20260901s.HcpOpenShiftCluster{}
 	g.Expect(spoke.AssignProperties_To_HcpOpenShiftCluster(&hubRoundTripped)).To(Succeed())
 
 	// Verify new fields survived the round-trip through PropertyBag
@@ -147,21 +147,21 @@ func Test_HcpOpenShiftCluster_v20260630_NewFields_SurviveRoundTrip(t *testing.T)
 	g.Expect(*hubRoundTripped.Spec.Properties.Version.Id).To(Equal("4.19"))
 }
 
-func Test_HcpOpenShiftCluster_v20260630_StatusFields_SurviveRoundTrip(t *testing.T) {
+func Test_HcpOpenShiftCluster_v20260901_StatusFields_SurviveRoundTrip(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	hub := v20260630s.HcpOpenShiftCluster{}
-	hub.Status = v20260630s.HcpOpenShiftCluster_STATUS{
+	hub := v20260901s.HcpOpenShiftCluster{}
+	hub.Status = v20260901s.HcpOpenShiftCluster_STATUS{
 		Location: to.Ptr("uksouth"),
-		Properties: &v20260630s.HcpOpenShiftClusterProperties_STATUS{
+		Properties: &v20260901s.HcpOpenShiftClusterProperties_STATUS{
 			CryptoRestrictions: to.Ptr("None"),
-			Ingress: &v20260630s.IngressProfile_STATUS{
+			Ingress: &v20260901s.IngressProfile_STATUS{
 				Type: to.Ptr("Private"),
 			},
 			ProvisioningState: to.Ptr("Succeeded"),
-			Status: &v20260630s.ResourceStatus_STATUS{
-				Conditions: []v20260630s.Condition_STATUS{
+			Status: &v20260901s.ResourceStatus_STATUS{
+				Conditions: []v20260901s.Condition_STATUS{
 					{
 						Type:   to.Ptr("Available"),
 						Status: to.Ptr("True"),
@@ -177,7 +177,7 @@ func Test_HcpOpenShiftCluster_v20260630_StatusFields_SurviveRoundTrip(t *testing
 	g.Expect(spoke.AssignProperties_From_HcpOpenShiftCluster(&hub)).To(Succeed())
 
 	// Convert spoke back -> hub
-	hubRoundTripped := v20260630s.HcpOpenShiftCluster{}
+	hubRoundTripped := v20260901s.HcpOpenShiftCluster{}
 	g.Expect(spoke.AssignProperties_To_HcpOpenShiftCluster(&hubRoundTripped)).To(Succeed())
 
 	// Verify status fields survived

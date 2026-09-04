@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: registries.containerregistry.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: containerregistry.azure.com
   names:
+    categories:
+    - azure
+    - containerregistry
     kind: Registry
     listKind: RegistryList
     plural: registries
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json
+          - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2021-09-01/containerregistry.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}
         properties:
           apiVersion:
@@ -719,7 +722,7 @@ spec:
         description: |-
           Storage version of v1api20210901.Registry
           Generator information:
-          - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json
+          - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2021-09-01/containerregistry.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}
         properties:
           apiVersion:
@@ -1445,7 +1448,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/containerregistry.json
+          - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2023-07-01/containerregistry.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}
         properties:
           apiVersion:
@@ -2128,7 +2131,7 @@ spec:
         description: |-
           Storage version of v1api20230701.Registry
           Generator information:
-          - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2023-07-01/containerregistry.json
+          - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/Registry/stable/2023-07-01/containerregistry.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}
         properties:
           apiVersion:

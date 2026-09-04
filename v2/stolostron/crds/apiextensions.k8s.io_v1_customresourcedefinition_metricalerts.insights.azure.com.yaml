@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: metricalerts.insights.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: insights.azure.com
   names:
+    categories:
+    - azure
+    - insights
     kind: MetricAlert
     listKind: MetricAlertList
     plural: metricalerts
@@ -79,6 +82,27 @@ spec:
                     actionGroupId:
                       description: 'ActionGroupId: the id of the action group to use.'
                       type: string
+                    actionGroupReference:
+                      description: 'ActionGroupReference: the id of the action group
+                        to use.'
+                      properties:
+                        armId:
+                          description: |-
+                            ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                            The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                            ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                          pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                          type: string
+                        group:
+                          description: Group is the Kubernetes group of the resource.
+                          type: string
+                        kind:
+                          description: Kind is the Kubernetes kind of the resource.
+                          type: string
+                        name:
+                          description: Name is the Kubernetes name of the resource.
+                          type: string
+                      type: object
                     webHookProperties:
                       additionalProperties:
                         type: string
@@ -1083,6 +1107,27 @@ spec:
                       type: object
                     actionGroupId:
                       type: string
+                    actionGroupReference:
+                      description: 'ActionGroupReference: the id of the action group
+                        to use.'
+                      properties:
+                        armId:
+                          description: |-
+                            ARMID is a string of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+                            The /resourcegroups/{resourceGroupName} bit is optional as some resources are scoped at the subscription level
+                            ARMID is mutually exclusive with Group, Kind, Namespace and Name.
+                          pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                          type: string
+                        group:
+                          description: Group is the Kubernetes group of the resource.
+                          type: string
+                        kind:
+                          description: Kind is the Kubernetes kind of the resource.
+                          type: string
+                        name:
+                          description: Name is the Kubernetes name of the resource.
+                          type: string
+                      type: object
                     webHookProperties:
                       additionalProperties:
                         type: string

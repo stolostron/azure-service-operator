@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: namespacesauthorizationrules.servicebus.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: servicebus.azure.com
   names:
+    categories:
+    - azure
+    - servicebus
     kind: NamespacesAuthorizationRule
     listKind: NamespacesAuthorizationRuleList
     plural: namespacesauthorizationrules
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/AuthorizationRules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/AuthorizationRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}
         properties:
           apiVersion:
@@ -362,7 +365,7 @@ spec:
         description: |-
           Storage version of v1api20210101preview.NamespacesAuthorizationRule
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/AuthorizationRules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2021-01-01-preview/AuthorizationRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}
         properties:
           apiVersion:
@@ -693,7 +696,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2021-11-01/AuthorizationRules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2021-11-01/AuthorizationRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}
         properties:
           apiVersion:
@@ -1014,7 +1017,7 @@ spec:
         description: |-
           Storage version of v1api20211101.NamespacesAuthorizationRule
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2021-11-01/AuthorizationRules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2021-11-01/AuthorizationRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}
         properties:
           apiVersion:
@@ -1347,7 +1350,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/AuthorizationRules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2022-10-01-preview/AuthorizationRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}
         properties:
           apiVersion:
@@ -1668,7 +1671,7 @@ spec:
         description: |-
           Storage version of v1api20221001preview.NamespacesAuthorizationRule
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/AuthorizationRules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/preview/2022-10-01-preview/AuthorizationRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}
         properties:
           apiVersion:
@@ -2001,7 +2004,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/AuthorizationRules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2024-01-01/AuthorizationRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}
         properties:
           apiVersion:
@@ -2322,7 +2325,7 @@ spec:
         description: |-
           Storage version of v1api20240101.NamespacesAuthorizationRule
           Generator information:
-          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/stable/2024-01-01/AuthorizationRules.json
+          - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/ServiceBus/stable/2024-01-01/AuthorizationRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}
         properties:
           apiVersion:

@@ -6,8 +6,8 @@ package customizations
 import (
 	v20251223p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview"
 	v20251223ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/storage"
-	v20260630p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260630preview"
-	v20260630ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260630preview/storage"
+	v20260901p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview"
+	v20260901ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -19,6 +19,6 @@ func (extension *HcpOpenShiftClustersNodePoolExtension) GetExtendedResources() [
 	return []genruntime.KubernetesResource{
 		&v20251223p.HcpOpenShiftClustersNodePool{},
 		&v20251223ps.HcpOpenShiftClustersNodePool{},
-		&v20260630p.HcpOpenShiftClustersNodePool{},
-		&v20260630ps.HcpOpenShiftClustersNodePool{}}
+		&v20260901p.HcpOpenShiftClustersNodePool{},
+		&v20260901ps.HcpOpenShiftClustersNodePool{}}
 }

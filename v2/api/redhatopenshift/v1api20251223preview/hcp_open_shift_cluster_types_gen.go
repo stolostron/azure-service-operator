@@ -2691,10 +2691,6 @@ type ClusterAutoscalingProfile struct {
 	// MaxNodeProvisionTimeSeconds: maxNodeProvisionTimeSeconds is the maximum time to wait for node provisioning before
 	// considering the
 	// provisioning to be unsuccessful. The default is 900 seconds, or 15 minutes.
-	// Note: The default value is not declared in the API specification because
-	// of a TypeSpec bug with updatable fields. The default value will be
-	// declared in a future API version once the TypeSpec bug is fixed.
-	// https://github.com/Azure/typespec-azure/issues/1586
 	MaxNodeProvisionTimeSeconds *int `json:"maxNodeProvisionTimeSeconds,omitempty"`
 
 	// +kubebuilder:validation:Minimum=0
@@ -2706,10 +2702,6 @@ type ClusterAutoscalingProfile struct {
 	// MaxPodGracePeriodSeconds: maxPodGracePeriod is the maximum seconds to wait for graceful pod termination before scaling
 	// down a NodePool.
 	// The default is 600 seconds.
-	// Note: The default value is not declared in the API specification because
-	// of a TypeSpec bug with updatable fields. The default value will be
-	// declared in a future API version once the TypeSpec bug is fixed.
-	// https://github.com/Azure/typespec-azure/issues/1586
 	MaxPodGracePeriodSeconds *int `json:"maxPodGracePeriodSeconds,omitempty"`
 
 	// PodPriorityThreshold: podPriorityThreshold enables users to schedule "best-effort" pods, which shouldn't trigger
@@ -2717,10 +2709,6 @@ type ClusterAutoscalingProfile struct {
 	// but only run when there are spare resources available. The default is -10.
 	// See the following for more details:
 	// https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#how-does-cluster-autoscaler-work-with-pod-priority-and-preemption
-	// Note: The default value is not declared in the API specification because
-	// of a TypeSpec bug with updatable fields. The default value will be
-	// declared in a future API version once the TypeSpec bug is fixed.
-	// https://github.com/Azure/typespec-azure/issues/1586
 	PodPriorityThreshold *int `json:"podPriorityThreshold,omitempty"`
 }
 
@@ -2852,10 +2840,6 @@ type ClusterAutoscalingProfile_STATUS struct {
 	// MaxNodeProvisionTimeSeconds: maxNodeProvisionTimeSeconds is the maximum time to wait for node provisioning before
 	// considering the
 	// provisioning to be unsuccessful. The default is 900 seconds, or 15 minutes.
-	// Note: The default value is not declared in the API specification because
-	// of a TypeSpec bug with updatable fields. The default value will be
-	// declared in a future API version once the TypeSpec bug is fixed.
-	// https://github.com/Azure/typespec-azure/issues/1586
 	MaxNodeProvisionTimeSeconds *int `json:"maxNodeProvisionTimeSeconds,omitempty"`
 
 	// MaxNodesTotal: maxNodesTotal is the maximum allowable number of nodes for the Autoscaler scale out to be operational.
@@ -2865,10 +2849,6 @@ type ClusterAutoscalingProfile_STATUS struct {
 	// MaxPodGracePeriodSeconds: maxPodGracePeriod is the maximum seconds to wait for graceful pod termination before scaling
 	// down a NodePool.
 	// The default is 600 seconds.
-	// Note: The default value is not declared in the API specification because
-	// of a TypeSpec bug with updatable fields. The default value will be
-	// declared in a future API version once the TypeSpec bug is fixed.
-	// https://github.com/Azure/typespec-azure/issues/1586
 	MaxPodGracePeriodSeconds *int `json:"maxPodGracePeriodSeconds,omitempty"`
 
 	// PodPriorityThreshold: podPriorityThreshold enables users to schedule "best-effort" pods, which shouldn't trigger
@@ -2876,10 +2856,6 @@ type ClusterAutoscalingProfile_STATUS struct {
 	// but only run when there are spare resources available. The default is -10.
 	// See the following for more details:
 	// https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#how-does-cluster-autoscaler-work-with-pod-priority-and-preemption
-	// Note: The default value is not declared in the API specification because
-	// of a TypeSpec bug with updatable fields. The default value will be
-	// declared in a future API version once the TypeSpec bug is fixed.
-	// https://github.com/Azure/typespec-azure/issues/1586
 	PodPriorityThreshold *int `json:"podPriorityThreshold,omitempty"`
 }
 
@@ -4842,10 +4818,6 @@ type VersionProfile struct {
 	// ChannelGroup: ChannelGroup is the name of the set to which this version belongs.
 	// Each version belongs to only a single set.
 	// If not specified, the default value is 'stable'.
-	// Note: The default value is not declared in the API specification because
-	// of a TypeSpec bug with updatable fields. The default value will be
-	// declared in a future API version once the TypeSpec bug is fixed.
-	// https://github.com/Azure/typespec-azure/issues/1586
 	ChannelGroup *string `json:"channelGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -4944,10 +4916,6 @@ type VersionProfile_STATUS struct {
 	// ChannelGroup: ChannelGroup is the name of the set to which this version belongs.
 	// Each version belongs to only a single set.
 	// If not specified, the default value is 'stable'.
-	// Note: The default value is not declared in the API specification because
-	// of a TypeSpec bug with updatable fields. The default value will be
-	// declared in a future API version once the TypeSpec bug is fixed.
-	// https://github.com/Azure/typespec-azure/issues/1586
 	ChannelGroup *string `json:"channelGroup,omitempty"`
 
 	// Id: ID is the desired X.Y version of the cluster control plane.

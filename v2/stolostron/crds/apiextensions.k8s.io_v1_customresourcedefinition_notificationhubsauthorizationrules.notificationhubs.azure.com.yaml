@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.11
+    app.kubernetes.io/version: v2.18.0-hcpclusters.2
   name: notificationhubsauthorizationrules.notificationhubs.azure.com
 spec:
   conversion:
@@ -22,6 +22,9 @@ spec:
       - v1
   group: notificationhubs.azure.com
   names:
+    categories:
+    - azure
+    - notificationhubs
     kind: NotificationHubsAuthorizationRule
     listKind: NotificationHubsAuthorizationRuleList
     plural: notificationhubsauthorizationrules
@@ -47,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2023-09-01/notificationhubs.json
+          - Generated from: /notificationhubs/resource-manager/Microsoft.NotificationHubs/NotificationHubs/stable/2023-09-01/notificationhubs.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/authorizationRules/{authorizationRuleName}
         properties:
           apiVersion:
@@ -341,7 +344,7 @@ spec:
         description: |-
           Storage version of v1api20230901.NotificationHubsAuthorizationRule
           Generator information:
-          - Generated from: /notificationhubs/resource-manager/Microsoft.NotificationHubs/stable/2023-09-01/notificationhubs.json
+          - Generated from: /notificationhubs/resource-manager/Microsoft.NotificationHubs/NotificationHubs/stable/2023-09-01/notificationhubs.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/authorizationRules/{authorizationRuleName}
         properties:
           apiVersion:
