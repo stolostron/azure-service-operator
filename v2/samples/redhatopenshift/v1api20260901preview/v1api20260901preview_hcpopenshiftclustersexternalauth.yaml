@@ -1,4 +1,4 @@
-apiVersion: redhatopenshift.azure.com/v1api20260630preview
+apiVersion: redhatopenshift.azure.com/v1api20260901preview
 kind: HcpOpenShiftClustersExternalAuth
 metadata:
   name: mveber-int-ea
