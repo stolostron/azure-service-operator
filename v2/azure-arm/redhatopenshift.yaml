@@ -5,7 +5,7 @@ typeTransformers:
     because: This property should be marked readonly in Swagger
 
 groupModelConfiguration:
-  $hubVersion: 2026-06-30-preview
+  $hubVersion: 2026-09-01-preview
   2023-11-22:
     OpenShiftCluster:
       $exportAs: OpenShiftCluster
@@ -32,7 +32,7 @@ groupModelConfiguration:
         $importSecretMode: required
       ClientId:
         $importConfigMapMode: optional
-  2026-06-30-preview:
+  2026-09-01-preview:
     HcpOpenShiftClusters_NodePool:
       $supportedFrom: v2.13.0
       $exportAs: HcpOpenShiftClustersNodePool

@@ -35,7 +35,7 @@ spec:
   - name: dockerfile
     value: stolostron/Dockerfile.stolostron
   - name: path-context
-    value: v2
+    value: .
   - name: build-source-image
     value: "true"
   - name: hermetic

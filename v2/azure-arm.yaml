@@ -107,7 +107,7 @@ typeFilters:
 
   - action: include
     group: redhatopenshift
-    version: v*20260630preview
+    version: v*20260901preview
     because: We want to export ARO-HCP resources from this preview version
 
   - action: prune

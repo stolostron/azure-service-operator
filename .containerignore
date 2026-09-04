@@ -1,0 +1,21 @@
+**
+
+# Konflux runs Buildah with the repository root as its build context. Keep this
+# list aligned with the inputs copied by stolostron/Dockerfile.stolostron.
+#
+# Re-include source directories explicitly: Buildah does not descend into a
+# directory excluded by "**" to discover a nested wildcard negation.
+!/v2
+!/v2/go.mod
+!/v2/go.sum
+!/v2/api
+!/v2/cmd
+!/v2/internal
+!/v2/pkg
+!/v2/test
+!/v2/tools
+!/v2/out/crds
+
+!/stolostron
+!/stolostron/Dockerfile.stolostron
+!/stolostron/crds
