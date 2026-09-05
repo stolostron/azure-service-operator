@@ -1,0 +1,19 @@
+name: Create new Stolostron release
+
+on:
+  # run when a release is published,
+  # which creates a new tag
+  push:
+    tags:
+      - v2*
+
+permissions: {}
+
+jobs:
+  build-and-push:
+    permissions:
+      contents: write # required to create a GitHub release
+    uses: ./.github/workflows/build-release-artifacts.yml
+    with:
+      upload: true
+      tag: ${{ github.ref }}
