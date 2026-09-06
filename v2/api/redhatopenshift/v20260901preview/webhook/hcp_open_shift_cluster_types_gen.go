@@ -6,7 +6,7 @@ package webhook
 import (
 	"context"
 	"fmt"
-	v20260901p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview"
+	v20260901p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -19,7 +19,7 @@ import (
 type HcpOpenShiftCluster struct {
 }
 
-// +kubebuilder:webhook:path=/mutate-redhatopenshift-azure-com-v1api20260901preview-hcpopenshiftcluster,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=redhatopenshift.azure.com,resources=hcpopenshiftclusters,verbs=create;update,versions=v1api20260901preview,name=default.v1api20260901preview.hcpopenshiftclusters.redhatopenshift.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-redhatopenshift-azure-com-v20260901preview-hcpopenshiftcluster,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=redhatopenshift.azure.com,resources=hcpopenshiftclusters,verbs=create;update,versions=v20260901preview,name=default.v20260901preview.hcpopenshiftclusters.redhatopenshift.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomDefaulter = &HcpOpenShiftCluster{}
 
@@ -27,7 +27,7 @@ var _ webhook.CustomDefaulter = &HcpOpenShiftCluster{}
 func (cluster *HcpOpenShiftCluster) Default(ctx context.Context, obj runtime.Object) error {
 	resource, ok := obj.(*v20260901p.HcpOpenShiftCluster)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/HcpOpenShiftCluster, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/HcpOpenShiftCluster, but got %T", obj)
 	}
 	err := cluster.defaultImpl(ctx, resource)
 	if err != nil {
@@ -60,7 +60,7 @@ func (cluster *HcpOpenShiftCluster) defaultImpl(ctx context.Context, obj *v20260
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-redhatopenshift-azure-com-v1api20260901preview-hcpopenshiftcluster,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=redhatopenshift.azure.com,resources=hcpopenshiftclusters,verbs=create;update,versions=v1api20260901preview,name=validate.v1api20260901preview.hcpopenshiftclusters.redhatopenshift.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-redhatopenshift-azure-com-v20260901preview-hcpopenshiftcluster,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=redhatopenshift.azure.com,resources=hcpopenshiftclusters,verbs=create;update,versions=v20260901preview,name=validate.v20260901preview.hcpopenshiftclusters.redhatopenshift.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomValidator = &HcpOpenShiftCluster{}
 
@@ -68,7 +68,7 @@ var _ webhook.CustomValidator = &HcpOpenShiftCluster{}
 func (cluster *HcpOpenShiftCluster) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20260901p.HcpOpenShiftCluster)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/HcpOpenShiftCluster, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/HcpOpenShiftCluster, but got %T", resource)
 	}
 	validations := cluster.createValidations()
 	var temp any = cluster
@@ -82,7 +82,7 @@ func (cluster *HcpOpenShiftCluster) ValidateCreate(ctx context.Context, resource
 func (cluster *HcpOpenShiftCluster) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20260901p.HcpOpenShiftCluster)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/HcpOpenShiftCluster, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/HcpOpenShiftCluster, but got %T", resource)
 	}
 	validations := cluster.deleteValidations()
 	var temp any = cluster
@@ -96,11 +96,11 @@ func (cluster *HcpOpenShiftCluster) ValidateDelete(ctx context.Context, resource
 func (cluster *HcpOpenShiftCluster) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
 	newObj, ok := newResource.(*v20260901p.HcpOpenShiftCluster)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/HcpOpenShiftCluster, but got %T", newResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/HcpOpenShiftCluster, but got %T", newResource)
 	}
 	oldObj, ok := oldResource.(*v20260901p.HcpOpenShiftCluster)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/HcpOpenShiftCluster, but got %T", oldResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/HcpOpenShiftCluster, but got %T", oldResource)
 	}
 	validations := cluster.updateValidations()
 	var temp any = cluster
