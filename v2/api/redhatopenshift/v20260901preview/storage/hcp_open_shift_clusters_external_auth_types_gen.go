@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20260901preview.HcpOpenShiftClustersExternalAuth
+// Storage version of v20260901preview.HcpOpenShiftClustersExternalAuth
 // Generator information:
 // - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpopenshiftclusters/preview/2026-09-01-preview/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/externalAuths/{externalAuthName}
@@ -156,7 +156,7 @@ func (auth *HcpOpenShiftClustersExternalAuth) OriginalGVK() *schema.GroupVersion
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20260901preview.HcpOpenShiftClustersExternalAuth
+// Storage version of v20260901preview.HcpOpenShiftClustersExternalAuth
 // Generator information:
 // - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpopenshiftclusters/preview/2026-09-01-preview/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}/externalAuths/{externalAuthName}
@@ -166,7 +166,7 @@ type HcpOpenShiftClustersExternalAuthList struct {
 	Items           []HcpOpenShiftClustersExternalAuth `json:"items"`
 }
 
-// Storage version of v1api20260901preview.HcpOpenShiftClustersExternalAuth_Spec
+// Storage version of v20260901preview.HcpOpenShiftClustersExternalAuth_Spec
 type HcpOpenShiftClustersExternalAuth_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -203,7 +203,7 @@ func (auth *HcpOpenShiftClustersExternalAuth_Spec) ConvertSpecTo(destination gen
 	return destination.ConvertSpecFrom(auth)
 }
 
-// Storage version of v1api20260901preview.HcpOpenShiftClustersExternalAuth_STATUS
+// Storage version of v20260901preview.HcpOpenShiftClustersExternalAuth_STATUS
 type HcpOpenShiftClustersExternalAuth_STATUS struct {
 	Conditions  []conditions.Condition         `json:"conditions,omitempty"`
 	Id          *string                        `json:"id,omitempty"`
@@ -234,7 +234,7 @@ func (auth *HcpOpenShiftClustersExternalAuth_STATUS) ConvertStatusTo(destination
 	return destination.ConvertStatusFrom(auth)
 }
 
-// Storage version of v1api20260901preview.ExternalAuthProperties
+// Storage version of v20260901preview.ExternalAuthProperties
 // External Auth profile
 type ExternalAuthProperties struct {
 	Claim       *ExternalAuthClaimProfile   `json:"claim,omitempty"`
@@ -243,7 +243,7 @@ type ExternalAuthProperties struct {
 	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ExternalAuthProperties_STATUS
+// Storage version of v20260901preview.ExternalAuthProperties_STATUS
 // External Auth profile
 type ExternalAuthProperties_STATUS struct {
 	Claim             *ExternalAuthClaimProfile_STATUS   `json:"claim,omitempty"`
@@ -254,7 +254,7 @@ type ExternalAuthProperties_STATUS struct {
 	Status            *ResourceStatus_STATUS             `json:"status,omitempty"`
 }
 
-// Storage version of v1api20260901preview.HcpOpenShiftClustersExternalAuthOperatorSpec
+// Storage version of v20260901preview.HcpOpenShiftClustersExternalAuthOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type HcpOpenShiftClustersExternalAuthOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
@@ -262,7 +262,7 @@ type HcpOpenShiftClustersExternalAuthOperatorSpec struct {
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ExternalAuthClaimProfile
+// Storage version of v20260901preview.ExternalAuthClaimProfile
 // External Auth claim profile
 type ExternalAuthClaimProfile struct {
 	Mappings        *TokenClaimMappingsProfile `json:"mappings,omitempty"`
@@ -270,7 +270,7 @@ type ExternalAuthClaimProfile struct {
 	ValidationRules []TokenClaimValidationRule `json:"validationRules,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ExternalAuthClaimProfile_STATUS
+// Storage version of v20260901preview.ExternalAuthClaimProfile_STATUS
 // External Auth claim profile
 type ExternalAuthClaimProfile_STATUS struct {
 	Mappings        *TokenClaimMappingsProfile_STATUS `json:"mappings,omitempty"`
@@ -278,7 +278,7 @@ type ExternalAuthClaimProfile_STATUS struct {
 	ValidationRules []TokenClaimValidationRule_STATUS `json:"validationRules,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ExternalAuthClientProfile
+// Storage version of v20260901preview.ExternalAuthClientProfile
 // External Auth client profile
 // This configures how on-cluster, platform clients should request tokens from the identity
 // provider.
@@ -290,7 +290,7 @@ type ExternalAuthClientProfile struct {
 	Type        *string                             `json:"type,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ExternalAuthClientProfile_STATUS
+// Storage version of v20260901preview.ExternalAuthClientProfile_STATUS
 // External Auth client profile
 // This configures how on-cluster, platform clients should request tokens from the identity
 // provider.
@@ -302,7 +302,7 @@ type ExternalAuthClientProfile_STATUS struct {
 	Type        *string                                    `json:"type,omitempty"`
 }
 
-// Storage version of v1api20260901preview.TokenIssuerProfile
+// Storage version of v20260901preview.TokenIssuerProfile
 // Token issuer profile
 // This configures how the platform interacts with the identity provider and
 // how tokens issued from
@@ -314,7 +314,7 @@ type TokenIssuerProfile struct {
 	Url         *string                `json:"url,omitempty"`
 }
 
-// Storage version of v1api20260901preview.TokenIssuerProfile_STATUS
+// Storage version of v20260901preview.TokenIssuerProfile_STATUS
 // Token issuer profile
 // This configures how the platform interacts with the identity provider and
 // how tokens issued from
@@ -326,7 +326,7 @@ type TokenIssuerProfile_STATUS struct {
 	Url         *string                `json:"url,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ExternalAuthClientComponentProfile
+// Storage version of v20260901preview.ExternalAuthClientComponentProfile
 // External Auth component profile
 // Must have unique namespace/name pairs.
 type ExternalAuthClientComponentProfile struct {
@@ -335,7 +335,7 @@ type ExternalAuthClientComponentProfile struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ExternalAuthClientComponentProfile_STATUS
+// Storage version of v20260901preview.ExternalAuthClientComponentProfile_STATUS
 // External Auth component profile
 // Must have unique namespace/name pairs.
 type ExternalAuthClientComponentProfile_STATUS struct {
@@ -344,7 +344,7 @@ type ExternalAuthClientComponentProfile_STATUS struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.TokenClaimMappingsProfile
+// Storage version of v20260901preview.TokenClaimMappingsProfile
 // External Auth claim mappings profile.
 // At a minimum username or groups must be defined.
 type TokenClaimMappingsProfile struct {
@@ -353,7 +353,7 @@ type TokenClaimMappingsProfile struct {
 	Username    *UsernameClaimProfile  `json:"username,omitempty"`
 }
 
-// Storage version of v1api20260901preview.TokenClaimMappingsProfile_STATUS
+// Storage version of v20260901preview.TokenClaimMappingsProfile_STATUS
 // External Auth claim mappings profile.
 // At a minimum username or groups must be defined.
 type TokenClaimMappingsProfile_STATUS struct {
@@ -362,7 +362,7 @@ type TokenClaimMappingsProfile_STATUS struct {
 	Username    *UsernameClaimProfile_STATUS `json:"username,omitempty"`
 }
 
-// Storage version of v1api20260901preview.TokenClaimValidationRule
+// Storage version of v20260901preview.TokenClaimValidationRule
 // External Auth claim validation rule
 type TokenClaimValidationRule struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -370,7 +370,7 @@ type TokenClaimValidationRule struct {
 	Type          *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1api20260901preview.TokenClaimValidationRule_STATUS
+// Storage version of v20260901preview.TokenClaimValidationRule_STATUS
 // External Auth claim validation rule
 type TokenClaimValidationRule_STATUS struct {
 	PropertyBag   genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
@@ -378,7 +378,7 @@ type TokenClaimValidationRule_STATUS struct {
 	Type          *string                    `json:"type,omitempty"`
 }
 
-// Storage version of v1api20260901preview.GroupClaimProfile
+// Storage version of v20260901preview.GroupClaimProfile
 // External Auth claim profile
 // This configures how the groups of a cluster identity should be constructed
 // from the claims
@@ -394,7 +394,7 @@ type GroupClaimProfile struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.GroupClaimProfile_STATUS
+// Storage version of v20260901preview.GroupClaimProfile_STATUS
 // External Auth claim profile
 // This configures how the groups of a cluster identity should be constructed
 // from the claims
@@ -410,7 +410,7 @@ type GroupClaimProfile_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.TokenRequiredClaim
+// Storage version of v20260901preview.TokenRequiredClaim
 // Token required claim validation rule.
 type TokenRequiredClaim struct {
 	Claim         *string                `json:"claim,omitempty"`
@@ -418,7 +418,7 @@ type TokenRequiredClaim struct {
 	RequiredValue *string                `json:"requiredValue,omitempty"`
 }
 
-// Storage version of v1api20260901preview.TokenRequiredClaim_STATUS
+// Storage version of v20260901preview.TokenRequiredClaim_STATUS
 // Token required claim validation rule.
 type TokenRequiredClaim_STATUS struct {
 	Claim         *string                `json:"claim,omitempty"`
@@ -426,7 +426,7 @@ type TokenRequiredClaim_STATUS struct {
 	RequiredValue *string                `json:"requiredValue,omitempty"`
 }
 
-// Storage version of v1api20260901preview.UsernameClaimProfile
+// Storage version of v20260901preview.UsernameClaimProfile
 // External Auth claim profile
 // This configures how the username of a cluster identity should be constructed
 // from the claims
@@ -438,7 +438,7 @@ type UsernameClaimProfile struct {
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.UsernameClaimProfile_STATUS
+// Storage version of v20260901preview.UsernameClaimProfile_STATUS
 // External Auth claim profile
 // This configures how the username of a cluster identity should be constructed
 // from the claims

@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	v20260901p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview"
-	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/storage"
+	v20260901p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview"
+	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
