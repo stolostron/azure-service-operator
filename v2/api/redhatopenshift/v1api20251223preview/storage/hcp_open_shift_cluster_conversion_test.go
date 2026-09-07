@@ -9,7 +9,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	v20251223s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/storage"
-	v20260901s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/storage"
+	v20260901s "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

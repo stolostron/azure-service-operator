@@ -6,7 +6,7 @@ package v1api20251223preview
 import (
 	"encoding/json"
 	v20251223ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/storage"
-	v20260901ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/storage"
+	v20260901ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"

@@ -4691,14 +4691,14 @@ objectModelConfiguration:
           $referenceType: simple
     2026-09-01-preview:
       HcpOpenShiftClusters_NodePool:
-        $supportedFrom: v2.13.0
+        $supportedFrom: v2.22.0
         $exportAs: HcpOpenShiftClustersNodePool
       HcpOpenShiftClusters_ExternalAuth:
-        $supportedFrom: v2.13.0
+        $supportedFrom: v2.22.0
         $exportAs: HcpOpenShiftClustersExternalAuth
       HcpOpenShiftCluster:
         $exportAs: HcpOpenShiftCluster
-        $supportedFrom: v2.13.0
+        $supportedFrom: v2.22.0
         $azureGeneratedSecrets:
           - AdminCredentials
       # Configure references for complex types

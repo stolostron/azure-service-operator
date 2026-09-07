@@ -6,7 +6,7 @@ package webhook
 import (
 	"context"
 	"fmt"
-	v20260901p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview"
+	v20260901p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -19,7 +19,7 @@ import (
 type HcpOpenShiftClustersNodePool struct {
 }
 
-// +kubebuilder:webhook:path=/mutate-redhatopenshift-azure-com-v1api20260901preview-hcpopenshiftclustersnodepool,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=redhatopenshift.azure.com,resources=hcpopenshiftclustersnodepools,verbs=create;update,versions=v1api20260901preview,name=default.v1api20260901preview.hcpopenshiftclustersnodepools.redhatopenshift.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-redhatopenshift-azure-com-v20260901preview-hcpopenshiftclustersnodepool,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=redhatopenshift.azure.com,resources=hcpopenshiftclustersnodepools,verbs=create;update,versions=v20260901preview,name=default.v20260901preview.hcpopenshiftclustersnodepools.redhatopenshift.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomDefaulter = &HcpOpenShiftClustersNodePool{}
 
@@ -27,7 +27,7 @@ var _ webhook.CustomDefaulter = &HcpOpenShiftClustersNodePool{}
 func (pool *HcpOpenShiftClustersNodePool) Default(ctx context.Context, obj runtime.Object) error {
 	resource, ok := obj.(*v20260901p.HcpOpenShiftClustersNodePool)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/HcpOpenShiftClustersNodePool, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/HcpOpenShiftClustersNodePool, but got %T", obj)
 	}
 	err := pool.defaultImpl(ctx, resource)
 	if err != nil {
@@ -60,7 +60,7 @@ func (pool *HcpOpenShiftClustersNodePool) defaultImpl(ctx context.Context, obj *
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-redhatopenshift-azure-com-v1api20260901preview-hcpopenshiftclustersnodepool,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=redhatopenshift.azure.com,resources=hcpopenshiftclustersnodepools,verbs=create;update,versions=v1api20260901preview,name=validate.v1api20260901preview.hcpopenshiftclustersnodepools.redhatopenshift.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-redhatopenshift-azure-com-v20260901preview-hcpopenshiftclustersnodepool,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=redhatopenshift.azure.com,resources=hcpopenshiftclustersnodepools,verbs=create;update,versions=v20260901preview,name=validate.v20260901preview.hcpopenshiftclustersnodepools.redhatopenshift.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomValidator = &HcpOpenShiftClustersNodePool{}
 
@@ -68,7 +68,7 @@ var _ webhook.CustomValidator = &HcpOpenShiftClustersNodePool{}
 func (pool *HcpOpenShiftClustersNodePool) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20260901p.HcpOpenShiftClustersNodePool)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/HcpOpenShiftClustersNodePool, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/HcpOpenShiftClustersNodePool, but got %T", resource)
 	}
 	validations := pool.createValidations()
 	var temp any = pool
@@ -82,7 +82,7 @@ func (pool *HcpOpenShiftClustersNodePool) ValidateCreate(ctx context.Context, re
 func (pool *HcpOpenShiftClustersNodePool) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20260901p.HcpOpenShiftClustersNodePool)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/HcpOpenShiftClustersNodePool, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/HcpOpenShiftClustersNodePool, but got %T", resource)
 	}
 	validations := pool.deleteValidations()
 	var temp any = pool
@@ -96,11 +96,11 @@ func (pool *HcpOpenShiftClustersNodePool) ValidateDelete(ctx context.Context, re
 func (pool *HcpOpenShiftClustersNodePool) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
 	newObj, ok := newResource.(*v20260901p.HcpOpenShiftClustersNodePool)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/HcpOpenShiftClustersNodePool, but got %T", newResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/HcpOpenShiftClustersNodePool, but got %T", newResource)
 	}
 	oldObj, ok := oldResource.(*v20260901p.HcpOpenShiftClustersNodePool)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/HcpOpenShiftClustersNodePool, but got %T", oldResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/HcpOpenShiftClustersNodePool, but got %T", oldResource)
 	}
 	validations := pool.updateValidations()
 	var temp any = pool
