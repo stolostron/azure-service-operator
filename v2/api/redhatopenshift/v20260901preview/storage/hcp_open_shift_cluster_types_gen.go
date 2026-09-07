@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20260901preview.HcpOpenShiftCluster
+// Storage version of v20260901preview.HcpOpenShiftCluster
 // Generator information:
 // - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpopenshiftclusters/preview/2026-09-01-preview/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}
@@ -156,7 +156,7 @@ func (cluster *HcpOpenShiftCluster) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20260901preview.HcpOpenShiftCluster
+// Storage version of v20260901preview.HcpOpenShiftCluster
 // Generator information:
 // - Generated from: /redhatopenshift/resource-manager/Microsoft.RedHatOpenShift/hcpopenshiftclusters/preview/2026-09-01-preview/openapi.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/{hcpOpenShiftClusterName}
@@ -166,13 +166,13 @@ type HcpOpenShiftClusterList struct {
 	Items           []HcpOpenShiftCluster `json:"items"`
 }
 
-// Storage version of v1api20260901preview.APIVersion
+// Storage version of v20260901preview.APIVersion
 // +kubebuilder:validation:Enum={"2026-09-01-preview"}
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2026-09-01-preview")
 
-// Storage version of v1api20260901preview.HcpOpenShiftCluster_Spec
+// Storage version of v20260901preview.HcpOpenShiftCluster_Spec
 type HcpOpenShiftCluster_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -212,7 +212,7 @@ func (cluster *HcpOpenShiftCluster_Spec) ConvertSpecTo(destination genruntime.Co
 	return destination.ConvertSpecFrom(cluster)
 }
 
-// Storage version of v1api20260901preview.HcpOpenShiftCluster_STATUS
+// Storage version of v20260901preview.HcpOpenShiftCluster_STATUS
 // HCP cluster resource
 type HcpOpenShiftCluster_STATUS struct {
 	Conditions  []conditions.Condition                `json:"conditions,omitempty"`
@@ -247,7 +247,7 @@ func (cluster *HcpOpenShiftCluster_STATUS) ConvertStatusTo(destination genruntim
 	return destination.ConvertStatusFrom(cluster)
 }
 
-// Storage version of v1api20260901preview.HcpOpenShiftClusterOperatorSpec
+// Storage version of v20260901preview.HcpOpenShiftClusterOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type HcpOpenShiftClusterOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression       `json:"configMapExpressions,omitempty"`
@@ -256,7 +256,7 @@ type HcpOpenShiftClusterOperatorSpec struct {
 	Secrets              *HcpOpenShiftClusterOperatorSecrets `json:"secrets,omitempty"`
 }
 
-// Storage version of v1api20260901preview.HcpOpenShiftClusterProperties
+// Storage version of v20260901preview.HcpOpenShiftClusterProperties
 // HCP cluster properties
 type HcpOpenShiftClusterProperties struct {
 	Api                     *ApiProfile                  `json:"api,omitempty"`
@@ -274,7 +274,7 @@ type HcpOpenShiftClusterProperties struct {
 	Version                 *VersionProfile              `json:"version,omitempty"`
 }
 
-// Storage version of v1api20260901preview.HcpOpenShiftClusterProperties_STATUS
+// Storage version of v20260901preview.HcpOpenShiftClusterProperties_STATUS
 // HCP cluster properties
 type HcpOpenShiftClusterProperties_STATUS struct {
 	Api                     *ApiProfile_STATUS                  `json:"api,omitempty"`
@@ -295,7 +295,7 @@ type HcpOpenShiftClusterProperties_STATUS struct {
 	Version                 *VersionProfile_STATUS              `json:"version,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ManagedServiceIdentity
+// Storage version of v20260901preview.ManagedServiceIdentity
 // Managed service identity (system assigned and/or user assigned identities)
 type ManagedServiceIdentity struct {
 	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
@@ -303,7 +303,7 @@ type ManagedServiceIdentity struct {
 	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ManagedServiceIdentity_STATUS
+// Storage version of v20260901preview.ManagedServiceIdentity_STATUS
 // Managed service identity (system assigned and/or user assigned identities)
 type ManagedServiceIdentity_STATUS struct {
 	PrincipalId            *string                                `json:"principalId,omitempty"`
@@ -313,7 +313,7 @@ type ManagedServiceIdentity_STATUS struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1api20260901preview.SystemData_STATUS
+// Storage version of v20260901preview.SystemData_STATUS
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
@@ -325,7 +325,7 @@ type SystemData_STATUS struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ApiProfile
+// Storage version of v20260901preview.ApiProfile
 // Information about the API of a cluster.
 type ApiProfile struct {
 	AuthorizedCidrs []string               `json:"authorizedCidrs,omitempty"`
@@ -333,7 +333,7 @@ type ApiProfile struct {
 	Visibility      *string                `json:"visibility,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ApiProfile_STATUS
+// Storage version of v20260901preview.ApiProfile_STATUS
 // Information about the API of a cluster.
 type ApiProfile_STATUS struct {
 	AuthorizedCidrs []string               `json:"authorizedCidrs,omitempty"`
@@ -342,7 +342,7 @@ type ApiProfile_STATUS struct {
 	Visibility      *string                `json:"visibility,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ClusterAutoscalingProfile
+// Storage version of v20260901preview.ClusterAutoscalingProfile
 // ClusterAutoscaling specifies auto-scaling behavior that
 // applies to all NodePools associated with a control plane.
 type ClusterAutoscalingProfile struct {
@@ -353,7 +353,7 @@ type ClusterAutoscalingProfile struct {
 	PropertyBag                 genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ClusterAutoscalingProfile_STATUS
+// Storage version of v20260901preview.ClusterAutoscalingProfile_STATUS
 // ClusterAutoscaling specifies auto-scaling behavior that
 // applies to all NodePools associated with a control plane.
 type ClusterAutoscalingProfile_STATUS struct {
@@ -364,35 +364,35 @@ type ClusterAutoscalingProfile_STATUS struct {
 	PropertyBag                 genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ClusterImageRegistryProfile
+// Storage version of v20260901preview.ClusterImageRegistryProfile
 // OpenShift cluster image registry
 type ClusterImageRegistryProfile struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	State       *string                `json:"state,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ClusterImageRegistryProfile_STATUS
+// Storage version of v20260901preview.ClusterImageRegistryProfile_STATUS
 // OpenShift cluster image registry
 type ClusterImageRegistryProfile_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	State       *string                `json:"state,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ConsoleProfile_STATUS
+// Storage version of v20260901preview.ConsoleProfile_STATUS
 // Configuration of the cluster web console
 type ConsoleProfile_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Url         *string                `json:"url,omitempty"`
 }
 
-// Storage version of v1api20260901preview.DnsProfile
+// Storage version of v20260901preview.DnsProfile
 // DNS contains the DNS settings of the cluster
 type DnsProfile struct {
 	BaseDomainPrefix *string                `json:"baseDomainPrefix,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.DnsProfile_STATUS
+// Storage version of v20260901preview.DnsProfile_STATUS
 // DNS contains the DNS settings of the cluster
 type DnsProfile_STATUS struct {
 	BaseDomain       *string                `json:"baseDomain,omitempty"`
@@ -400,27 +400,27 @@ type DnsProfile_STATUS struct {
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.EtcdProfile
+// Storage version of v20260901preview.EtcdProfile
 // The ETCD settings and configuration options.
 type EtcdProfile struct {
 	DataEncryption *EtcdDataEncryptionProfile `json:"dataEncryption,omitempty"`
 	PropertyBag    genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.EtcdProfile_STATUS
+// Storage version of v20260901preview.EtcdProfile_STATUS
 // The ETCD settings and configuration options.
 type EtcdProfile_STATUS struct {
 	DataEncryption *EtcdDataEncryptionProfile_STATUS `json:"dataEncryption,omitempty"`
 	PropertyBag    genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.HcpOpenShiftClusterOperatorSecrets
+// Storage version of v20260901preview.HcpOpenShiftClusterOperatorSecrets
 type HcpOpenShiftClusterOperatorSecrets struct {
 	AdminCredentials *genruntime.SecretDestination `json:"adminCredentials,omitempty"`
 	PropertyBag      genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ImageDigestMirror
+// Storage version of v20260901preview.ImageDigestMirror
 // ImageDigestMirror specifies a set of mirror registries to redirect image
 // pulls targeting the specified source registries.
 type ImageDigestMirror struct {
@@ -429,7 +429,7 @@ type ImageDigestMirror struct {
 	Source      *string                `json:"source,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ImageDigestMirror_STATUS
+// Storage version of v20260901preview.ImageDigestMirror_STATUS
 // ImageDigestMirror specifies a set of mirror registries to redirect image
 // pulls targeting the specified source registries.
 type ImageDigestMirror_STATUS struct {
@@ -438,21 +438,21 @@ type ImageDigestMirror_STATUS struct {
 	Source      *string                `json:"source,omitempty"`
 }
 
-// Storage version of v1api20260901preview.IngressProfile
+// Storage version of v20260901preview.IngressProfile
 // Information about the Ingress of a cluster.
 type IngressProfile struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1api20260901preview.IngressProfile_STATUS
+// Storage version of v20260901preview.IngressProfile_STATUS
 // Information about the Ingress of a cluster.
 type IngressProfile_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1api20260901preview.NetworkProfile
+// Storage version of v20260901preview.NetworkProfile
 // OpenShift networking configuration
 type NetworkProfile struct {
 	HostPrefix  *int                   `json:"hostPrefix,omitempty"`
@@ -463,7 +463,7 @@ type NetworkProfile struct {
 	ServiceCidr *string                `json:"serviceCidr,omitempty"`
 }
 
-// Storage version of v1api20260901preview.NetworkProfile_STATUS
+// Storage version of v20260901preview.NetworkProfile_STATUS
 // OpenShift networking configuration
 type NetworkProfile_STATUS struct {
 	HostPrefix  *int                   `json:"hostPrefix,omitempty"`
@@ -474,7 +474,7 @@ type NetworkProfile_STATUS struct {
 	ServiceCidr *string                `json:"serviceCidr,omitempty"`
 }
 
-// Storage version of v1api20260901preview.PlatformProfile
+// Storage version of v20260901preview.PlatformProfile
 // Azure specific configuration
 type PlatformProfile struct {
 	ManagedResourceGroup *string `json:"managedResourceGroup,omitempty"`
@@ -500,7 +500,7 @@ type PlatformProfile struct {
 	VnetIntegrationSubnetReference *genruntime.ResourceReference `armReference:"VnetIntegrationSubnetId" json:"vnetIntegrationSubnetReference,omitempty"`
 }
 
-// Storage version of v1api20260901preview.PlatformProfile_STATUS
+// Storage version of v20260901preview.PlatformProfile_STATUS
 // Azure specific configuration
 type PlatformProfile_STATUS struct {
 	IssuerUrl               *string                                `json:"issuerUrl,omitempty"`
@@ -513,14 +513,14 @@ type PlatformProfile_STATUS struct {
 	VnetIntegrationSubnetId *string                                `json:"vnetIntegrationSubnetId,omitempty"`
 }
 
-// Storage version of v1api20260901preview.ResourceStatus_STATUS
+// Storage version of v20260901preview.ResourceStatus_STATUS
 // ResourceStatus represents the observed status of the resource.
 type ResourceStatus_STATUS struct {
 	Conditions  []Condition_STATUS     `json:"conditions,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.UserAssignedIdentity_STATUS
+// Storage version of v20260901preview.UserAssignedIdentity_STATUS
 // User assigned identity properties
 type UserAssignedIdentity_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
@@ -528,14 +528,14 @@ type UserAssignedIdentity_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.UserAssignedIdentityDetails
+// Storage version of v20260901preview.UserAssignedIdentityDetails
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
 	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
-// Storage version of v1api20260901preview.VersionProfile
+// Storage version of v20260901preview.VersionProfile
 // Versions represents an OpenShift version.
 type VersionProfile struct {
 	ChannelGroup *string                `json:"channelGroup,omitempty"`
@@ -543,7 +543,7 @@ type VersionProfile struct {
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.VersionProfile_STATUS
+// Storage version of v20260901preview.VersionProfile_STATUS
 // Versions represents an OpenShift version.
 type VersionProfile_STATUS struct {
 	ChannelGroup *string                `json:"channelGroup,omitempty"`
@@ -551,7 +551,7 @@ type VersionProfile_STATUS struct {
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.Condition_STATUS
+// Storage version of v20260901preview.Condition_STATUS
 // Condition represents an observation of a resource's state.
 type Condition_STATUS struct {
 	LastTransitionTime *string                `json:"lastTransitionTime,omitempty"`
@@ -562,7 +562,7 @@ type Condition_STATUS struct {
 	Type               *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1api20260901preview.EtcdDataEncryptionProfile
+// Storage version of v20260901preview.EtcdDataEncryptionProfile
 // The ETCD data encryption settings.
 type EtcdDataEncryptionProfile struct {
 	CustomerManaged   *CustomerManagedEncryptionProfile `json:"customerManaged,omitempty"`
@@ -570,7 +570,7 @@ type EtcdDataEncryptionProfile struct {
 	PropertyBag       genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.EtcdDataEncryptionProfile_STATUS
+// Storage version of v20260901preview.EtcdDataEncryptionProfile_STATUS
 // The ETCD data encryption settings.
 type EtcdDataEncryptionProfile_STATUS struct {
 	CustomerManaged   *CustomerManagedEncryptionProfile_STATUS `json:"customerManaged,omitempty"`
@@ -578,21 +578,21 @@ type EtcdDataEncryptionProfile_STATUS struct {
 	PropertyBag       genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.OperatorsAuthenticationProfile
+// Storage version of v20260901preview.OperatorsAuthenticationProfile
 // The configuration that the operators of the cluster have to authenticate to Azure.
 type OperatorsAuthenticationProfile struct {
 	PropertyBag            genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 	UserAssignedIdentities *UserAssignedIdentitiesProfile `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1api20260901preview.OperatorsAuthenticationProfile_STATUS
+// Storage version of v20260901preview.OperatorsAuthenticationProfile_STATUS
 // The configuration that the operators of the cluster have to authenticate to Azure.
 type OperatorsAuthenticationProfile_STATUS struct {
 	PropertyBag            genruntime.PropertyBag                `json:"$propertyBag,omitempty"`
 	UserAssignedIdentities *UserAssignedIdentitiesProfile_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1api20260901preview.CustomerManagedEncryptionProfile
+// Storage version of v20260901preview.CustomerManagedEncryptionProfile
 // Customer managed encryption key profile.
 type CustomerManagedEncryptionProfile struct {
 	EncryptionType *string                `json:"encryptionType,omitempty"`
@@ -600,7 +600,7 @@ type CustomerManagedEncryptionProfile struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.CustomerManagedEncryptionProfile_STATUS
+// Storage version of v20260901preview.CustomerManagedEncryptionProfile_STATUS
 // Customer managed encryption key profile.
 type CustomerManagedEncryptionProfile_STATUS struct {
 	EncryptionType *string                      `json:"encryptionType,omitempty"`
@@ -608,7 +608,7 @@ type CustomerManagedEncryptionProfile_STATUS struct {
 	PropertyBag    genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20260901preview.UserAssignedIdentitiesProfile
+// Storage version of v20260901preview.UserAssignedIdentitiesProfile
 // Represents the information related to Azure User-Assigned managed identities needed
 // to perform Operators authentication
 // based on Azure User-Assigned Managed Identities
@@ -623,7 +623,7 @@ type UserAssignedIdentitiesProfile struct {
 	ServiceManagedIdentityReference *genruntime.ResourceReference `armReference:"ServiceManagedIdentity" json:"serviceManagedIdentityReference,omitempty"`
 }
 
-// Storage version of v1api20260901preview.UserAssignedIdentitiesProfile_STATUS
+// Storage version of v20260901preview.UserAssignedIdentitiesProfile_STATUS
 // Represents the information related to Azure User-Assigned managed identities needed
 // to perform Operators authentication
 // based on Azure User-Assigned Managed Identities
@@ -634,7 +634,7 @@ type UserAssignedIdentitiesProfile_STATUS struct {
 	ServiceManagedIdentity *string                `json:"serviceManagedIdentity,omitempty"`
 }
 
-// Storage version of v1api20260901preview.KmsEncryptionProfile
+// Storage version of v20260901preview.KmsEncryptionProfile
 // Configure etcd encryption Key Management Service (KMS) key.
 // Your Microsoft Entra application used to create the cluster
 // must be authorized to access this keyvault,
@@ -647,7 +647,7 @@ type KmsEncryptionProfile struct {
 	Visibility  *string                `json:"visibility,omitempty"`
 }
 
-// Storage version of v1api20260901preview.KmsEncryptionProfile_STATUS
+// Storage version of v20260901preview.KmsEncryptionProfile_STATUS
 // Configure etcd encryption Key Management Service (KMS) key.
 // Your Microsoft Entra application used to create the cluster
 // must be authorized to access this keyvault,
@@ -660,7 +660,7 @@ type KmsEncryptionProfile_STATUS struct {
 	Visibility  *string                `json:"visibility,omitempty"`
 }
 
-// Storage version of v1api20260901preview.KmsKey
+// Storage version of v20260901preview.KmsKey
 // A representation of a KeyVault Secret.
 type KmsKey struct {
 	Name        *string                `json:"name,omitempty"`
@@ -668,7 +668,7 @@ type KmsKey struct {
 	Version     *string                `json:"version,omitempty"`
 }
 
-// Storage version of v1api20260901preview.KmsKey_STATUS
+// Storage version of v20260901preview.KmsKey_STATUS
 // A representation of a KeyVault Secret.
 type KmsKey_STATUS struct {
 	Name        *string                `json:"name,omitempty"`

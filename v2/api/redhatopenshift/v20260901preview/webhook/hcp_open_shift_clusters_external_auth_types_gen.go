@@ -6,7 +6,7 @@ package webhook
 import (
 	"context"
 	"fmt"
-	v20260901p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview"
+	v20260901p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -19,7 +19,7 @@ import (
 type HcpOpenShiftClustersExternalAuth struct {
 }
 
-// +kubebuilder:webhook:path=/mutate-redhatopenshift-azure-com-v1api20260901preview-hcpopenshiftclustersexternalauth,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=redhatopenshift.azure.com,resources=hcpopenshiftclustersexternalauths,verbs=create;update,versions=v1api20260901preview,name=default.v1api20260901preview.hcpopenshiftclustersexternalauths.redhatopenshift.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-redhatopenshift-azure-com-v20260901preview-hcpopenshiftclustersexternalauth,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=redhatopenshift.azure.com,resources=hcpopenshiftclustersexternalauths,verbs=create;update,versions=v20260901preview,name=default.v20260901preview.hcpopenshiftclustersexternalauths.redhatopenshift.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomDefaulter = &HcpOpenShiftClustersExternalAuth{}
 
@@ -27,7 +27,7 @@ var _ webhook.CustomDefaulter = &HcpOpenShiftClustersExternalAuth{}
 func (auth *HcpOpenShiftClustersExternalAuth) Default(ctx context.Context, obj runtime.Object) error {
 	resource, ok := obj.(*v20260901p.HcpOpenShiftClustersExternalAuth)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/HcpOpenShiftClustersExternalAuth, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/HcpOpenShiftClustersExternalAuth, but got %T", obj)
 	}
 	err := auth.defaultImpl(ctx, resource)
 	if err != nil {
@@ -60,7 +60,7 @@ func (auth *HcpOpenShiftClustersExternalAuth) defaultImpl(ctx context.Context, o
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-redhatopenshift-azure-com-v1api20260901preview-hcpopenshiftclustersexternalauth,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=redhatopenshift.azure.com,resources=hcpopenshiftclustersexternalauths,verbs=create;update,versions=v1api20260901preview,name=validate.v1api20260901preview.hcpopenshiftclustersexternalauths.redhatopenshift.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-redhatopenshift-azure-com-v20260901preview-hcpopenshiftclustersexternalauth,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=redhatopenshift.azure.com,resources=hcpopenshiftclustersexternalauths,verbs=create;update,versions=v20260901preview,name=validate.v20260901preview.hcpopenshiftclustersexternalauths.redhatopenshift.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomValidator = &HcpOpenShiftClustersExternalAuth{}
 
@@ -68,7 +68,7 @@ var _ webhook.CustomValidator = &HcpOpenShiftClustersExternalAuth{}
 func (auth *HcpOpenShiftClustersExternalAuth) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20260901p.HcpOpenShiftClustersExternalAuth)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/HcpOpenShiftClustersExternalAuth, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/HcpOpenShiftClustersExternalAuth, but got %T", resource)
 	}
 	validations := auth.createValidations()
 	var temp any = auth
@@ -82,7 +82,7 @@ func (auth *HcpOpenShiftClustersExternalAuth) ValidateCreate(ctx context.Context
 func (auth *HcpOpenShiftClustersExternalAuth) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20260901p.HcpOpenShiftClustersExternalAuth)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/HcpOpenShiftClustersExternalAuth, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/HcpOpenShiftClustersExternalAuth, but got %T", resource)
 	}
 	validations := auth.deleteValidations()
 	var temp any = auth
@@ -96,11 +96,11 @@ func (auth *HcpOpenShiftClustersExternalAuth) ValidateDelete(ctx context.Context
 func (auth *HcpOpenShiftClustersExternalAuth) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
 	newObj, ok := newResource.(*v20260901p.HcpOpenShiftClustersExternalAuth)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/HcpOpenShiftClustersExternalAuth, but got %T", newResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/HcpOpenShiftClustersExternalAuth, but got %T", newResource)
 	}
 	oldObj, ok := oldResource.(*v20260901p.HcpOpenShiftClustersExternalAuth)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20260901preview/HcpOpenShiftClustersExternalAuth, but got %T", oldResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview/HcpOpenShiftClustersExternalAuth, but got %T", oldResource)
 	}
 	validations := auth.updateValidations()
 	var temp any = auth
