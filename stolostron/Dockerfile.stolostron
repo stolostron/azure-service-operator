@@ -32,7 +32,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
     -o ./aso-controller ./cmd/controller/
 
 # Copy the aso-controller into a thin image
-FROM registry.access.redhat.com/ubi9/ubi:9.8-1788939089@sha256:206b65b8ee0f04b992818c9a51b29081b14974630d4850bc358097d0c44ea156
+FROM registry.access.redhat.com/ubi9/ubi:9.8-1789646010@sha256:9295c5c688f487fa5cf27a734fa55ecd57aeb7dc0904ba537da4f42dfa1d0acb
 COPY --from=builder /workspace/aso-controller /aso-controller
 COPY stolostron/crds ./crds
 USER 65532:65532
