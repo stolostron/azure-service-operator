@@ -66,7 +66,8 @@ func (extension *ProductExtension) Delete(
 		"*",
 		&armapimanagement.ProductClientDeleteOptions{
 			DeleteSubscriptions: to.Ptr(true),
-		})
+		},
+	)
 	if err != nil {
 		return ctrl.Result{}, eris.Wrapf(err, "failed to delete product %q", productName)
 	}
