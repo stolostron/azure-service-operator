@@ -24,10 +24,18 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
     --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.local/share/golang \
     CGO_ENABLED=1 GOOS=linux GOARCH=${ARCH} go build -o ./aso-controller ./cmd/controller/
+RUN /usr/bin/strip ./aso-controller
+
+# Get ca-certificates from ubi-minimal into ubi-micro
+FROM registry.access.redhat.com/ubi9/ubi-minimal:latest AS ubi-minimal
 
 # Copy the aso-controller into a thin image
-FROM registry.access.redhat.com/ubi9/ubi:9.8-1789646010
+FROM registry.access.redhat.com/ubi9/ubi-micro:9.8-1789345812
 COPY --from=builder /workspace/aso-controller /aso-controller
 COPY stolostron/crds ./crds
+# Copy /etc/pki into the final image
+COPY --from=ubi-minimal /etc/pki/ca-trust /etc/pki/ca-trust
+COPY --from=ubi-minimal /etc/pki/java /etc/pki/java
+COPY --from=ubi-minimal /etc/pki/tls /etc/pki/tls
 USER 65532:65532
 ENTRYPOINT ["/aso-controller"]
