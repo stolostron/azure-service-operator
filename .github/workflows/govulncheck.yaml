@@ -1,0 +1,74 @@
+name: Go vulnerability scan
+
+on:
+  pull_request:
+    branches:
+      - main
+      - backplane-2.11
+      - backplane-2.17
+      - 'release-*'
+  schedule:
+    # Scan every maintained branch daily; scheduled workflows otherwise use
+    # only the default branch.
+    - cron: "17 9 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  govulncheck:
+    if: github.event_name == 'schedule' || matrix.branch == 'main'
+    name: govulncheck (${{ github.event_name == 'schedule' && matrix.branch || github.base_ref || matrix.branch }})
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        # Keep this list aligned with docs/branch-sync-policy.md. The 5.x
+        # backplane branches are scanned here but receive updates by fast-forward
+        # from their source branches rather than independent PRs.
+        branch:
+          - main
+          - backplane-2.11
+          - backplane-2.17
+          - backplane-5.0
+          - backplane-5.1
+          - backplane-5.2
+          - release-2.13
+          - release-2.18
+          - release-2.19
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out code
+        uses: actions/checkout@900f2210b1d28bbbd0bd22d17926b9e224e8f231 # v6.0.2
+        with:
+          ref: ${{ github.event_name == 'schedule' && matrix.branch || github.sha }}
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
+        with:
+          go-version-file: v2/go.mod
+
+      - name: Install govulncheck
+        run: go install golang.org/x/vuln/cmd/govulncheck@v1.8.0
+
+      - name: Scan Go modules
+        shell: bash
+        run: |
+          set -uo pipefail
+          status=0
+          while IFS= read -r -d '' go_mod; do
+            module_dir="${go_mod%/go.mod}"
+            if ! find "$module_dir" -name '*.go' -not -path '*/vendor/*' -print -quit | grep -q .; then
+              continue
+            fi
+
+            echo "::group::govulncheck ${module_dir#./}"
+            if ! (cd "$module_dir" && govulncheck ./...); then
+              status=1
+            fi
+            echo "::endgroup::"
+          done < <(find . -name go.mod -not -path './.git/*' -not -path '*/vendor/*' -print0)
+          exit "$status"
