@@ -17,6 +17,12 @@ metadata:
   name: azure-service-operator-mce-52-on-pull-request
   namespace: crt-redhat-acm-tenant
 spec:
+  timeouts:
+    # See https://tekton.dev/docs/pipelines/pipelineruns/#configuring-a-failure-timeout
+    pipeline: 5h
+  taskRunSpecs:
+  - pipelineTaskName: build-images
+    timeout: 4h
   params:
   - name: git-url
     value: '{{source_url}}'

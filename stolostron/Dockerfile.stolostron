@@ -13,6 +13,7 @@ ENV GOFLAGS="-buildvcs=false"
 
 ARG MCE_VERSION=dev
 ARG GIT_COMMIT=unknown
+ARG GO_BUILD_DEBUG=false
 
 COPY v2/ ./
 
@@ -27,9 +28,15 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
     --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.local/share/golang \
     SHORT_COMMIT=$(echo "${GIT_COMMIT}" | cut -c1-7) && \
-    CGO_ENABLED=1 GOOS=linux GOARCH=${ARCH} \
-    go build -ldflags "-X 'github.com/Azure/azure-service-operator/v2/internal/version.BuildVersion=${MCE_VERSION}-${SHORT_COMMIT}'" \
-    -o ./aso-controller ./cmd/controller/
+    if [ "${GO_BUILD_DEBUG}" = "true" ]; then \
+      CGO_ENABLED=1 GOOS=linux GOARCH=${ARCH} \
+      go build -v -ldflags "-X 'github.com/Azure/azure-service-operator/v2/internal/version.BuildVersion=${MCE_VERSION}-${SHORT_COMMIT}'" \
+      -o ./aso-controller ./cmd/controller/; \
+    else \
+      CGO_ENABLED=1 GOOS=linux GOARCH=${ARCH} \
+      go build -ldflags "-X 'github.com/Azure/azure-service-operator/v2/internal/version.BuildVersion=${MCE_VERSION}-${SHORT_COMMIT}'" \
+      -o ./aso-controller ./cmd/controller/; \
+    fi
 
 # Copy the aso-controller into a thin image
 FROM registry.redhat.io/ubi9/ubi-minimal-pqc:9.8-1790215907
