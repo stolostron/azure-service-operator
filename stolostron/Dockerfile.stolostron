@@ -13,6 +13,7 @@ ENV GOFLAGS="-buildvcs=false"
 
 ARG MCE_VERSION=dev
 ARG GIT_COMMIT=unknown
+ARG GO_BUILD_DEBUG=false
 
 COPY v2/ ./
 
@@ -27,9 +28,23 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
     --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.local/share/golang \
     SHORT_COMMIT=$(echo "${GIT_COMMIT}" | cut -c1-7) && \
-    CGO_ENABLED=1 GOOS=linux GOARCH=${ARCH} \
-    go build -ldflags "-X 'github.com/Azure/azure-service-operator/v2/internal/version.BuildVersion=${MCE_VERSION}-${SHORT_COMMIT}'" \
-    -o ./aso-controller ./cmd/controller/
+    if [ "${GO_BUILD_DEBUG}" = "true" ]; then \
+      echo "[go-build-diag] nproc: $(nproc)"; \
+      echo "[go-build-diag] GOMAXPROCS env: ${GOMAXPROCS:-unset (defaults to nproc/cgroup-aware NumCPU)}"; \
+      echo "[go-build-diag] /proc/meminfo:"; grep -E '^(MemTotal|MemAvailable|MemFree):' /proc/meminfo 2>/dev/null || echo "  n/a"; \
+      echo "[go-build-diag] cgroup v2 memory.max: $(cat /sys/fs/cgroup/memory.max 2>/dev/null || echo n/a)"; \
+      echo "[go-build-diag] cgroup v2 cpu.max: $(cat /sys/fs/cgroup/cpu.max 2>/dev/null || echo n/a)"; \
+      echo "[go-build-diag] cgroup v1 memory.limit_in_bytes: $(cat /sys/fs/cgroup/memory/memory.limit_in_bytes 2>/dev/null || echo n/a)"; \
+      echo "[go-build-diag] cgroup v1 cpu.cfs_quota_us: $(cat /sys/fs/cgroup/cpu/cpu.cfs_quota_us 2>/dev/null || echo n/a)"; \
+      echo "[go-build-diag] cgroup v1 cpu.cfs_period_us: $(cat /sys/fs/cgroup/cpu/cpu.cfs_period_us 2>/dev/null || echo n/a)"; \
+      CGO_ENABLED=1 GOOS=linux GOARCH=${ARCH} \
+      go build -v -ldflags "-X 'github.com/Azure/azure-service-operator/v2/internal/version.BuildVersion=${MCE_VERSION}-${SHORT_COMMIT}'" \
+      -o ./aso-controller ./cmd/controller/; \
+    else \
+      CGO_ENABLED=1 GOOS=linux GOARCH=${ARCH} \
+      go build -ldflags "-X 'github.com/Azure/azure-service-operator/v2/internal/version.BuildVersion=${MCE_VERSION}-${SHORT_COMMIT}'" \
+      -o ./aso-controller ./cmd/controller/; \
+    fi
 
 # Copy the aso-controller into a thin image
 FROM registry.redhat.io/ubi9/ubi-minimal-pqc:9.8-1790215907
