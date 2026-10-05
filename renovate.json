@@ -21,6 +21,13 @@
   },
   "packageRules": [
     {
+      "description": "Group Go module upgrades into one PR per target branch",
+      "matchManagers": [
+        "gomod"
+      ],
+      "groupName": "Go module updates"
+    },
+    {
       "matchManagers": [
         "dockerfile"
       ],
