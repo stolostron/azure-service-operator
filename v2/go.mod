@@ -1,6 +1,6 @@
 module github.com/Azure/azure-service-operator/v2
 
-go 1.25.7
+go 1.26.0
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.21.1
@@ -46,7 +46,7 @@ require (
 	github.com/samber/lo v1.53.0
 	github.com/spf13/cobra v1.10.2
 	go.uber.org/zap v1.27.1
-	golang.org/x/crypto v0.55.0
+	golang.org/x/crypto v0.56.0
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394
 	golang.org/x/sync v0.22.0
 	golang.org/x/text v0.41.0
