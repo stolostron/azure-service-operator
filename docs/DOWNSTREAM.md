@@ -34,6 +34,14 @@ upstream sync workflow, and the Konflux build configuration.
 | Konflux pipelines | [`.tekton/`](../.tekton) | Tekton `PipelineRun` definitions for MCE releases, split into `-pull-request` and `-push` variants. |
 | Branch policy | [`docs/branch-sync-policy.md`](branch-sync-policy.md) | Authoritative branch-to-source mapping and protection rules. |
 
+## Dependency security updates
+
+Renovate is configured in [`renovate.json`](../renovate.json) to open grouped
+pull requests only for detected dependency vulnerabilities with an available
+fix. Routine version and digest updates are disabled. Keep GitHub's dependency
+graph and Dependabot alerts enabled. The Renovate workflow is manually
+dispatched, so vulnerability alerts are processed when that workflow runs.
+
 ## Branch model
 
 The authoritative source is [`docs/branch-sync-policy.md`](branch-sync-policy.md).

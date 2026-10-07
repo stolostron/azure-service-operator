@@ -1,5 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "security:only-security-updates"
+  ],
   "enabledManagers": [
     "gomod",
     "tekton",
@@ -14,19 +17,9 @@
   "tekton": {
     "includePaths": [
       ".tekton/**"
-    ],
-    "schedule": [
-      "at any time"
     ]
   },
   "packageRules": [
-    {
-      "description": "Group Go module upgrades into one PR per target branch",
-      "matchManagers": [
-        "gomod"
-      ],
-      "groupName": "Go module updates"
-    },
     {
       "matchManagers": [
         "dockerfile"
@@ -56,14 +49,27 @@
       "addLabels": [
         "ok-to-test"
       ]
+    },
+    {
+      "description": "Disable regular version and digest updates; Renovate security alerts bypass this rule.",
+      "matchPackageNames": [
+        "*"
+      ],
+      "enabled": false
     }
   ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "groupName": "Security fixes",
+    "labels": [
+      "security",
+      "ok-to-test"
+    ],
+    "prConcurrentLimit": 4
+  },
   "rebaseWhen": "behind-base-branch",
   "recreateWhen": "never",
   "addLabels": [
     "ok-to-test"
-  ],
-  "schedule": [
-    "on monday"
   ]
 }
