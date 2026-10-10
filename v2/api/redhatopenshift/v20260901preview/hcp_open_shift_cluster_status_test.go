@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 package v20260901preview
 
 import (
@@ -10,6 +13,7 @@ import (
 )
 
 func TestHcpOpenShiftClusterPropertiesStatus_PopulateFromARM_PreservesConditions(t *testing.T) {
+	t.Parallel()
 	g := NewWithT(t)
 
 	typeValue := arm.ConditionType_STATUS("RequirementsValid")
