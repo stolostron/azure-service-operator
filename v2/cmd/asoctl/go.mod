@@ -15,7 +15,7 @@ require (
 	github.com/rs/zerolog v1.35.1
 	github.com/sourcegraph/conc v0.3.0
 	github.com/spf13/cobra v1.10.2
-	github.com/vbauerster/mpb/v8 v8.16.1
+	github.com/vbauerster/mpb/v8 v8.16.2
 	golang.org/x/exp v0.0.0-20260410095643-746e56fc9e2f
 	k8s.io/api v0.37.0
 	k8s.io/apiextensions-apiserver v0.37.0
@@ -105,7 +105,7 @@ require (
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/mattn/go-runewidth v0.0.28 // indirect
+	github.com/mattn/go-runewidth v0.0.30 // indirect
 	github.com/microsoft/go-mssqldb v1.11.0 // indirect
 	github.com/microsoft/kiota-abstractions-go v1.11.0 // indirect
 	github.com/microsoft/kiota-authentication-azure-go v1.3.1 // indirect
@@ -129,7 +129,7 @@ require (
 	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/std-uritemplate/std-uritemplate/go/v2 v2.0.12 // indirect
-	github.com/vbauerster/cupwriter v0.0.4 // indirect
+	github.com/vbauerster/cupwriter v0.0.5 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/otel v1.46.0 // indirect
