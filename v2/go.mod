@@ -49,7 +49,7 @@ require (
 	github.com/microsoft/go-mssqldb v1.11.0
 	github.com/microsoftgraph/msgraph-beta-sdk-go v0.166.0
 	github.com/microsoftgraph/msgraph-sdk-go-core v1.4.1
-	github.com/onsi/gomega v1.43.1
+	github.com/onsi/gomega v1.44.0
 	github.com/prometheus/client_golang v1.24.1
 	github.com/rotisserie/eris v0.5.4
 	github.com/samber/lo v1.53.0
