@@ -107,9 +107,9 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.28 // indirect
 	github.com/microsoft/go-mssqldb v1.11.0 // indirect
-	github.com/microsoft/kiota-abstractions-go v1.11.0 // indirect
+	github.com/microsoft/kiota-abstractions-go v1.11.1 // indirect
 	github.com/microsoft/kiota-authentication-azure-go v1.3.1 // indirect
-	github.com/microsoft/kiota-http-go v1.5.6 // indirect
+	github.com/microsoft/kiota-http-go v1.5.7 // indirect
 	github.com/microsoft/kiota-serialization-form-go v1.1.3 // indirect
 	github.com/microsoft/kiota-serialization-json-go v1.1.2 // indirect
 	github.com/microsoft/kiota-serialization-multipart-go v1.1.2 // indirect
