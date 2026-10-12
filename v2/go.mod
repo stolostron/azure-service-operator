@@ -60,7 +60,7 @@ require (
 	golang.org/x/sync v0.23.0
 	golang.org/x/text v0.42.0 // indirect
 	golang.org/x/time v0.16.0
-	google.golang.org/protobuf v1.36.12-0.20260120151049-f2248ac996af // indirect
+	google.golang.org/protobuf v1.36.12 // indirect
 	gopkg.in/dnaeon/go-vcr.v4 v4.0.7
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/api v0.37.0
