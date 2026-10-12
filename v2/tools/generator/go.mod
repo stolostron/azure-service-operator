@@ -15,7 +15,7 @@ require (
 	github.com/devigned/tab v0.1.1
 	github.com/go-logr/logr v1.4.4
 	github.com/go-logr/zerologr v1.2.3
-	github.com/go-openapi/jsonpointer v1.0.1
+	github.com/go-openapi/jsonpointer v1.0.2
 	github.com/go-openapi/spec v1.0.1
 	github.com/gobuffalo/flect v1.0.3
 	github.com/google/go-cmp v0.7.0
@@ -39,14 +39,14 @@ require (
 )
 
 require (
-	github.com/go-openapi/jsonreference v1.0.1 // indirect
-	github.com/go-openapi/swag/conv v0.29.1 // indirect
-	github.com/go-openapi/swag/jsonutils v0.29.1 // indirect
-	github.com/go-openapi/swag/loading v0.29.1 // indirect
-	github.com/go-openapi/swag/pools v0.29.1 // indirect
-	github.com/go-openapi/swag/stringutils v0.29.1 // indirect
-	github.com/go-openapi/swag/typeutils v0.29.1 // indirect
-	github.com/go-openapi/swag/yamlutils v0.29.1 // indirect
+	github.com/go-openapi/jsonreference v1.0.3 // indirect
+	github.com/go-openapi/swag/conv v0.29.2 // indirect
+	github.com/go-openapi/swag/jsonutils v0.29.2 // indirect
+	github.com/go-openapi/swag/loading v0.29.2 // indirect
+	github.com/go-openapi/swag/pools v0.29.2 // indirect
+	github.com/go-openapi/swag/stringutils v0.29.2 // indirect
+	github.com/go-openapi/swag/typeutils v0.29.2 // indirect
+	github.com/go-openapi/swag/yamlutils v0.29.2 // indirect
 	github.com/hbollon/go-edlib v1.7.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/kr/text v0.2.0 // indirect
