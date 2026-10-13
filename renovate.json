@@ -5,6 +5,7 @@
   ],
   "enabledManagers": [
     "gomod",
+    "github-actions",
     "tekton",
     "dockerfile"
   ],
@@ -21,6 +22,27 @@
   },
   "packageRules": [
     {
+      "description": "GitHub Actions updates are maintained on the default branch only.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchBaseBranches": [
+        "/^release-.*/",
+        "/^backplane-2\\.[0-9]+$/"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Tekton updates follow main and maintained backplane branches.",
+      "matchManagers": [
+        "tekton"
+      ],
+      "matchBaseBranches": [
+        "/^release-.*/"
+      ],
+      "enabled": false
+    },
+    {
       "matchManagers": [
         "dockerfile"
       ],
@@ -33,12 +55,41 @@
       "enabled": true,
       "matchFileNames": [
         "stolostron/Dockerfile.stolostron"
-      ]
+      ],
+      "matchBaseBranches": [
+        "main",
+        "/^backplane-2\\.[0-9]+$/"
+      ],
+      "pinDigests": true
+    },
+    {
+      "description": "Update the upstream controller image on main, except its Go builder image.",
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "matchFileNames": [
+        "v2/Dockerfile"
+      ],
+      "matchBaseBranches": [
+        "main"
+      ],
+      "enabled": true
+    },
+    {
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "matchFileNames": [
+        "v2/Dockerfile"
+      ],
+      "matchPackageNames": [
+        "golang"
+      ],
+      "enabled": false
     },
     {
       "matchBaseBranches": [
         "main",
-        "/^release-.*/",
         "backplane-2.11",
         "backplane-2.17"
       ],
