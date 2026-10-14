@@ -45,6 +45,7 @@ jobs:
       uses: actions/checkout@900f2210b1d28bbbd0bd22d17926b9e224e8f231 # pinned to 6.0.2
       with:
         ref: ${{ (github.event_name == 'pull_request' && github.sha) || (github.event_name == 'workflow_dispatch' && inputs.pr_number && format('refs/pull/{0}/merge', inputs.pr_number)) || matrix.branch }}
+        persist-credentials: false
 
     - name: Install cosign
       if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && !inputs.pr_number
@@ -263,11 +264,14 @@ jobs:
         shopt -s nullglob
         summaries=(trivy-artifacts/trivy-results-*/scan-summary.json)
         for summary in "${summaries[@]}"; do
-          cosign verify-blob \
+          if ! cosign verify-blob \
             --bundle "${summary%.json}.sigstore.json" \
             --certificate-identity "$CERTIFICATE_IDENTITY" \
             --certificate-oidc-issuer https://token.actions.githubusercontent.com \
-            "$summary"
+            "$summary"; then
+            echo "::error::Signature verification failed for $summary; skipping issue reporting for this branch."
+            rm -f "$summary"
+          fi
         done
 
     - name: Create or update security issues
@@ -302,7 +306,12 @@ jobs:
             continue
           fi
 
-          EXISTING_ISSUE=$(gh issue list --state open --label "security" --label "trivy" --label "$BRANCH" --json number --jq '.[0].number // empty') || {
+          EXISTING_ISSUE=$(gh issue list \
+            --repo "$REPO" \
+            --state open \
+            --search "in:title \"[Trivy]\" \"$BRANCH\"" \
+            --json number \
+            --jq '.[0].number // empty') || {
             echo "::warning::Failed to check for existing issues. A duplicate issue may be created."
             EXISTING_ISSUE=""
           }
@@ -394,7 +403,7 @@ jobs:
             } > issue_body.md
 
             gh issue create \
-              --title "🚨 [Trivy] $TOTAL vulnerabilities detected on ${BRANCH}" \
+              --title "🚨 [Trivy] Vulnerabilities detected on ${BRANCH}" \
               --body-file issue_body.md || {
               echo "::warning::Failed to create GitHub issue for security vulnerabilities. Check workflow permissions and GitHub API status."
             }

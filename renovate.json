@@ -33,7 +33,7 @@
       "enabled": false
     },
     {
-      "description": "Tekton updates follow main and maintained backplane branches.",
+      "description": "Tekton references have no vulnerability-alert source; check scoped updates on main and maintained backplane branches during the monthly Renovate run.",
       "matchManagers": [
         "tekton"
       ],
@@ -102,7 +102,12 @@
       ]
     },
     {
-      "description": "Disable regular dependency updates by default; vulnerability-alert updates remain enabled.",
+      "description": "Disable regular Go, GitHub Actions, and container updates by default; vulnerability-alert updates remain enabled.",
+      "matchManagers": [
+        "gomod",
+        "github-actions",
+        "dockerfile"
+      ],
       "matchPackageNames": [
         "*"
       ],
