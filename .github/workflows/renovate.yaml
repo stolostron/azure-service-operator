@@ -1,6 +1,8 @@
 name: Renovate
 
 on:
+  schedule:
+    - cron: "0 4 1 * *"
   workflow_dispatch:
     inputs:
       dry-run:
@@ -13,23 +15,65 @@ on:
           - "full"
 
 permissions:
+  actions: write
   contents: write
   issues: write
   pull-requests: write
   statuses: write
-  vulnerability-alerts: read
-  workflows: write
 
 jobs:
   renovate:
     runs-on: ubuntu-latest
+    env:
+      RENOVATE_APP_CONFIGURED: ${{ secrets.RENOVATE_APP_ID != '' && secrets.RENOVATE_APP_PRIVATE_KEY != '' }}
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
+      - name: Create Renovate GitHub App token
+        id: renovate-app-token
+        if: env.RENOVATE_APP_CONFIGURED == 'true'
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          app-id: ${{ secrets.RENOVATE_APP_ID }}
+          private-key: ${{ secrets.RENOVATE_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: azure-service-operator
+          permission-contents: write
+          permission-issues: write
+          permission-pull-requests: write
+          permission-statuses: write
+          permission-vulnerability-alerts: read
+          permission-workflows: write
+
+      - name: Warn when Renovate GitHub App credentials are missing
+        if: env.RENOVATE_APP_CONFIGURED != 'true'
+        run: echo "::warning::Set RENOVATE_APP_ID and RENOVATE_APP_PRIVATE_KEY to enable Dependabot alert access and native pull_request workflows."
+
       - uses: renovatebot/github-action@693b9ef15eec82123529a37c782242f091365961 # v46.1.14
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.renovate-app-token.outputs.token || secrets.GITHUB_TOKEN }}
           configurationFile: renovate.json
         env:
           LOG_LEVEL: info
           RENOVATE_DRY_RUN: ${{ github.event.inputs['dry-run'] || 'false' }}
+
+      - name: Dispatch security scans for Renovate PRs
+        if: github.event.inputs['dry-run'] != 'full' && env.RENOVATE_APP_CONFIGURED != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pull_requests=$(gh pr list \
+            --repo "$GITHUB_REPOSITORY" \
+            --state open \
+            --label dependencies \
+            --json number,baseRefName \
+            --jq '.[] | [.number, .baseRefName] | @tsv')
+
+          while IFS=$'\t' read -r pr_number base_branch; do
+            [[ -n "$pr_number" && -n "$base_branch" ]] || continue
+            gh workflow run daily-security-scan.yaml \
+              --repo "$GITHUB_REPOSITORY" \
+              --ref main \
+              --field pr_number="$pr_number" \
+              --field base_branch="$base_branch"
+          done <<< "$pull_requests"

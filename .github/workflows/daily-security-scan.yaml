@@ -11,6 +11,15 @@ on:
     # Scan every maintained branch daily.
     - cron: "0 9 * * *"
   workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Optional pull request number to scan."
+        required: false
+        type: number
+      base_branch:
+        description: "Base branch of the pull request being scanned."
+        required: false
+        type: string
 
 permissions: {}
 
@@ -18,15 +27,16 @@ jobs:
   scan:
     permissions:
       contents: read
+      id-token: write
       security-events: write
     concurrency:
-      group: daily-security-scan-${{ matrix.branch }}
+      group: daily-security-scan-${{ matrix.branch }}-${{ (github.event_name == 'pull_request' && github.event.pull_request.number) || (github.event_name == 'workflow_dispatch' && inputs.pr_number) || 'branch' }}
       cancel-in-progress: false
     strategy:
       fail-fast: false
       matrix:
         # Keep this list aligned with docs/branch-sync-policy.md and govulncheck.yaml.
-        branch: ${{ fromJSON(github.event_name == 'schedule' && '["main","backplane-2.11","backplane-2.17","backplane-5.0","backplane-5.1","backplane-5.2","release-2.13","release-2.18","release-2.19"]' || format('[{0}]', toJSON(github.event_name == 'pull_request' && github.base_ref || github.ref_name))) }}
+        branch: ${{ fromJSON(github.event_name == 'schedule' && '["main","backplane-2.11","backplane-2.17","backplane-5.0","backplane-5.1","backplane-5.2","release-2.13","release-2.18","release-2.19"]' || format('[{0}]', toJSON((github.event_name == 'pull_request' && github.base_ref) || (github.event_name == 'workflow_dispatch' && inputs.pr_number && inputs.base_branch) || github.ref_name))) }}
     name: Trivy (${{ matrix.branch }})
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -34,7 +44,11 @@ jobs:
     - name: Check out code
       uses: actions/checkout@900f2210b1d28bbbd0bd22d17926b9e224e8f231 # pinned to 6.0.2
       with:
-        ref: ${{ github.event_name == 'pull_request' && github.sha || matrix.branch }}
+        ref: ${{ (github.event_name == 'pull_request' && github.sha) || (github.event_name == 'workflow_dispatch' && inputs.pr_number && format('refs/pull/{0}/merge', inputs.pr_number)) || matrix.branch }}
+
+    - name: Install cosign
+      if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && !inputs.pr_number
+      uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
 
     - name: Check for openpgp imports
       run: |
@@ -184,6 +198,15 @@ jobs:
           '{critical:$critical,high:$high,medium:$medium,low:$low,unknown:$unknown,total:$total}' \
           > scan-summary.json
 
+    - name: Sign scan summary
+      if: always() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && !inputs.pr_number && hashFiles('scan-summary.json') != ''
+      run: |
+        cosign sign-blob \
+          --yes \
+          --output-signature scan-summary.json.sig \
+          --output-certificate scan-summary.json.pem \
+          scan-summary.json
+
     - name: Upload Trivy results (SARIF)
       if: always()
       id: upload-sarif
@@ -191,7 +214,7 @@ jobs:
       with:
         sarif_file: 'trivy-results.sarif'
         category: 'trivy-${{ matrix.branch }}'
-        ref: ${{ github.event_name == 'pull_request' && format('refs/pull/{0}/merge', github.event.pull_request.number) || format('refs/heads/{0}', matrix.branch) }}
+        ref: ${{ (github.event_name == 'pull_request' && format('refs/pull/{0}/merge', github.event.pull_request.number)) || (github.event_name == 'workflow_dispatch' && inputs.pr_number && format('refs/pull/{0}/merge', inputs.pr_number)) || format('refs/heads/{0}', matrix.branch) }}
         sha: ${{ steps.scanned-commit.outputs.sha }}
       continue-on-error: true
 
@@ -209,6 +232,8 @@ jobs:
           trivy-results.sarif
           trivy-results.txt
           scan-summary.json
+          scan-summary.json.sig
+          scan-summary.json.pem
         retention-days: 30
 
     - name: Fail if vulnerabilities found
@@ -217,7 +242,7 @@ jobs:
 
   create-issues:
     needs: scan
-    if: always() && !cancelled() && github.event_name != 'pull_request'
+    if: always() && !cancelled() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && !inputs.pr_number
     permissions:
       issues: write
     runs-on: ubuntu-latest
@@ -229,6 +254,24 @@ jobs:
         path: trivy-artifacts
         merge-multiple: false
       continue-on-error: true
+
+    - name: Install cosign
+      uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+
+    - name: Verify scan summary signatures
+      env:
+        CERTIFICATE_IDENTITY: ${{ github.server_url }}/${{ github.workflow_ref }}
+      run: |
+        shopt -s nullglob
+        summaries=(trivy-artifacts/trivy-results-*/scan-summary.json)
+        for summary in "${summaries[@]}"; do
+          cosign verify-blob \
+            --certificate "${summary}.pem" \
+            --signature "${summary}.sig" \
+            --certificate-identity "$CERTIFICATE_IDENTITY" \
+            --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+            "$summary"
+        done
 
     - name: Create or update security issues
       env:
@@ -355,9 +398,6 @@ jobs:
 
             gh issue create \
               --title "🚨 [Trivy] $TOTAL vulnerabilities detected on ${BRANCH}" \
-              --label "security" \
-              --label "trivy" \
-              --label "$BRANCH" \
               --body-file issue_body.md || {
               echo "::warning::Failed to create GitHub issue for security vulnerabilities. Check workflow permissions and GitHub API status."
             }
