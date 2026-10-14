@@ -134,7 +134,7 @@
       "dependencies",
       "ok-to-test"
     ],
-    "prConcurrentLimit": 4
+    "prConcurrentLimit": 6
   },
   "rebaseWhen": "behind-base-branch",
   "recreateWhen": "never",

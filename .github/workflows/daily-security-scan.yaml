@@ -108,6 +108,8 @@ jobs:
     - name: Count vulnerabilities from SARIF
       if: always() && steps.validate-sarif.outcome == 'success'
       id: vuln-counts
+      env:
+        TRIVY_OUTCOME: ${{ steps.trivy-scan.outcome }}
       run: |
         CRITICAL=$(jq '[.runs[] | . as $run | ($run.tool.driver.rules // []) as $rules | ($run.results // [])[] | $rules[.ruleIndex] | select(.properties.tags[]? == "CRITICAL")] | length' trivy-results.sarif 2>/dev/null || echo 0)
         HIGH=$(jq '[.runs[] | . as $run | ($run.tool.driver.rules // []) as $rules | ($run.results // [])[] | $rules[.ruleIndex] | select(.properties.tags[]? == "HIGH")] | length' trivy-results.sarif 2>/dev/null || echo 0)
@@ -125,7 +127,7 @@ jobs:
 
         TOTAL=$((CRITICAL + HIGH + MEDIUM + LOW + UNKNOWN))
 
-        if [ "$TOTAL" -eq 0 ] && [ "${{ steps.trivy-scan.outcome }}" = "failure" ]; then
+        if [ "$TOTAL" -eq 0 ] && [ "$TRIVY_OUTCOME" = "failure" ]; then
           echo "::warning::Trivy reported vulnerabilities (exit code 1) but SARIF parsing found 0. The SARIF schema may have changed. Check trivy-results.sarif in the uploaded artifacts."
         fi
 
