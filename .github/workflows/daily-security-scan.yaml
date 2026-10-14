@@ -203,8 +203,7 @@ jobs:
       run: |
         cosign sign-blob \
           --yes \
-          --output-signature scan-summary.json.sig \
-          --output-certificate scan-summary.json.pem \
+          --bundle scan-summary.sigstore.json \
           scan-summary.json
 
     - name: Upload Trivy results (SARIF)
@@ -232,8 +231,7 @@ jobs:
           trivy-results.sarif
           trivy-results.txt
           scan-summary.json
-          scan-summary.json.sig
-          scan-summary.json.pem
+          scan-summary.sigstore.json
         retention-days: 30
 
     - name: Fail if vulnerabilities found
@@ -266,8 +264,7 @@ jobs:
         summaries=(trivy-artifacts/trivy-results-*/scan-summary.json)
         for summary in "${summaries[@]}"; do
           cosign verify-blob \
-            --certificate "${summary}.pem" \
-            --signature "${summary}.sig" \
+            --bundle "${summary%.json}.sigstore.json" \
             --certificate-identity "$CERTIFICATE_IDENTITY" \
             --certificate-oidc-issuer https://token.actions.githubusercontent.com \
             "$summary"

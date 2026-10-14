@@ -66,6 +66,7 @@ jobs:
             --repo "$GITHUB_REPOSITORY" \
             --state open \
             --label dependencies \
+            --limit 1000 \
             --json number,baseRefName \
             --jq '.[] | [.number, .baseRefName] | @tsv')
 
