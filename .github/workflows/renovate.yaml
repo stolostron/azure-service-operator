@@ -104,6 +104,7 @@ jobs:
             --repo "$GITHUB_REPOSITORY" \
             --state open \
             --label dependencies \
+            --author 'github-actions[bot]' \
             --limit 1000 \
             --json number,baseRefName \
             --jq '.[] | [.number, .baseRefName] | @tsv')
