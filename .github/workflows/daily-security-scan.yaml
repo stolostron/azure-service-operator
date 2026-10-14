@@ -323,6 +323,7 @@ jobs:
         RUN_ID: ${{ github.run_id }}
       run: |
         shopt -s nullglob
+        processed_summaries=0
         for RESULTS_DIR in trivy-artifacts/trivy-results-*; do
           SUMMARY_FILE="$RESULTS_DIR/scan-summary.json"
           if [ ! -s "$SUMMARY_FILE" ]; then
@@ -342,16 +343,18 @@ jobs:
             echo "::warning::Vulnerability count is missing or invalid for $BRANCH; skipping issue creation."
             continue
           fi
+          processed_summaries=$((processed_summaries + 1))
           if [ "$TOTAL" -eq 0 ]; then
             continue
           fi
 
+          EXPECTED_TITLE="🚨 [Trivy] Vulnerabilities detected on ${BRANCH}"
           EXISTING_ISSUE=$(gh issue list \
             --repo "$REPO" \
             --state open \
             --search "in:title \"[Trivy]\" \"$BRANCH\"" \
-            --json number \
-            --jq '.[0].number // empty') || {
+            --json number,title \
+            | jq --arg expected_title "$EXPECTED_TITLE" '[.[] | select(.title == $expected_title)][0].number // empty') || {
             echo "::warning::Failed to check for existing issues. A duplicate issue may be created."
             EXISTING_ISSUE=""
           }
@@ -449,4 +452,8 @@ jobs:
             }
           fi
         done
+        if [ "$processed_summaries" -eq 0 ]; then
+          echo "::error::No verified scan summaries were processed; issue reporting was skipped."
+          exit 1
+        fi
 
