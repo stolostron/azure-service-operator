@@ -73,7 +73,6 @@ jobs:
     if: needs.configuration.outputs.app_configured != 'true'
     runs-on: ubuntu-latest
     permissions:
-      actions: write
       contents: write
       issues: write
       pull-requests: write
@@ -94,8 +93,16 @@ jobs:
           LOG_LEVEL: info
           RENOVATE_DRY_RUN: ${{ github.event.inputs['dry-run'] || 'false' }}
 
+
+  dispatch-security-scans:
+    needs: renovate-fallback
+    if: needs.renovate-fallback.result == 'success' && github.event.inputs['dry-run'] != 'full'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      pull-requests: read
+    steps:
       - name: Dispatch security scans for Renovate PRs
-        if: github.event.inputs['dry-run'] != 'full'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -114,5 +121,6 @@ jobs:
               --repo "$GITHUB_REPOSITORY" \
               --ref main \
               --field pr_number="$pr_number" \
-              --field base_branch="$base_branch"
+              --field base_branch="$base_branch" || \
+              echo "::warning::Failed to dispatch security scan for PR #$pr_number."
           done <<< "$pull_requests"
