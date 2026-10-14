@@ -84,7 +84,7 @@
       "enabled": true,
       "groupName": "GitHub Actions security maintenance",
       "schedule": [
-        "before 5am on the first day of the month"
+        "on the first day of the month"
       ],
       "addLabels": [
         "dependencies",
@@ -113,7 +113,7 @@
       "pinDigests": true,
       "groupName": "Container image security maintenance",
       "schedule": [
-        "before 5am on the first day of the month"
+        "on the first day of the month"
       ],
       "addLabels": [
         "dependencies",
@@ -141,7 +141,7 @@
       "pinDigests": true,
       "groupName": "Container image security maintenance",
       "schedule": [
-        "before 5am on the first day of the month"
+        "on the first day of the month"
       ],
       "addLabels": [
         "dependencies",
@@ -167,7 +167,7 @@
       "enabled": true,
       "groupName": "Tekton security maintenance",
       "schedule": [
-        "before 5am on the first day of the month"
+        "on the first day of the month"
       ],
       "addLabels": [
         "dependencies",

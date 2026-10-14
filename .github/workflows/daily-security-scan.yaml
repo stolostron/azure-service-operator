@@ -324,6 +324,7 @@ jobs:
       run: |
         shopt -s nullglob
         processed_summaries=0
+        reporting_failures=0
         for RESULTS_DIR in trivy-artifacts/trivy-results-*; do
           SUMMARY_FILE="$RESULTS_DIR/scan-summary.json"
           if [ ! -s "$SUMMARY_FILE" ]; then
@@ -349,15 +350,19 @@ jobs:
           fi
 
           EXPECTED_TITLE="🚨 [Trivy] Vulnerabilities detected on ${BRANCH}"
-          EXISTING_ISSUE=$(gh issue list \
-            --repo "$REPO" \
-            --state open \
-            --search "in:title \"[Trivy]\" \"$BRANCH\"" \
-            --json number,title \
-            | jq --arg expected_title "$EXPECTED_TITLE" '[.[] | select(.title == $expected_title)][0].number // empty') || {
-            echo "::warning::Failed to check for existing issues. A duplicate issue may be created."
-            EXISTING_ISSUE=""
-          }
+          if ! EXISTING_ISSUE=$(
+            set -o pipefail
+            gh issue list \
+              --repo "$REPO" \
+              --state open \
+              --search "in:title \"[Trivy]\" \"$BRANCH\"" \
+              --json number,title \
+              | jq --arg expected_title "$EXPECTED_TITLE" '[.[] | select(.title == $expected_title)][0].number // empty'
+          ); then
+            echo "::warning::Failed to check for an existing issue; skipping $BRANCH to avoid creating a duplicate."
+            reporting_failures=1
+            continue
+          fi
 
           if [ -n "$EXISTING_ISSUE" ]; then
             echo "Existing issue found: #$EXISTING_ISSUE"
@@ -396,6 +401,7 @@ jobs:
 
             gh issue comment "$EXISTING_ISSUE" --body-file comment_body.md || {
               echo "::warning::Failed to update existing issue #$EXISTING_ISSUE with new scan results."
+              reporting_failures=1
             }
           else
             echo "Creating new issue..."
@@ -449,11 +455,16 @@ jobs:
               --title "🚨 [Trivy] Vulnerabilities detected on ${BRANCH}" \
               --body-file issue_body.md || {
               echo "::warning::Failed to create GitHub issue for security vulnerabilities. Check workflow permissions and GitHub API status."
+              reporting_failures=1
             }
           fi
         done
         if [ "$processed_summaries" -eq 0 ]; then
           echo "::error::No verified scan summaries were processed; issue reporting was skipped."
+          exit 1
+        fi
+        if [ "$reporting_failures" -ne 0 ]; then
+          echo "::error::One or more security issue lookups or writes failed."
           exit 1
         fi
 
