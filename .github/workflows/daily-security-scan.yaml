@@ -27,7 +27,6 @@ jobs:
   scan:
     permissions:
       contents: read
-      id-token: write
       security-events: write
     concurrency:
       group: daily-security-scan-${{ matrix.branch }}-${{ (github.event_name == 'pull_request' && github.event.pull_request.number) || (github.event_name == 'workflow_dispatch' && inputs.pr_number) || 'branch' }}
@@ -46,10 +45,6 @@ jobs:
       with:
         ref: ${{ (github.event_name == 'pull_request' && github.sha) || (github.event_name == 'workflow_dispatch' && inputs.pr_number && format('refs/pull/{0}/merge', inputs.pr_number)) || matrix.branch }}
         persist-credentials: false
-
-    - name: Install cosign
-      if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && !inputs.pr_number
-      uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
 
     - name: Check for openpgp imports
       run: |
@@ -74,6 +69,7 @@ jobs:
       with:
         scan-type: 'fs'
         scan-ref: '.'
+        scanners: 'vuln'
         format: 'sarif'
         output: 'trivy-results.sarif'
         severity: 'CRITICAL,HIGH,MEDIUM,LOW'
@@ -86,6 +82,7 @@ jobs:
       with:
         scan-type: 'fs'
         scan-ref: '.'
+        scanners: 'vuln'
         format: 'table'
         output: 'trivy-results.txt'
         severity: 'CRITICAL,HIGH,MEDIUM,LOW'
@@ -202,14 +199,6 @@ jobs:
           '{critical:$critical,high:$high,medium:$medium,low:$low,unknown:$unknown,total:$total}' \
           > scan-summary.json
 
-    - name: Sign scan summary
-      if: always() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && !inputs.pr_number && hashFiles('scan-summary.json') != ''
-      run: |
-        cosign sign-blob \
-          --yes \
-          --bundle scan-summary.sigstore.json \
-          scan-summary.json
-
     - name: Upload Trivy results (SARIF)
       if: always()
       id: upload-sarif
@@ -235,17 +224,58 @@ jobs:
           trivy-results.sarif
           trivy-results.txt
           scan-summary.json
-          scan-summary.sigstore.json
         retention-days: 30
 
     - name: Fail if vulnerabilities found
       if: steps.trivy-scan.outcome == 'failure'
       run: exit 1
 
-  create-issues:
+  sign-summaries:
     needs: scan
     if: always() && !cancelled() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && !inputs.pr_number
     permissions:
+      actions: read # Download scan artifacts from this workflow run.
+      contents: read # Fetch the cosign installer release.
+      id-token: write # Sign trusted main-branch scan summaries with GitHub OIDC.
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download scan artifacts
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        pattern: trivy-results-*
+        path: trivy-artifacts
+        merge-multiple: false
+      continue-on-error: true
+
+    - name: Install cosign
+      uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+
+    - name: Sign scan summaries
+      run: |
+        shopt -s nullglob
+        summaries=(trivy-artifacts/trivy-results-*/scan-summary.json)
+        for summary in "${summaries[@]}"; do
+          bundle="${summary%.json}.sigstore.json"
+          if ! cosign sign-blob --yes --bundle "$bundle" "$summary"; then
+            echo "::error::Signature generation failed for $summary."
+            rm -f "$bundle"
+          fi
+        done
+
+    - name: Upload scan summary signatures
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+      with:
+        name: trivy-summary-signatures
+        path: trivy-artifacts/trivy-results-*/scan-summary.sigstore.json
+        if-no-files-found: ignore
+        retention-days: 30
+
+  create-issues:
+    needs: [scan, sign-summaries]
+    if: always() && !cancelled() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && !inputs.pr_number
+    permissions:
+      actions: read # Download scan artifacts from this workflow run.
+      contents: read # Fetch the cosign installer release.
       issues: write
     runs-on: ubuntu-latest
     steps:
@@ -255,6 +285,13 @@ jobs:
         pattern: trivy-results-*
         path: trivy-artifacts
         merge-multiple: false
+      continue-on-error: true
+
+    - name: Download scan summary signatures
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: trivy-summary-signatures
+        path: trivy-artifacts
       continue-on-error: true
 
     - name: Install cosign
