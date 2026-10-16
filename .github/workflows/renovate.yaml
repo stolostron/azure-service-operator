@@ -1,10 +1,12 @@
 name: Renovate
 
 on:
+  schedule:
+    - cron: "0 4 1 * *"
   workflow_dispatch:
     inputs:
       dry-run:
-        description: "Run Renovate in dry-run mode (no PRs created)"
+        description: "Use 'full' to preview without creating PRs; 'false' runs normally and may create or update PRs."
         required: false
         default: "false"
         type: choice
@@ -16,15 +18,63 @@ permissions:
   contents: read
 
 jobs:
-  renovate:
+  configuration:
     runs-on: ubuntu-latest
+    outputs:
+      app_configured: ${{ steps.check.outputs.app_configured }}
+    steps:
+      - name: Check Renovate GitHub App configuration
+        id: check
+        env:
+          RENOVATE_APP_ID: ${{ secrets.RENOVATE_APP_ID }}
+          RENOVATE_APP_PRIVATE_KEY: ${{ secrets.RENOVATE_APP_PRIVATE_KEY }}
+        run: |
+          if [[ -n "$RENOVATE_APP_ID" && -n "$RENOVATE_APP_PRIVATE_KEY" ]]; then
+            echo "app_configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "app_configured=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  renovate-app:
+    needs: configuration
+    if: needs.configuration.outputs.app_configured == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+
+      - name: Create Renovate GitHub App token
+        id: renovate-app-token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          app-id: ${{ secrets.RENOVATE_APP_ID }}
+          private-key: ${{ secrets.RENOVATE_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: azure-service-operator
+          permission-contents: write
+          permission-issues: write
+          permission-pull-requests: write
+          permission-statuses: write
+          permission-vulnerability-alerts: read
+          permission-workflows: write # Required for the scoped GitHub Actions maintenance updates.
 
       - uses: renovatebot/github-action@693b9ef15eec82123529a37c782242f091365961 # v46.1.14
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.renovate-app-token.outputs.token }}
           configurationFile: renovate.json
         env:
           LOG_LEVEL: info
           RENOVATE_DRY_RUN: ${{ github.event.inputs['dry-run'] || 'false' }}
+
+  renovate-app-required:
+    needs: configuration
+    if: needs.configuration.outputs.app_configured != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require an alert-capable Renovate GitHub App
+        run: |
+          echo "::error::Configure RENOVATE_APP_ID and RENOVATE_APP_PRIVATE_KEY with Dependabot-alert read access. GITHUB_TOKEN cannot run the vulnerability-only update policy."
+          exit 1

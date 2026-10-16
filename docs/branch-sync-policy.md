@@ -93,7 +93,8 @@ customizations were silently reverted to their upstream form. This audit compare
 - **Renovate** — `renovate.json` now targets `main`, `release-*`,
   `backplane-2.11`, `backplane-2.17`; the old `backplane-[0-9]+\.[0-9]+` regex was
   dropped on purpose because `backplane-5.0`/`backplane-5.1` are FFWD-only and must
-  not receive independent Renovate PRs.
+  not receive independent Renovate PRs. GitHub Actions updates are limited to
+  `main`, and image updates do not target release branches.
 
 ### Regressions found and fixed in this change ⚠️→✅
 

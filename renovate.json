@@ -1,7 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "security:only-security-updates"
+  ],
   "enabledManagers": [
     "gomod",
+    "github-actions",
     "tekton",
     "dockerfile"
   ],
@@ -12,14 +16,36 @@
     "backplane-2.17"
   ],
   "tekton": {
+    "managerFilePatterns": [
+      "/\\.yaml$/",
+      "/\\.yml$/"
+    ],
     "includePaths": [
       ".tekton/**"
-    ],
-    "schedule": [
-      "at any time"
     ]
   },
   "packageRules": [
+    {
+      "description": "GitHub Actions updates are maintained on the default branch only.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchBaseBranches": [
+        "/^release-.*/",
+        "/^backplane-2\\.[0-9]+$/"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Keep Tekton version updates off release branches.",
+      "matchManagers": [
+        "tekton"
+      ],
+      "matchBaseBranches": [
+        "/^release-.*/"
+      ],
+      "enabled": false
+    },
     {
       "matchManagers": [
         "dockerfile"
@@ -30,33 +56,154 @@
       "matchManagers": [
         "dockerfile"
       ],
-      "enabled": true,
       "matchFileNames": [
-        "stolostron/Dockerfile.stolostron"
+        "v2/Dockerfile"
+      ],
+      "matchPackageNames": [
+        "golang"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Disable regular updates by default; scoped monthly security-remediation rules below cover sources without vulnerability alerts.",
+      "matchPackageNames": [
+        "*"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Monthly non-major refreshes provide a security path for SHA-pinned actions that do not generate Dependabot alerts.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchBaseBranches": [
+        "main"
+      ],
+      "matchUpdateTypes": [
+        "digest",
+        "pinDigest",
+        "patch",
+        "minor"
+      ],
+      "enabled": true,
+      "groupName": "GitHub Actions security maintenance",
+      "schedule": [
+        "on the first day of the month"
+      ],
+      "addLabels": [
+        "dependencies",
+        "ok-to-test"
       ]
     },
     {
+      "description": "Monthly non-major image refreshes provide remediation where image vulnerability alerts are unavailable.",
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "matchFileNames": [
+        "stolostron/Dockerfile.stolostron"
+      ],
       "matchBaseBranches": [
         "main",
-        "/^release-.*/",
+        "/^backplane-2\\.[0-9]+$/"
+      ],
+      "matchUpdateTypes": [
+        "digest",
+        "pinDigest",
+        "patch",
+        "minor"
+      ],
+      "enabled": true,
+      "pinDigests": true,
+      "groupName": "Container image security maintenance",
+      "schedule": [
+        "on the first day of the month"
+      ],
+      "addLabels": [
+        "dependencies",
+        "ok-to-test"
+      ]
+    },
+    {
+      "description": "Monthly non-major image refreshes provide remediation where image vulnerability alerts are unavailable.",
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "matchFileNames": [
+        "v2/Dockerfile"
+      ],
+      "matchBaseBranches": [
+        "main"
+      ],
+      "matchUpdateTypes": [
+        "digest",
+        "pinDigest",
+        "patch",
+        "minor"
+      ],
+      "enabled": true,
+      "pinDigests": true,
+      "groupName": "Container image security maintenance",
+      "schedule": [
+        "on the first day of the month"
+      ],
+      "addLabels": [
+        "dependencies",
+        "ok-to-test"
+      ]
+    },
+    {
+      "description": "Monthly non-major updates provide a security path for Tekton references without vulnerability-alert coverage.",
+      "matchBaseBranches": [
+        "main",
         "backplane-2.11",
         "backplane-2.17"
       ],
       "matchManagers": [
         "tekton"
       ],
+      "matchUpdateTypes": [
+        "digest",
+        "pinDigest",
+        "patch",
+        "minor"
+      ],
       "enabled": true,
+      "groupName": "Tekton security maintenance",
+      "schedule": [
+        "on the first day of the month"
+      ],
       "addLabels": [
+        "dependencies",
         "ok-to-test"
       ]
+    },
+    {
+      "description": "Keep the Go builder image out of container security updates.",
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "matchFileNames": [
+        "v2/Dockerfile"
+      ],
+      "matchPackageNames": [
+        "golang"
+      ],
+      "enabled": false
     }
   ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "groupName": "Security fixes",
+    "labels": [
+      "dependencies",
+      "ok-to-test"
+    ],
+    "prConcurrentLimit": 6
+  },
   "rebaseWhen": "behind-base-branch",
   "recreateWhen": "never",
   "addLabels": [
     "ok-to-test"
-  ],
-  "schedule": [
-    "on monday"
   ]
 }
