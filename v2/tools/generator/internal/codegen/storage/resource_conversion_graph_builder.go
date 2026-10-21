@@ -34,7 +34,8 @@ func NewResourceConversionGraphBuilder(name string) *ResourceConversionGraphBuil
 
 // SetHubVersion configures which version should be treated as the hub/storage version,
 // overriding the default behavior where preview versions link backward (making the oldest preview the hub).
-// When set, all preview versions link forward instead, making the newest (specified) version the hub.
+// When set, preview versions link forward to the specified GA version. Types which only exist in preview versions
+// still use the latest preview version as their hub.
 func (b *ResourceConversionGraphBuilder) SetHubVersion(hubVersion string) {
 	b.hubVersion = hubVersion
 }
@@ -76,8 +77,8 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 	}
 
 	if b.hubVersion != "" {
-		// When hubVersion is set, we may have separate GA and preview chains (e.g. types that share
-		// names across classic ARO and HCP). Each chain has its own hub, so multiple remaining items are valid.
+		// The configured hub version may not contain every resource in the group. Any preview-only
+		// resources form a separate chain, so multiple remaining items are valid.
 		if len(toProcess) == 0 {
 			return nil, eris.Errorf(
 				"expected at least one hub reference for %q, but all references are linked",
@@ -135,25 +136,27 @@ func (b *ResourceConversionGraphBuilder) apiReferencesConvertToStorage(names []a
 
 // previewReferencesConvertBackward links each preview version to the immediately prior version, no matter whether it's
 // preview or GA.
-// When a hubVersion override is configured, preview versions are linked forward among themselves only,
-// keeping them separate from GA versions to avoid cross-contamination between resources that share
-// sub-type names (e.g. classic ARO's IngressProfile vs HCP's IngressProfile).
+// When a hubVersion override is configured, preview versions are linked forward among themselves and then to the
+// configured GA version, if that version contains the resource.
 func (b *ResourceConversionGraphBuilder) previewReferencesConvertBackward(names []astmodel.InternalTypeName) {
 	if b.hubVersion != "" {
-		// Hub version override: link preview versions forward to each other only.
 		var previewNames []astmodel.InternalTypeName
+		var hubName astmodel.InternalTypeName
 		for _, name := range names {
 			if name.InternalPackageReference().IsPreview() {
 				previewNames = append(previewNames, name)
 			}
+			if name.InternalPackageReference().APIVersion() == b.hubVersion {
+				hubName = name
+			}
 		}
 
 		for i, name := range previewNames {
-			if i+1 >= len(previewNames) {
-				break
+			if i+1 < len(previewNames) {
+				b.links[name] = previewNames[i+1]
+			} else if !hubName.IsEmpty() {
+				b.links[name] = hubName
 			}
-
-			b.links[name] = previewNames[i+1]
 		}
 
 		return

@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20261001/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -12,6 +13,44 @@ import (
 	"pgregory.net/rapid"
 	"testing"
 )
+
+// Test_ApiProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ApiProfile can be assigned to storage and back losslessly
+func Test_ApiProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApiProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ApiProfile
+		err := copied.AssignProperties_To_ApiProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ApiProfile
+		err = actual.AssignProperties_From_ApiProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
 
 func Test_ApiProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -71,6 +110,44 @@ func ApiProfileGenerator() *rapid.Generator[ApiProfile] {
 	return apiProfileGenerator
 }
 
+// Test_ApiProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ApiProfile_STATUS can be assigned to storage and back losslessly
+func Test_ApiProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ApiProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ApiProfile_STATUS
+		err := copied.AssignProperties_To_ApiProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ApiProfile_STATUS
+		err = actual.AssignProperties_From_ApiProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_ApiProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -128,6 +205,44 @@ func ApiProfile_STATUSGenerator() *rapid.Generator[ApiProfile_STATUS] {
 	})
 
 	return apiProfile_STATUSGenerator
+}
+
+// Test_ClusterAutoscalingProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ClusterAutoscalingProfile can be assigned to storage and back losslessly
+func Test_ClusterAutoscalingProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ClusterAutoscalingProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ClusterAutoscalingProfile
+		err := copied.AssignProperties_To_ClusterAutoscalingProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ClusterAutoscalingProfile
+		err = actual.AssignProperties_From_ClusterAutoscalingProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ClusterAutoscalingProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -190,6 +305,44 @@ func ClusterAutoscalingProfileGenerator() *rapid.Generator[ClusterAutoscalingPro
 	return clusterAutoscalingProfileGenerator
 }
 
+// Test_ClusterAutoscalingProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ClusterAutoscalingProfile_STATUS can be assigned to storage and back losslessly
+func Test_ClusterAutoscalingProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ClusterAutoscalingProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ClusterAutoscalingProfile_STATUS
+		err := copied.AssignProperties_To_ClusterAutoscalingProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ClusterAutoscalingProfile_STATUS
+		err = actual.AssignProperties_From_ClusterAutoscalingProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_ClusterAutoscalingProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -250,6 +403,44 @@ func ClusterAutoscalingProfile_STATUSGenerator() *rapid.Generator[ClusterAutosca
 	return clusterAutoscalingProfile_STATUSGenerator
 }
 
+// Test_ClusterImageRegistryProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ClusterImageRegistryProfile can be assigned to storage and back losslessly
+func Test_ClusterImageRegistryProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ClusterImageRegistryProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ClusterImageRegistryProfile
+		err := copied.AssignProperties_To_ClusterImageRegistryProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ClusterImageRegistryProfile
+		err = actual.AssignProperties_From_ClusterImageRegistryProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_ClusterImageRegistryProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -307,6 +498,44 @@ func ClusterImageRegistryProfileGenerator() *rapid.Generator[ClusterImageRegistr
 	return clusterImageRegistryProfileGenerator
 }
 
+// Test_ClusterImageRegistryProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ClusterImageRegistryProfile_STATUS can be assigned to storage and back losslessly
+func Test_ClusterImageRegistryProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ClusterImageRegistryProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ClusterImageRegistryProfile_STATUS
+		err := copied.AssignProperties_To_ClusterImageRegistryProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ClusterImageRegistryProfile_STATUS
+		err = actual.AssignProperties_From_ClusterImageRegistryProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_ClusterImageRegistryProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -362,6 +591,44 @@ func ClusterImageRegistryProfile_STATUSGenerator() *rapid.Generator[ClusterImage
 	})
 
 	return clusterImageRegistryProfile_STATUSGenerator
+}
+
+// Test_Condition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Condition_STATUS can be assigned to storage and back losslessly
+func Test_Condition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := Condition_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.Condition_STATUS
+		err := copied.AssignProperties_To_Condition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual Condition_STATUS
+		err = actual.AssignProperties_From_Condition_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_Condition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -424,6 +691,44 @@ func Condition_STATUSGenerator() *rapid.Generator[Condition_STATUS] {
 	return condition_STATUSGenerator
 }
 
+// Test_ConsoleProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ConsoleProfile_STATUS can be assigned to storage and back losslessly
+func Test_ConsoleProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ConsoleProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ConsoleProfile_STATUS
+		err := copied.AssignProperties_To_ConsoleProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ConsoleProfile_STATUS
+		err = actual.AssignProperties_From_ConsoleProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_ConsoleProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -479,6 +784,44 @@ func ConsoleProfile_STATUSGenerator() *rapid.Generator[ConsoleProfile_STATUS] {
 	})
 
 	return consoleProfile_STATUSGenerator
+}
+
+// Test_CustomerManagedEncryptionProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CustomerManagedEncryptionProfile can be assigned to storage and back losslessly
+func Test_CustomerManagedEncryptionProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CustomerManagedEncryptionProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.CustomerManagedEncryptionProfile
+		err := copied.AssignProperties_To_CustomerManagedEncryptionProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CustomerManagedEncryptionProfile
+		err = actual.AssignProperties_From_CustomerManagedEncryptionProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_CustomerManagedEncryptionProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -540,6 +883,44 @@ func CustomerManagedEncryptionProfileGenerator() *rapid.Generator[CustomerManage
 	return customerManagedEncryptionProfileGenerator
 }
 
+// Test_CustomerManagedEncryptionProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of CustomerManagedEncryptionProfile_STATUS can be assigned to storage and back losslessly
+func Test_CustomerManagedEncryptionProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := CustomerManagedEncryptionProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.CustomerManagedEncryptionProfile_STATUS
+		err := copied.AssignProperties_To_CustomerManagedEncryptionProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual CustomerManagedEncryptionProfile_STATUS
+		err = actual.AssignProperties_From_CustomerManagedEncryptionProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_CustomerManagedEncryptionProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -599,6 +980,44 @@ func CustomerManagedEncryptionProfile_STATUSGenerator() *rapid.Generator[Custome
 	return customerManagedEncryptionProfile_STATUSGenerator
 }
 
+// Test_DnsProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DnsProfile can be assigned to storage and back losslessly
+func Test_DnsProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DnsProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DnsProfile
+		err := copied.AssignProperties_To_DnsProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DnsProfile
+		err = actual.AssignProperties_From_DnsProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_DnsProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -653,6 +1072,44 @@ func DnsProfileGenerator() *rapid.Generator[DnsProfile] {
 	})
 
 	return dnsProfileGenerator
+}
+
+// Test_DnsProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of DnsProfile_STATUS can be assigned to storage and back losslessly
+func Test_DnsProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := DnsProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.DnsProfile_STATUS
+		err := copied.AssignProperties_To_DnsProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual DnsProfile_STATUS
+		err = actual.AssignProperties_From_DnsProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_DnsProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -710,6 +1167,44 @@ func DnsProfile_STATUSGenerator() *rapid.Generator[DnsProfile_STATUS] {
 	})
 
 	return dnsProfile_STATUSGenerator
+}
+
+// Test_EtcdDataEncryptionProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of EtcdDataEncryptionProfile can be assigned to storage and back losslessly
+func Test_EtcdDataEncryptionProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := EtcdDataEncryptionProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.EtcdDataEncryptionProfile
+		err := copied.AssignProperties_To_EtcdDataEncryptionProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual EtcdDataEncryptionProfile
+		err = actual.AssignProperties_From_EtcdDataEncryptionProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_EtcdDataEncryptionProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -771,6 +1266,44 @@ func EtcdDataEncryptionProfileGenerator() *rapid.Generator[EtcdDataEncryptionPro
 	return etcdDataEncryptionProfileGenerator
 }
 
+// Test_EtcdDataEncryptionProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of EtcdDataEncryptionProfile_STATUS can be assigned to storage and back losslessly
+func Test_EtcdDataEncryptionProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := EtcdDataEncryptionProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.EtcdDataEncryptionProfile_STATUS
+		err := copied.AssignProperties_To_EtcdDataEncryptionProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual EtcdDataEncryptionProfile_STATUS
+		err = actual.AssignProperties_From_EtcdDataEncryptionProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_EtcdDataEncryptionProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -830,6 +1363,44 @@ func EtcdDataEncryptionProfile_STATUSGenerator() *rapid.Generator[EtcdDataEncryp
 	return etcdDataEncryptionProfile_STATUSGenerator
 }
 
+// Test_EtcdProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of EtcdProfile can be assigned to storage and back losslessly
+func Test_EtcdProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := EtcdProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.EtcdProfile
+		err := copied.AssignProperties_To_EtcdProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual EtcdProfile
+		err = actual.AssignProperties_From_EtcdProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_EtcdProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -886,6 +1457,44 @@ func EtcdProfileGenerator() *rapid.Generator[EtcdProfile] {
 	return etcdProfileGenerator
 }
 
+// Test_EtcdProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of EtcdProfile_STATUS can be assigned to storage and back losslessly
+func Test_EtcdProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := EtcdProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.EtcdProfile_STATUS
+		err := copied.AssignProperties_To_EtcdProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual EtcdProfile_STATUS
+		err = actual.AssignProperties_From_EtcdProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_EtcdProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -940,6 +1549,82 @@ func EtcdProfile_STATUSGenerator() *rapid.Generator[EtcdProfile_STATUS] {
 	})
 
 	return etcdProfile_STATUSGenerator
+}
+
+// Test_HcpOpenShiftCluster_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftCluster round trips to the hub storage version and back losslessly
+func Test_HcpOpenShiftCluster_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClusterGenerator().Draw(t, "subject")
+		// Copy subject to make sure conversion doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Convert to our hub version
+		var hub storage.HcpOpenShiftCluster
+		err := copied.ConvertTo(&hub)
+		if err != nil {
+			t.Fatal("ConvertTo: " + err.Error())
+		}
+
+		// Convert from our hub version
+		var actual HcpOpenShiftCluster
+		err = actual.ConvertFrom(&hub)
+		if err != nil {
+			t.Fatal("ConvertFrom: " + err.Error())
+		}
+
+		// Compare actual with what we started with
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
+// Test_HcpOpenShiftCluster_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftCluster can be assigned to storage and back losslessly
+func Test_HcpOpenShiftCluster_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClusterGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HcpOpenShiftCluster
+		err := copied.AssignProperties_To_HcpOpenShiftCluster(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HcpOpenShiftCluster
+		err = actual.AssignProperties_From_HcpOpenShiftCluster(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HcpOpenShiftCluster_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1001,6 +1686,44 @@ func HcpOpenShiftClusterGenerator() *rapid.Generator[HcpOpenShiftCluster] {
 	return hcpOpenShiftClusterGenerator
 }
 
+// Test_HcpOpenShiftClusterOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftClusterOperatorSecrets can be assigned to storage and back losslessly
+func Test_HcpOpenShiftClusterOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClusterOperatorSecretsGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HcpOpenShiftClusterOperatorSecrets
+		err := copied.AssignProperties_To_HcpOpenShiftClusterOperatorSecrets(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HcpOpenShiftClusterOperatorSecrets
+		err = actual.AssignProperties_From_HcpOpenShiftClusterOperatorSecrets(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_HcpOpenShiftClusterOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1050,6 +1773,44 @@ func HcpOpenShiftClusterOperatorSecretsGenerator() *rapid.Generator[HcpOpenShift
 	hcpOpenShiftClusterOperatorSecretsGenerator = rapid.Just(HcpOpenShiftClusterOperatorSecrets{})
 
 	return hcpOpenShiftClusterOperatorSecretsGenerator
+}
+
+// Test_HcpOpenShiftClusterOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftClusterOperatorSpec can be assigned to storage and back losslessly
+func Test_HcpOpenShiftClusterOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClusterOperatorSpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HcpOpenShiftClusterOperatorSpec
+		err := copied.AssignProperties_To_HcpOpenShiftClusterOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HcpOpenShiftClusterOperatorSpec
+		err = actual.AssignProperties_From_HcpOpenShiftClusterOperatorSpec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HcpOpenShiftClusterOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1107,6 +1868,44 @@ func HcpOpenShiftClusterOperatorSpecGenerator() *rapid.Generator[HcpOpenShiftClu
 	})
 
 	return hcpOpenShiftClusterOperatorSpecGenerator
+}
+
+// Test_HcpOpenShiftClusterProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftClusterProperties can be assigned to storage and back losslessly
+func Test_HcpOpenShiftClusterProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClusterPropertiesGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HcpOpenShiftClusterProperties
+		err := copied.AssignProperties_To_HcpOpenShiftClusterProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HcpOpenShiftClusterProperties
+		err = actual.AssignProperties_From_HcpOpenShiftClusterProperties(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HcpOpenShiftClusterProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1186,6 +1985,44 @@ func HcpOpenShiftClusterPropertiesGenerator() *rapid.Generator[HcpOpenShiftClust
 	})
 
 	return hcpOpenShiftClusterPropertiesGenerator
+}
+
+// Test_HcpOpenShiftClusterProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftClusterProperties_STATUS can be assigned to storage and back losslessly
+func Test_HcpOpenShiftClusterProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftClusterProperties_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HcpOpenShiftClusterProperties_STATUS
+		err := copied.AssignProperties_To_HcpOpenShiftClusterProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HcpOpenShiftClusterProperties_STATUS
+		err = actual.AssignProperties_From_HcpOpenShiftClusterProperties_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HcpOpenShiftClusterProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1272,6 +2109,44 @@ func HcpOpenShiftClusterProperties_STATUSGenerator() *rapid.Generator[HcpOpenShi
 	return hcpOpenShiftClusterProperties_STATUSGenerator
 }
 
+// Test_HcpOpenShiftCluster_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftCluster_STATUS can be assigned to storage and back losslessly
+func Test_HcpOpenShiftCluster_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftCluster_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HcpOpenShiftCluster_STATUS
+		err := copied.AssignProperties_To_HcpOpenShiftCluster_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HcpOpenShiftCluster_STATUS
+		err = actual.AssignProperties_From_HcpOpenShiftCluster_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_HcpOpenShiftCluster_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1340,6 +2215,44 @@ func HcpOpenShiftCluster_STATUSGenerator() *rapid.Generator[HcpOpenShiftCluster_
 	})
 
 	return hcpOpenShiftCluster_STATUSGenerator
+}
+
+// Test_HcpOpenShiftCluster_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of HcpOpenShiftCluster_Spec can be assigned to storage and back losslessly
+func Test_HcpOpenShiftCluster_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := HcpOpenShiftCluster_SpecGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.HcpOpenShiftCluster_Spec
+		err := copied.AssignProperties_To_HcpOpenShiftCluster_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual HcpOpenShiftCluster_Spec
+		err = actual.AssignProperties_From_HcpOpenShiftCluster_Spec(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_HcpOpenShiftCluster_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1412,6 +2325,44 @@ func HcpOpenShiftCluster_SpecGenerator() *rapid.Generator[HcpOpenShiftCluster_Sp
 	return hcpOpenShiftCluster_SpecGenerator
 }
 
+// Test_ImageDigestMirror_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ImageDigestMirror can be assigned to storage and back losslessly
+func Test_ImageDigestMirror_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ImageDigestMirrorGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ImageDigestMirror
+		err := copied.AssignProperties_To_ImageDigestMirror(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ImageDigestMirror
+		err = actual.AssignProperties_From_ImageDigestMirror(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_ImageDigestMirror_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1468,6 +2419,44 @@ func ImageDigestMirrorGenerator() *rapid.Generator[ImageDigestMirror] {
 	})
 
 	return imageDigestMirrorGenerator
+}
+
+// Test_ImageDigestMirror_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ImageDigestMirror_STATUS can be assigned to storage and back losslessly
+func Test_ImageDigestMirror_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ImageDigestMirror_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ImageDigestMirror_STATUS
+		err := copied.AssignProperties_To_ImageDigestMirror_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ImageDigestMirror_STATUS
+		err = actual.AssignProperties_From_ImageDigestMirror_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ImageDigestMirror_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1529,6 +2518,44 @@ func ImageDigestMirror_STATUSGenerator() *rapid.Generator[ImageDigestMirror_STAT
 	return imageDigestMirror_STATUSGenerator
 }
 
+// Test_IngressProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of IngressProfile can be assigned to storage and back losslessly
+func Test_IngressProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := IngressProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.IngressProfile
+		err := copied.AssignProperties_To_IngressProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual IngressProfile
+		err = actual.AssignProperties_From_IngressProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_IngressProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1583,6 +2610,44 @@ func IngressProfileGenerator() *rapid.Generator[IngressProfile] {
 	})
 
 	return ingressProfileGenerator
+}
+
+// Test_IngressProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of IngressProfile_STATUS can be assigned to storage and back losslessly
+func Test_IngressProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := IngressProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.IngressProfile_STATUS
+		err := copied.AssignProperties_To_IngressProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual IngressProfile_STATUS
+		err = actual.AssignProperties_From_IngressProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_IngressProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1640,6 +2705,44 @@ func IngressProfile_STATUSGenerator() *rapid.Generator[IngressProfile_STATUS] {
 	})
 
 	return ingressProfile_STATUSGenerator
+}
+
+// Test_KmsEncryptionProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of KmsEncryptionProfile can be assigned to storage and back losslessly
+func Test_KmsEncryptionProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := KmsEncryptionProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.KmsEncryptionProfile
+		err := copied.AssignProperties_To_KmsEncryptionProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual KmsEncryptionProfile
+		err = actual.AssignProperties_From_KmsEncryptionProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_KmsEncryptionProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1702,6 +2805,44 @@ func KmsEncryptionProfileGenerator() *rapid.Generator[KmsEncryptionProfile] {
 	return kmsEncryptionProfileGenerator
 }
 
+// Test_KmsEncryptionProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of KmsEncryptionProfile_STATUS can be assigned to storage and back losslessly
+func Test_KmsEncryptionProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := KmsEncryptionProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.KmsEncryptionProfile_STATUS
+		err := copied.AssignProperties_To_KmsEncryptionProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual KmsEncryptionProfile_STATUS
+		err = actual.AssignProperties_From_KmsEncryptionProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_KmsEncryptionProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1762,6 +2903,44 @@ func KmsEncryptionProfile_STATUSGenerator() *rapid.Generator[KmsEncryptionProfil
 	return kmsEncryptionProfile_STATUSGenerator
 }
 
+// Test_KmsKey_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of KmsKey can be assigned to storage and back losslessly
+func Test_KmsKey_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := KmsKeyGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.KmsKey
+		err := copied.AssignProperties_To_KmsKey(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual KmsKey
+		err = actual.AssignProperties_From_KmsKey(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_KmsKey_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1817,6 +2996,44 @@ func KmsKeyGenerator() *rapid.Generator[KmsKey] {
 	})
 
 	return kmsKeyGenerator
+}
+
+// Test_KmsKey_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of KmsKey_STATUS can be assigned to storage and back losslessly
+func Test_KmsKey_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := KmsKey_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.KmsKey_STATUS
+		err := copied.AssignProperties_To_KmsKey_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual KmsKey_STATUS
+		err = actual.AssignProperties_From_KmsKey_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_KmsKey_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1876,6 +3093,44 @@ func KmsKey_STATUSGenerator() *rapid.Generator[KmsKey_STATUS] {
 	return kmsKey_STATUSGenerator
 }
 
+// Test_ManagedServiceIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ManagedServiceIdentity can be assigned to storage and back losslessly
+func Test_ManagedServiceIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ManagedServiceIdentityGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ManagedServiceIdentity
+		err := copied.AssignProperties_To_ManagedServiceIdentity(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ManagedServiceIdentity
+		err = actual.AssignProperties_From_ManagedServiceIdentity(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_ManagedServiceIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1933,6 +3188,44 @@ func ManagedServiceIdentityGenerator() *rapid.Generator[ManagedServiceIdentity] 
 	})
 
 	return managedServiceIdentityGenerator
+}
+
+// Test_ManagedServiceIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of ManagedServiceIdentity_STATUS can be assigned to storage and back losslessly
+func Test_ManagedServiceIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := ManagedServiceIdentity_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.ManagedServiceIdentity_STATUS
+		err := copied.AssignProperties_To_ManagedServiceIdentity_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual ManagedServiceIdentity_STATUS
+		err = actual.AssignProperties_From_ManagedServiceIdentity_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_ManagedServiceIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1998,6 +3291,44 @@ func ManagedServiceIdentity_STATUSGenerator() *rapid.Generator[ManagedServiceIde
 	return managedServiceIdentity_STATUSGenerator
 }
 
+// Test_NetworkProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NetworkProfile can be assigned to storage and back losslessly
+func Test_NetworkProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NetworkProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NetworkProfile
+		err := copied.AssignProperties_To_NetworkProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NetworkProfile
+		err = actual.AssignProperties_From_NetworkProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_NetworkProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -2057,6 +3388,44 @@ func NetworkProfileGenerator() *rapid.Generator[NetworkProfile] {
 	})
 
 	return networkProfileGenerator
+}
+
+// Test_NetworkProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of NetworkProfile_STATUS can be assigned to storage and back losslessly
+func Test_NetworkProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := NetworkProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.NetworkProfile_STATUS
+		err := copied.AssignProperties_To_NetworkProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual NetworkProfile_STATUS
+		err = actual.AssignProperties_From_NetworkProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_NetworkProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2121,6 +3490,44 @@ func NetworkProfile_STATUSGenerator() *rapid.Generator[NetworkProfile_STATUS] {
 	return networkProfile_STATUSGenerator
 }
 
+// Test_OperatorsAuthenticationProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of OperatorsAuthenticationProfile can be assigned to storage and back losslessly
+func Test_OperatorsAuthenticationProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := OperatorsAuthenticationProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.OperatorsAuthenticationProfile
+		err := copied.AssignProperties_To_OperatorsAuthenticationProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual OperatorsAuthenticationProfile
+		err = actual.AssignProperties_From_OperatorsAuthenticationProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_OperatorsAuthenticationProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -2176,6 +3583,44 @@ func OperatorsAuthenticationProfileGenerator() *rapid.Generator[OperatorsAuthent
 	})
 
 	return operatorsAuthenticationProfileGenerator
+}
+
+// Test_OperatorsAuthenticationProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of OperatorsAuthenticationProfile_STATUS can be assigned to storage and back losslessly
+func Test_OperatorsAuthenticationProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := OperatorsAuthenticationProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.OperatorsAuthenticationProfile_STATUS
+		err := copied.AssignProperties_To_OperatorsAuthenticationProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual OperatorsAuthenticationProfile_STATUS
+		err = actual.AssignProperties_From_OperatorsAuthenticationProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_OperatorsAuthenticationProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2235,6 +3680,44 @@ func OperatorsAuthenticationProfile_STATUSGenerator() *rapid.Generator[Operators
 	return operatorsAuthenticationProfile_STATUSGenerator
 }
 
+// Test_PlatformProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of PlatformProfile can be assigned to storage and back losslessly
+func Test_PlatformProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := PlatformProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.PlatformProfile
+		err := copied.AssignProperties_To_PlatformProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual PlatformProfile
+		err = actual.AssignProperties_From_PlatformProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_PlatformProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -2292,6 +3775,44 @@ func PlatformProfileGenerator() *rapid.Generator[PlatformProfile] {
 	})
 
 	return platformProfileGenerator
+}
+
+// Test_PlatformProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of PlatformProfile_STATUS can be assigned to storage and back losslessly
+func Test_PlatformProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := PlatformProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.PlatformProfile_STATUS
+		err := copied.AssignProperties_To_PlatformProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual PlatformProfile_STATUS
+		err = actual.AssignProperties_From_PlatformProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_PlatformProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2415,6 +3936,44 @@ func ResourceStatus_STATUSGenerator() *rapid.Generator[ResourceStatus_STATUS] {
 	return resourceStatus_STATUSGenerator
 }
 
+// Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
+func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := SystemData_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.SystemData_STATUS
+		err := copied.AssignProperties_To_SystemData_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual SystemData_STATUS
+		err = actual.AssignProperties_From_SystemData_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -2476,6 +4035,44 @@ func SystemData_STATUSGenerator() *rapid.Generator[SystemData_STATUS] {
 	return systemData_STATUSGenerator
 }
 
+// Test_UserAssignedIdentitiesProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UserAssignedIdentitiesProfile can be assigned to storage and back losslessly
+func Test_UserAssignedIdentitiesProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UserAssignedIdentitiesProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UserAssignedIdentitiesProfile
+		err := copied.AssignProperties_To_UserAssignedIdentitiesProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UserAssignedIdentitiesProfile
+		err = actual.AssignProperties_From_UserAssignedIdentitiesProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_UserAssignedIdentitiesProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -2525,6 +4122,44 @@ func UserAssignedIdentitiesProfileGenerator() *rapid.Generator[UserAssignedIdent
 	userAssignedIdentitiesProfileGenerator = rapid.Just(UserAssignedIdentitiesProfile{})
 
 	return userAssignedIdentitiesProfileGenerator
+}
+
+// Test_UserAssignedIdentitiesProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UserAssignedIdentitiesProfile_STATUS can be assigned to storage and back losslessly
+func Test_UserAssignedIdentitiesProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UserAssignedIdentitiesProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UserAssignedIdentitiesProfile_STATUS
+		err := copied.AssignProperties_To_UserAssignedIdentitiesProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UserAssignedIdentitiesProfile_STATUS
+		err = actual.AssignProperties_From_UserAssignedIdentitiesProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UserAssignedIdentitiesProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2589,6 +4224,44 @@ func UserAssignedIdentitiesProfile_STATUSGenerator() *rapid.Generator[UserAssign
 	return userAssignedIdentitiesProfile_STATUSGenerator
 }
 
+// Test_UserAssignedIdentityDetails_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UserAssignedIdentityDetails can be assigned to storage and back losslessly
+func Test_UserAssignedIdentityDetails_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UserAssignedIdentityDetailsGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UserAssignedIdentityDetails
+		err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UserAssignedIdentityDetails
+		err = actual.AssignProperties_From_UserAssignedIdentityDetails(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_UserAssignedIdentityDetails_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -2638,6 +4311,44 @@ func UserAssignedIdentityDetailsGenerator() *rapid.Generator[UserAssignedIdentit
 	userAssignedIdentityDetailsGenerator = rapid.Just(UserAssignedIdentityDetails{})
 
 	return userAssignedIdentityDetailsGenerator
+}
+
+// Test_UserAssignedIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UserAssignedIdentity_STATUS can be assigned to storage and back losslessly
+func Test_UserAssignedIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := UserAssignedIdentity_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.UserAssignedIdentity_STATUS
+		err := copied.AssignProperties_To_UserAssignedIdentity_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual UserAssignedIdentity_STATUS
+		err = actual.AssignProperties_From_UserAssignedIdentity_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_UserAssignedIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2698,6 +4409,44 @@ func UserAssignedIdentity_STATUSGenerator() *rapid.Generator[UserAssignedIdentit
 	return userAssignedIdentity_STATUSGenerator
 }
 
+// Test_VersionProfile_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of VersionProfile can be assigned to storage and back losslessly
+func Test_VersionProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := VersionProfileGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.VersionProfile
+		err := copied.AssignProperties_To_VersionProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual VersionProfile
+		err = actual.AssignProperties_From_VersionProfile(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
+}
+
 func Test_VersionProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -2753,6 +4502,44 @@ func VersionProfileGenerator() *rapid.Generator[VersionProfile] {
 	})
 
 	return versionProfileGenerator
+}
+
+// Test_VersionProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of VersionProfile_STATUS can be assigned to storage and back losslessly
+func Test_VersionProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, func(t *rapid.T) {
+		subject := VersionProfile_STATUSGenerator().Draw(t, "subject")
+		// Copy subject to make sure assignment doesn't modify it
+		copied := subject.DeepCopy()
+
+		// Use AssignPropertiesTo() for the first stage of conversion
+		var other storage.VersionProfile_STATUS
+		err := copied.AssignProperties_To_VersionProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesTo: " + err.Error())
+		}
+
+		// Use AssignPropertiesFrom() to convert back to our original type
+		var actual VersionProfile_STATUS
+		err = actual.AssignProperties_From_VersionProfile_STATUS(&other)
+		if err != nil {
+			t.Fatal("AssignPropertiesFrom: " + err.Error())
+		}
+
+		// Check for a match
+		match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+		if !match {
+			actualFmt := pretty.Sprint(actual)
+			subjectFmt := pretty.Sprint(subject)
+			result := diff.Diff(subjectFmt, actualFmt)
+			t.Error(result)
+		}
+	})
 }
 
 func Test_VersionProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

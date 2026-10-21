@@ -115,6 +115,30 @@ func TestResourceConversionGraph_WithGAAndPreviewReferences_HasExpectedTransitio
 	g.Expect(ref).To(Equal(after2020))
 }
 
+func TestResourceConversionGraph_WithHubVersion_ConvertsPreviewToConfiguredGAHub(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	person2020 := astmodel.MakeInternalTypeName(test.Pkg2020, "Person")
+	person2020s := astmodel.MakeInternalTypeName(test.Pkg2020s, "Person")
+	person2021 := astmodel.MakeInternalTypeName(test.Pkg2021, "Person")
+	person2021s := astmodel.MakeInternalTypeName(test.Pkg2021s, "Person")
+	person2021p := astmodel.MakeInternalTypeName(test.Pkg2021Preview, "Person")
+	person2021ps := astmodel.MakeInternalTypeName(test.Pkg2021PreviewStorage, "Person")
+
+	builder := NewResourceConversionGraphBuilder("demo")
+	builder.SetHubVersion(test.Pkg2021.APIVersion())
+	builder.Add(person2020, person2020s)
+	builder.Add(person2021, person2021s)
+	builder.Add(person2021p, person2021ps)
+	graph, err := builder.Build()
+
+	g.Expect(err).To(Succeed())
+	g.Expect(graph.TransitionCount()).To(Equal(5))
+	g.Expect(graph.LookupTransition(person2021p)).To(Equal(person2021ps))
+	g.Expect(graph.LookupTransition(person2021ps)).To(Equal(person2021s))
+}
+
 func TestResourceConversionGraph_WithCompatibilityReferences_HasExpectedTransitions(t *testing.T) {
 	/*
 	 * Test that a graph containing two GA versions and one *backward compatibility* version ends up with
