@@ -343,8 +343,19 @@ func (v Values) Validate() error {
 	if v.MaxConcurrentReconciles <= 0 {
 		return eris.Errorf("%s must be at least 1", config.MaxConcurrentReconciles)
 	}
-	if v.DefaultReconcilePolicy != annotations.ReconcilePolicyDetachOnDelete && v.DefaultReconcilePolicy != annotations.ReconcilePolicyManage && v.DefaultReconcilePolicy != annotations.ReconcilePolicySkip {
-		return eris.Errorf("%s must be set to any of (%s, %s, %s)", config.DefaultReconcilePolicy, annotations.ReconcilePolicyDetachOnDelete, annotations.ReconcilePolicyManage, annotations.ReconcilePolicySkip)
+	switch v.DefaultReconcilePolicy {
+	case annotations.ReconcilePolicyManage,
+		annotations.ReconcilePolicySkip,
+		annotations.ReconcilePolicyDetachOnDelete,
+		annotations.ReconcilePolicyObserveDelete:
+		// Valid policy.
+	default:
+		return eris.Errorf("%s must be set to any of (%s, %s, %s, %s)",
+			config.DefaultReconcilePolicy,
+			annotations.ReconcilePolicyManage,
+			annotations.ReconcilePolicySkip,
+			annotations.ReconcilePolicyDetachOnDelete,
+			annotations.ReconcilePolicyObserveDelete)
 	}
 	return nil
 }

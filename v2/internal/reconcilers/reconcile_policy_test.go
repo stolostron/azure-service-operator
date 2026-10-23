@@ -18,6 +18,7 @@ func TestParseReconcilePolicy(t *testing.T) {
 		"manage":           annotations.ReconcilePolicyManage,
 		"skip":             annotations.ReconcilePolicySkip,
 		"detach-on-delete": annotations.ReconcilePolicyDetachOnDelete,
+		"observe-delete":   annotations.ReconcilePolicyObserveDelete,
 	}
 
 	t.Parallel()
@@ -54,4 +55,9 @@ func TestHasReconcilePolicyAnnotationChanged(t *testing.T) {
 	old = "skip"
 	result = HasReconcilePolicyAnnotationChanged(&old, &new)
 	g.Expect(result).Should(Equal(false))
+
+	old = "manage"
+	new = "observe-delete"
+	g.Expect(HasReconcilePolicyAnnotationChanged(&old, &new)).Should(BeTrue())
+	g.Expect(HasReconcilePolicyAnnotationChanged(&new, &old)).Should(BeTrue())
 }

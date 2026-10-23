@@ -21,8 +21,19 @@ until the resource is created. If the resource is deleted in Kubernetes, it is _
 PUT and DELETE are skipped while GET is allowed.
 - `detach-on-delete`: Modifications are pushed to the backing Azure resource, but if the resource is deleted in Kubernetes, 
 it is _not_ deleted in Azure. In REST API terminology, PUT and GET are allowed while DELETE is skipped.
+- `observe-delete`: The operator reads the Azure resource and refreshes status, and deletes it from Azure when the
+  Kubernetes resource is deleted. It never creates or updates the Azure resource. In REST API terminology, GET and
+  DELETE are allowed while PUT is skipped. A `Ready` condition under this policy confirms the Azure resource can be
+  observed; it does not mean spec changes were applied.
     
 Unknown values default to `manage`.
+
+### `serviceoperator.azure.com/legacy-swift-placeholder`
+
+Set this to `"true"` on a legacy ARO HCP SWIFT cluster when its `vnetIntegrationSubnetReference` is a placeholder
+used only to satisfy the Kubernetes schema. The operator requires `serviceoperator.azure.com/reconcile-policy: observe-delete`
+on such an object. This prevents the placeholder from being sent in an ARM PUT. The annotation does not create a
+VNet or subnet and does not make the cluster eligible for updates.
 
 ### `serviceoperator.azure.com/credential-from`
 

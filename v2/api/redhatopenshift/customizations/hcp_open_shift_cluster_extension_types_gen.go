@@ -4,6 +4,8 @@
 package customizations
 
 import (
+	v20240610p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview"
+	v20240610ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview/storage"
 	v20251223p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview"
 	v20251223ps "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/storage"
 	v20260901p "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v20260901preview"
@@ -17,6 +19,8 @@ type HcpOpenShiftClusterExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *HcpOpenShiftClusterExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
+		&v20240610p.HcpOpenShiftCluster{},
+		&v20240610ps.HcpOpenShiftCluster{},
 		&v20251223p.HcpOpenShiftCluster{},
 		&v20251223ps.HcpOpenShiftCluster{},
 		&v20260901p.HcpOpenShiftCluster{},

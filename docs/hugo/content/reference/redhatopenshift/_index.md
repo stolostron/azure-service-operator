@@ -15,13 +15,22 @@ Development of these new resources is complete and they will be available in the
 | HcpOpenShiftClustersExternalAuth | 2026-09-01-preview | v20260901preview | v2.22.0        | -      |
 | HcpOpenShiftClustersNodePool     | 2026-09-01-preview | v20260901preview | v2.22.0        | -      |
 
-### Released
+### Latest Released Versions
 
-These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                       | ARM Version        | CRD Version          | Supported From | Sample                                                                                                                                 |
 |------------------------------------------------------------------------------------------------|--------------------|----------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | HcpOpenShiftCluster                                                                            | 2025-12-23-preview | v1api20251223preview | v2.13.0        | -                                                                                                                                      |
 | HcpOpenShiftClustersExternalAuth                                                               | 2025-12-23-preview | v1api20251223preview | v2.13.0        | -                                                                                                                                      |
 | HcpOpenShiftClustersNodePool                                                                   | 2025-12-23-preview | v1api20251223preview | v2.13.0        | -                                                                                                                                      |
 | [OpenShiftCluster]({{< relref "/reference/redhatopenshift/v1api20231122#OpenShiftCluster" >}}) | 2023-11-22         | v1api20231122        | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/redhatopenshift/v1api/v1api20231122_openshiftcluster.yaml) |
+
+### Other Supported Versions
+
+These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+| Resource                         | ARM Version        | CRD Version          | Supported From | Sample |
+|----------------------------------|--------------------|----------------------|----------------|--------|
+| HcpOpenShiftCluster              | 2024-06-10-preview | v1api20240610preview | v2.13.0        | -      |
+| HcpOpenShiftClustersExternalAuth | 2024-06-10-preview | v1api20240610preview | v2.13.0        | -      |
+| HcpOpenShiftClustersNodePool     | 2024-06-10-preview | v1api20240610preview | v2.13.0        | -      |
 

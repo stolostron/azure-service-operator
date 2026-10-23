@@ -27,6 +27,8 @@ func ParseReconcilePolicy(policy string, defaultReconcilePolicy annotations.Reco
 		return annotations.ReconcilePolicySkip, nil
 	case string(annotations.ReconcilePolicyDetachOnDelete):
 		return annotations.ReconcilePolicyDetachOnDelete, nil
+	case string(annotations.ReconcilePolicyObserveDelete):
+		return annotations.ReconcilePolicyObserveDelete, nil
 	default:
 		return defaultReconcilePolicy, eris.Errorf("%q is not a known reconcile policy", policy)
 	}
@@ -44,8 +46,8 @@ func HasReconcilePolicyAnnotationChanged(old *string, new *string) bool {
 	oldStr := to.Value(old)
 	newStr := to.Value(new)
 
-	// We only care about transitions to or from ReconcilePolicySkip. We don't need to
-	// trigger an event if ReconcilePolicyDetachOnDelete is added or removed, as that annotation
-	// only applies on delete (which we will always run reconcile on).
-	return oldStr == string(annotations.ReconcilePolicySkip) || newStr == string(annotations.ReconcilePolicySkip)
+	// Transitions to or from a policy that disables modification must reconcile immediately.
+	// DetachOnDelete only changes deletion behavior, which has its own reconcile event.
+	return oldStr == string(annotations.ReconcilePolicySkip) || newStr == string(annotations.ReconcilePolicySkip) ||
+		oldStr == string(annotations.ReconcilePolicyObserveDelete) || newStr == string(annotations.ReconcilePolicyObserveDelete)
 }

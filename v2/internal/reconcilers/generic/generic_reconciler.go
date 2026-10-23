@@ -238,6 +238,13 @@ func (gr *GenericReconciler) createOrUpdate(ctx context.Context, log logr.Logger
 
 	genruntime.AddLabel(metaObj, labels.LastReconciledVersionLabel, version.BuildVersion)
 	reconcilePolicy := gr.mergeReconcilePolicy(ctx, log, metaObj)
+	if metaObj.GetAnnotations()[annotations.LegacySwiftPlaceholder] == "true" && reconcilePolicy != annotations.ReconcilePolicyObserveDelete {
+		return ctrl.Result{}, conditions.NewReadyConditionImpactingError(
+			eris.Errorf("%s=true requires %s=%s to prevent an ARM PUT with a placeholder subnet",
+				annotations.LegacySwiftPlaceholder, annotations.ReconcilePolicy, annotations.ReconcilePolicyObserveDelete),
+			conditions.ConditionSeverityError,
+			conditions.ReasonFailed)
+	}
 	if !reconcilePolicy.AllowsModify() {
 		return ctrl.Result{}, gr.handleSkipReconcile(ctx, log, metaObj)
 	}
