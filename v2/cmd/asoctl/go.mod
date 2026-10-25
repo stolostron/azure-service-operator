@@ -1,6 +1,6 @@
 module github.com/Azure/azure-service-operator/v2/cmd/asoctl
 
-go 1.25.7
+go 1.27
 
 replace github.com/Azure/azure-service-operator/v2 => ../../
 
