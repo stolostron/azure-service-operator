@@ -1,6 +1,6 @@
 module github.com/Azure/azure-service-operator/hack/crossplane
 
-go 1.25.0
+go 1.27
 
 require (
 	github.com/crossplane/crossplane-runtime v0.19.2
