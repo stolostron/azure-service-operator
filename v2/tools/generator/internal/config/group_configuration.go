@@ -31,7 +31,6 @@ type GroupConfiguration struct {
 	versions map[string]*VersionConfiguration
 	advisor  *typo.Advisor
 	// Configurable properties here (alphabetical, please)
-	HubVersion  configurable[string]      // Specify which API version should be the hub/storage version for this group
 	PayloadType configurable[PayloadType] // Specify how this property should be serialized for ARM
 }
 
@@ -45,7 +44,6 @@ const (
 )
 
 const (
-	hubVersionTag  = "$hubVersion"  // String specifying which API version should be the hub/storage version for a group.
 	payloadTypeTag = "$payloadType" // Enumeration specifying what kind of payload to send to ARM.
 )
 
@@ -57,7 +55,6 @@ func NewGroupConfiguration(name string) *GroupConfiguration {
 		versions: make(map[string]*VersionConfiguration),
 		advisor:  typo.NewAdvisor(),
 		// Initialize configurable properties here (alphabetical, please)
-		HubVersion:  makeConfigurable[string](hubVersionTag, scope),
 		PayloadType: makeConfigurable[PayloadType](payloadTypeTag, scope),
 	}
 }
@@ -194,12 +191,6 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			if err != nil {
 				return eris.Wrapf(err, "adding version %q", lastID)
 			}
-			continue
-		}
-
-		// $hubVersion: <string>
-		if strings.EqualFold(lastID, hubVersionTag) && c.Kind == yaml.ScalarNode {
-			gc.HubVersion.Set(c.Value)
 			continue
 		}
 

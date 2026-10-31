@@ -17,7 +17,6 @@ import (
 // the storage variants of the packages. It uses a separate ResourceConversionGraphBuilder for each distinct resource/type
 type GroupConversionGraphBuilder struct {
 	group         string                                                                  // Common group of the resources needing conversions
-	hubVersion    string                                                                  // Optional override for which version should be the hub
 	configuration *config.ObjectModelConfiguration                                        // Configuration used to look up renames
 	subBuilders   map[string]*ResourceConversionGraphBuilder                              // Nested builders, one for each resource, keyed by resource name
 	packages      *astmodel.PackageReferenceSet                                           // Set of all storage packages in this group
@@ -45,13 +44,6 @@ func (b *GroupConversionGraphBuilder) Add(names ...astmodel.InternalTypeName) {
 		subBuilder.Add(name)
 
 		b.packages.AddReference(name.InternalPackageReference())
-
-		// If a hub version override is configured for this group, pass it to both
-		// the resource builder and this group builder
-		if hubVersion, ok := b.configuration.HubVersion.Lookup(name.InternalPackageReference()); ok {
-			b.hubVersion = hubVersion
-			subBuilder.SetHubVersion(hubVersion)
-		}
 	}
 }
 
@@ -138,29 +130,7 @@ func (b *GroupConversionGraphBuilder) compatibilityReferencesConvertToOriginalPa
 
 // previewReferencesConvertBackward links each preview version to the immediately prior version, no matter whether it's
 // preview or GA.
-// When a hubVersion override is configured, preview packages are linked forward among themselves only,
-// keeping them separate from GA packages.
 func (b *GroupConversionGraphBuilder) previewReferencesConvertBackward(refs []astmodel.InternalPackageReference) {
-	if b.hubVersion != "" {
-		// Link preview packages forward to each other only.
-		var previewRefs []astmodel.InternalPackageReference
-		for _, ref := range refs {
-			if ref.IsPreview() {
-				previewRefs = append(previewRefs, ref)
-			}
-		}
-
-		for i, ref := range previewRefs {
-			if i+1 >= len(previewRefs) {
-				break
-			}
-
-			b.links[ref] = previewRefs[i+1]
-		}
-
-		return
-	}
-
 	for i, ref := range refs {
 		if i == 0 || !ref.IsPreview() {
 			continue
@@ -178,27 +148,16 @@ func (b *GroupConversionGraphBuilder) previewReferencesConvertBackward(refs []as
 }
 
 // nonPreviewReferencesConvertForward links each version with the immediately following version.
-// By the time we run this stage, we should only have non-preview (aka GA) releases left.
-// When a hubVersion override is configured, only non-preview packages are linked.
+// By the time we run this stage, we should only have non-preview (aka GA) releases left
 func (b *GroupConversionGraphBuilder) nonPreviewReferencesConvertForward(refs []astmodel.InternalPackageReference) {
-	toLink := refs
-	if b.hubVersion != "" {
-		var nonPreview []astmodel.InternalPackageReference
-		for _, ref := range refs {
-			if !ref.IsPreview() {
-				nonPreview = append(nonPreview, ref)
-			}
-		}
-
-		toLink = nonPreview
-	}
-
-	for i, ref := range toLink {
-		if i+1 >= len(toLink) {
+	for i, ref := range refs {
+		// Links are created from the current index to the next;
+		// if we're at the end of the sequence, there's nothing to do.
+		if i+1 >= len(refs) {
 			break
 		}
 
-		b.links[ref] = toLink[i+1]
+		b.links[ref] = refs[i+1]
 	}
 }
 
