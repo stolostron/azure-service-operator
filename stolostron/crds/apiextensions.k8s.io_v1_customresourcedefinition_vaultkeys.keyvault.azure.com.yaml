@@ -1,0 +1,1024 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: azureserviceoperator-system/azureserviceoperator-serving-cert
+    controller-gen.kubebuilder.io/version: v0.17.3
+  labels:
+    app.kubernetes.io/name: azure-service-operator
+    app.kubernetes.io/version: v2.22.0-hcpclusters.0-rev.34-dirty
+  name: vaultkeys.keyvault.azure.com
+spec:
+  conversion:
+    strategy: Webhook
+    webhook:
+      clientConfig:
+        service:
+          name: azureserviceoperator-webhook-service
+          namespace: azureserviceoperator-system
+          path: /convert
+          port: 443
+      conversionReviewVersions:
+      - v1
+  group: keyvault.azure.com
+  names:
+    categories:
+    - azure
+    - keyvault
+    kind: VaultKey
+    listKind: VaultKeyList
+    plural: vaultkeys
+    singular: vaultkey
+  preserveUnknownFields: false
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v20230701
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Generator information:
+          - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2023-07-01/keys.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                pattern: ^[a-zA-Z0-9-]{1,127}$
+                type: string
+              operatorSpec:
+                description: |-
+                  OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+                  passed directly to Azure
+                properties:
+                  configMapExpressions:
+                    description: 'ConfigMapExpressions: configures where to place
+                      operator written dynamic ConfigMaps (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: Annotations is an optional set of annotations
+                            to apply to the destination resource.
+                          type: object
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: Labels is an optional set of labels to apply
+                            to the destination resource.
+                          type: object
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  createMode:
+                    description: |-
+                      CreateMode: Specifies how the operator handles a soft-deleted key occupying the requested name at creation time.
+                      'default' issues a plain create and surfaces the Azure conflict error if a soft-deleted key blocks the name; 'recover'
+                      recovers the soft-deleted key and fails when none exists; 'createOrRecover' recovers a soft-deleted key when one exists
+                      and otherwise creates a new key; 'purgeThenCreate' permanently purges the soft-deleted key before creating a
+                      replacement. Defaults to 'default'.
+                    enum:
+                    - default
+                    - recover
+                    - createOrRecover
+                    - purgeThenCreate
+                    type: string
+                  deleteMode:
+                    description: |-
+                      DeleteMode: Specifies what happens to the key in Azure when the VaultKey resource is deleted from Kubernetes. 'detach'
+                      leaves the key untouched in the vault; 'delete' soft-deletes the key via the Key Vault data plane; 'disable' sets the
+                      key's enabled attribute to false and leaves it in the vault. Defaults to 'detach', which preserves the key.
+                    enum:
+                    - detach
+                    - delete
+                    - disable
+                    type: string
+                  secretExpressions:
+                    description: 'SecretExpressions: configures where to place operator
+                      written dynamic secrets (created with CEL expressions).'
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: Annotations is an optional set of annotations
+                            to apply to the destination resource.
+                          type: object
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: Labels is an optional set of labels to apply
+                            to the destination resource.
+                          type: object
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a keyvault.azure.com/Vault resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              properties:
+                description: 'Properties: The properties of the key to be created.'
+                properties:
+                  attributes:
+                    description: 'Attributes: The attributes of the key.'
+                    properties:
+                      enabled:
+                        description: 'Enabled: Determines whether or not the object
+                          is enabled.'
+                        type: boolean
+                      exp:
+                        description: 'Exp: Expiry date in seconds since 1970-01-01T00:00:00Z.'
+                        type: integer
+                      exportable:
+                        description: 'Exportable: Indicates if the private key can
+                          be exported.'
+                        type: boolean
+                      nbf:
+                        description: 'Nbf: Not before date in seconds since 1970-01-01T00:00:00Z.'
+                        type: integer
+                    type: object
+                  curveName:
+                    description: 'CurveName: The elliptic curve name. For valid values,
+                      see JsonWebKeyCurveName.'
+                    enum:
+                    - P-256
+                    - P-256K
+                    - P-384
+                    - P-521
+                    type: string
+                  keyOps:
+                    items:
+                      enum:
+                      - decrypt
+                      - encrypt
+                      - import
+                      - release
+                      - sign
+                      - unwrapKey
+                      - verify
+                      - wrapKey
+                      type: string
+                    type: array
+                  keySize:
+                    description: 'KeySize: The key size in bits. For example: 2048,
+                      3072, or 4096 for RSA.'
+                    type: integer
+                  kty:
+                    description: 'Kty: The type of the key. For valid values, see
+                      JsonWebKeyType.'
+                    enum:
+                    - EC
+                    - EC-HSM
+                    - RSA
+                    - RSA-HSM
+                    type: string
+                  release_policy:
+                    description: 'Release_Policy: Key release policy in response.
+                      It will be used for both output and input. Omitted if empty'
+                    properties:
+                      contentType:
+                        description: 'ContentType: Content type and version of key
+                          release policy'
+                        type: string
+                      data:
+                        description: 'Data: Blob encoding the policy rules under which
+                          the key can be released.'
+                        pattern: ^[-A-Za-z0-9_]*={0,2}$
+                        type: string
+                    type: object
+                  rotationPolicy:
+                    description: 'RotationPolicy: Key rotation policy in response.
+                      It will be used for both output and input. Omitted if empty'
+                    properties:
+                      attributes:
+                        description: 'Attributes: The attributes of key rotation policy.'
+                        properties:
+                          expiryTime:
+                            description: 'ExpiryTime: The expiration time for the
+                              new key version. It should be in ISO8601 format. Eg:
+                              ''P90D'', ''P1Y''.'
+                            type: string
+                        type: object
+                      lifetimeActions:
+                        description: 'LifetimeActions: The lifetimeActions for key
+                          rotation action.'
+                        items:
+                          properties:
+                            action:
+                              description: 'Action: The action of key rotation policy
+                                lifetimeAction.'
+                              properties:
+                                type:
+                                  description: 'Type: The type of action.'
+                                  enum:
+                                  - notify
+                                  - rotate
+                                  type: string
+                              type: object
+                            trigger:
+                              description: 'Trigger: The trigger of key rotation policy
+                                lifetimeAction.'
+                              properties:
+                                timeAfterCreate:
+                                  description: |-
+                                    TimeAfterCreate: The time duration after key creation to rotate the key. It only applies to rotate. It will be in ISO
+                                    8601 duration format. Eg: 'P90D', 'P1Y'.
+                                  type: string
+                                timeBeforeExpiry:
+                                  description: |-
+                                    TimeBeforeExpiry: The time duration before key expiring to rotate or notify. It will be in ISO 8601 duration format. Eg:
+                                    'P90D', 'P1Y'.
+                                  type: string
+                              type: object
+                          type: object
+                        type: array
+                    type: object
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: The tags that will be assigned to the key.'
+                type: object
+            required:
+            - owner
+            - properties
+            type: object
+          status:
+            properties:
+              attributes:
+                description: 'Attributes: The attributes of the key.'
+                properties:
+                  created:
+                    description: 'Created: Creation time in seconds since 1970-01-01T00:00:00Z.'
+                    type: integer
+                  enabled:
+                    description: 'Enabled: Determines whether or not the object is
+                      enabled.'
+                    type: boolean
+                  exp:
+                    description: 'Exp: Expiry date in seconds since 1970-01-01T00:00:00Z.'
+                    type: integer
+                  exportable:
+                    description: 'Exportable: Indicates if the private key can be
+                      exported.'
+                    type: boolean
+                  nbf:
+                    description: 'Nbf: Not before date in seconds since 1970-01-01T00:00:00Z.'
+                    type: integer
+                  recoveryLevel:
+                    description: |-
+                      RecoveryLevel: The deletion recovery level currently in effect for the object. If it contains 'Purgeable', then the
+                      object can be permanently deleted by a privileged user; otherwise, only the system can purge the object at the end of
+                      the retention interval.
+                    type: string
+                  updated:
+                    description: 'Updated: Last updated time in seconds since 1970-01-01T00:00:00Z.'
+                    type: integer
+                type: object
+              conditions:
+                description: 'Conditions: The observed state of the resource'
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              curveName:
+                description: 'CurveName: The elliptic curve name. For valid values,
+                  see JsonWebKeyCurveName.'
+                type: string
+              id:
+                description: 'Id: Fully qualified identifier of the key vault resource.'
+                type: string
+              keyOps:
+                items:
+                  type: string
+                type: array
+              keySize:
+                description: 'KeySize: The key size in bits. For example: 2048, 3072,
+                  or 4096 for RSA.'
+                type: integer
+              keyUri:
+                description: 'KeyUri: The URI to retrieve the current version of the
+                  key.'
+                type: string
+              keyUriWithVersion:
+                description: 'KeyUriWithVersion: The URI to retrieve the specific
+                  version of the key.'
+                type: string
+              kty:
+                description: 'Kty: The type of the key. For valid values, see JsonWebKeyType.'
+                type: string
+              location:
+                description: 'Location: Azure location of the key vault resource.'
+                type: string
+              name:
+                description: 'Name: Name of the key vault resource.'
+                type: string
+              release_policy:
+                description: 'Release_Policy: Key release policy in response. It will
+                  be used for both output and input. Omitted if empty'
+                properties:
+                  contentType:
+                    description: 'ContentType: Content type and version of key release
+                      policy'
+                    type: string
+                  data:
+                    description: 'Data: Blob encoding the policy rules under which
+                      the key can be released.'
+                    type: string
+                type: object
+              rotationPolicy:
+                description: 'RotationPolicy: Key rotation policy in response. It
+                  will be used for both output and input. Omitted if empty'
+                properties:
+                  attributes:
+                    description: 'Attributes: The attributes of key rotation policy.'
+                    properties:
+                      created:
+                        description: 'Created: Creation time in seconds since 1970-01-01T00:00:00Z.'
+                        type: integer
+                      expiryTime:
+                        description: 'ExpiryTime: The expiration time for the new
+                          key version. It should be in ISO8601 format. Eg: ''P90D'',
+                          ''P1Y''.'
+                        type: string
+                      updated:
+                        description: 'Updated: Last updated time in seconds since
+                          1970-01-01T00:00:00Z.'
+                        type: integer
+                    type: object
+                  lifetimeActions:
+                    description: 'LifetimeActions: The lifetimeActions for key rotation
+                      action.'
+                    items:
+                      properties:
+                        action:
+                          description: 'Action: The action of key rotation policy
+                            lifetimeAction.'
+                          properties:
+                            type:
+                              description: 'Type: The type of action.'
+                              type: string
+                          type: object
+                        trigger:
+                          description: 'Trigger: The trigger of key rotation policy
+                            lifetimeAction.'
+                          properties:
+                            timeAfterCreate:
+                              description: |-
+                                TimeAfterCreate: The time duration after key creation to rotate the key. It only applies to rotate. It will be in ISO
+                                8601 duration format. Eg: 'P90D', 'P1Y'.
+                              type: string
+                            timeBeforeExpiry:
+                              description: |-
+                                TimeBeforeExpiry: The time duration before key expiring to rotate or notify. It will be in ISO 8601 duration format. Eg:
+                                'P90D', 'P1Y'.
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: 'Tags: Tags assigned to the key vault resource.'
+                type: object
+              type:
+                description: 'Type: Resource type of the key vault resource.'
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: false
+    subresources:
+      status: {}
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: Ready
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].severity
+      name: Severity
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].reason
+      name: Reason
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].message
+      name: Message
+      type: string
+    name: v20230701storage
+    schema:
+      openAPIV3Schema:
+        description: |-
+          Storage version of v20230701.VaultKey
+          Generator information:
+          - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2023-07-01/keys.json
+          - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Storage version of v20230701.VaultKey_Spec
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              azureName:
+                description: |-
+                  AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+                  doesn't have to be.
+                type: string
+              operatorSpec:
+                description: |-
+                  Storage version of v20230701.VaultKeyOperatorSpec
+                  Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  configMapExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: Annotations is an optional set of annotations
+                            to apply to the destination resource.
+                          type: object
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: Labels is an optional set of labels to apply
+                            to the destination resource.
+                          type: object
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                  createMode:
+                    type: string
+                  deleteMode:
+                    type: string
+                  secretExpressions:
+                    items:
+                      description: |-
+                        DestinationExpression is a CEL expression and a destination to store the result in. The destination may
+                        be a secret or a configmap. The value of the expression is stored at the specified location in
+                        the destination.
+                      properties:
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: Annotations is an optional set of annotations
+                            to apply to the destination resource.
+                          type: object
+                        key:
+                          description: |-
+                            Key is the key in the ConfigMap or Secret being written to. If the CEL expression in Value returns a string
+                            this is required to identify what key to write to. If the CEL expression in Value returns a map[string]string
+                            Key must not be set, instead the keys written will be determined dynamically based on the keys of the resulting
+                            map[string]string.
+                          type: string
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: Labels is an optional set of labels to apply
+                            to the destination resource.
+                          type: object
+                        name:
+                          description: |-
+                            Name is the name of the Kubernetes configmap or secret to write to.
+                            The configmap or secret will be created in the same namespace as the resource.
+                          type: string
+                        value:
+                          description: |-
+                            Value is a CEL expression. The CEL expression may return a string or a map[string]string. For more information
+                            on CEL in ASO see https://azure.github.io/azure-service-operator/guide/expressions/
+                          type: string
+                      required:
+                      - name
+                      - value
+                      type: object
+                    type: array
+                type: object
+              originalVersion:
+                type: string
+              owner:
+                description: |-
+                  Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+                  controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+                  reference to a keyvault.azure.com/Vault resource
+                properties:
+                  armId:
+                    pattern: (?i)(^(/subscriptions/([^/]+)(/resourcegroups/([^/]+))?)?/providers/([^/]+)/([^/]+/[^/]+)(/([^/]+/[^/]+))*$|^/subscriptions/([^/]+)(/resourcegroups/([^/]+))?$)
+                    type: string
+                  name:
+                    description: This is the name of the Kubernetes resource to reference.
+                    type: string
+                type: object
+              properties:
+                description: |-
+                  Storage version of v20230701.KeyProperties
+                  The properties of the key.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  attributes:
+                    description: |-
+                      Storage version of v20230701.KeyAttributes
+                      The object attributes managed by the Azure Key Vault service.
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      enabled:
+                        type: boolean
+                      exp:
+                        type: integer
+                      exportable:
+                        type: boolean
+                      nbf:
+                        type: integer
+                    type: object
+                  curveName:
+                    type: string
+                  keyOps:
+                    items:
+                      type: string
+                    type: array
+                  keySize:
+                    type: integer
+                  kty:
+                    type: string
+                  release_policy:
+                    description: Storage version of v20230701.KeyReleasePolicy
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      contentType:
+                        type: string
+                      data:
+                        type: string
+                    type: object
+                  rotationPolicy:
+                    description: Storage version of v20230701.RotationPolicy
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      attributes:
+                        description: Storage version of v20230701.KeyRotationPolicyAttributes
+                        properties:
+                          $propertyBag:
+                            additionalProperties:
+                              type: string
+                            description: |-
+                              PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                              resources, allowing for full fidelity round trip conversions
+                            type: object
+                          expiryTime:
+                            type: string
+                        type: object
+                      lifetimeActions:
+                        items:
+                          description: Storage version of v20230701.LifetimeAction
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            action:
+                              description: Storage version of v20230701.Action
+                              properties:
+                                $propertyBag:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                    resources, allowing for full fidelity round trip conversions
+                                  type: object
+                                type:
+                                  type: string
+                              type: object
+                            trigger:
+                              description: Storage version of v20230701.Trigger
+                              properties:
+                                $propertyBag:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                    resources, allowing for full fidelity round trip conversions
+                                  type: object
+                                timeAfterCreate:
+                                  type: string
+                                timeBeforeExpiry:
+                                  type: string
+                              type: object
+                          type: object
+                        type: array
+                    type: object
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+            required:
+            - owner
+            type: object
+          status:
+            description: Storage version of v20230701.VaultKey_STATUS
+            properties:
+              $propertyBag:
+                additionalProperties:
+                  type: string
+                description: |-
+                  PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                  resources, allowing for full fidelity round trip conversions
+                type: object
+              attributes:
+                description: |-
+                  Storage version of v20230701.KeyAttributes_STATUS
+                  The object attributes managed by the Azure Key Vault service.
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  created:
+                    type: integer
+                  enabled:
+                    type: boolean
+                  exp:
+                    type: integer
+                  exportable:
+                    type: boolean
+                  nbf:
+                    type: integer
+                  recoveryLevel:
+                    type: string
+                  updated:
+                    type: integer
+                type: object
+              conditions:
+                items:
+                  description: Condition defines an extension to status (an observation)
+                    of a resource
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time the condition
+                        transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Message is a human readable message indicating
+                        details about the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration is the .metadata.generation that the condition was set based upon. For instance, if
+                        .metadata.generation is currently 12, but the .status.condition[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: |-
+                        Reason for the condition's last transition.
+                        Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+                      type: string
+                    severity:
+                      description: |-
+                        Severity with which to treat failures of this type of condition.
+                        For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+                        For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+                        This is omitted in all cases when Status == Unknown
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, or
+                        Unknown.
+                      type: string
+                    type:
+                      description: Type of condition.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              curveName:
+                type: string
+              id:
+                type: string
+              keyOps:
+                items:
+                  type: string
+                type: array
+              keySize:
+                type: integer
+              keyUri:
+                type: string
+              keyUriWithVersion:
+                type: string
+              kty:
+                type: string
+              location:
+                type: string
+              name:
+                type: string
+              release_policy:
+                description: Storage version of v20230701.KeyReleasePolicy_STATUS
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  contentType:
+                    type: string
+                  data:
+                    type: string
+                type: object
+              rotationPolicy:
+                description: Storage version of v20230701.RotationPolicy_STATUS
+                properties:
+                  $propertyBag:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                      resources, allowing for full fidelity round trip conversions
+                    type: object
+                  attributes:
+                    description: Storage version of v20230701.KeyRotationPolicyAttributes_STATUS
+                    properties:
+                      $propertyBag:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                          resources, allowing for full fidelity round trip conversions
+                        type: object
+                      created:
+                        type: integer
+                      expiryTime:
+                        type: string
+                      updated:
+                        type: integer
+                    type: object
+                  lifetimeActions:
+                    items:
+                      description: Storage version of v20230701.LifetimeAction_STATUS
+                      properties:
+                        $propertyBag:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                            resources, allowing for full fidelity round trip conversions
+                          type: object
+                        action:
+                          description: Storage version of v20230701.Action_STATUS
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            type:
+                              type: string
+                          type: object
+                        trigger:
+                          description: Storage version of v20230701.Trigger_STATUS
+                          properties:
+                            $propertyBag:
+                              additionalProperties:
+                                type: string
+                              description: |-
+                                PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
+                                resources, allowing for full fidelity round trip conversions
+                              type: object
+                            timeAfterCreate:
+                              type: string
+                            timeBeforeExpiry:
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                type: object
+              type:
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

@@ -3,10 +3,10 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     cert-manager.io/inject-ca-from: azureserviceoperator-system/azureserviceoperator-serving-cert
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.17.3
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.22.0
+    app.kubernetes.io/version: v2.22.0-hcpclusters.0-rev.34-dirty
   name: fluxconfigurations.kubernetesconfiguration.azure.com
 spec:
   conversion:
@@ -50,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/fluxconfiguration.json
+          - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/legacy/stable/2023-05-01/fluxconfiguration.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}
         properties:
           apiVersion:
@@ -1090,7 +1090,7 @@ spec:
         description: |-
           Storage version of v1api20230501.FluxConfiguration
           Generator information:
-          - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/fluxconfiguration.json
+          - Generated from: /kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/legacy/stable/2023-05-01/fluxconfiguration.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}
         properties:
           apiVersion:
@@ -3196,6 +3196,9 @@ spec:
                         type: object
                     type: object
                 type: object
+              provisioningState:
+                description: 'ProvisioningState: Status of the creation of the fluxConfiguration.'
+                type: string
               reconciliationWaitDuration:
                 description: 'ReconciliationWaitDuration: Maximum duration to wait
                   for flux configuration reconciliation. E.g PT1H, PT5M, P1D'
@@ -4485,6 +4488,8 @@ spec:
                         type: object
                     type: object
                 type: object
+              provisioningState:
+                type: string
               reconciliationWaitDuration:
                 type: string
               repositoryPublicKey:

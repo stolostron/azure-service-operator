@@ -38,7 +38,6 @@ type ObjectModelConfiguration struct {
 	groupCache     map[string]*GroupConfiguration
 
 	// Group access fields here (alphabetical, please)
-	HubVersion  groupAccess[string]
 	PayloadType propertyAccess[PayloadType]
 
 	// Type access fields here (alphabetical, please)
@@ -77,11 +76,6 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 
 	// Initialize group access fields here (alphabetical, please)
 	// Initialize multi-level access fields here (alphabetical, please)
-	result.HubVersion = makeGroupAccess[string](
-		result,
-		func(c *GroupConfiguration) *configurable[string] { return &c.HubVersion },
-	)
-
 	result.PayloadType = makeGroupAccess[PayloadType](
 		result,
 		func(c *GroupConfiguration) *configurable[PayloadType] { return &c.PayloadType },
