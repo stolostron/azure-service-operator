@@ -52,8 +52,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armope
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights v1.2.0/go.mod h1:A4nzEXwVd5pAyneR6KOvUAo72svUc5rmCzRHhAbP6lA=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redhatopenshift/armredhatopenshift v1.6.0 h1:66BMYGcSQ+uMaWXiB1Kaf6PDauXGMVSLxdA9SGlE6Sc=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redhatopenshift/armredhatopenshift v1.6.0/go.mod h1:/t2+d3mPIi1Ul1eXtxc5y9qmxMD3oHfSlCibhYKIB/U=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp v0.1.0 h1:ic07tO7uPPWkpL7KdgsaNicu5WM8ObcqqwQSSWiHFdw=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp v0.1.0/go.mod h1:TRTpHzjntyVOvGyrQGPTPIPROJxq7ZgVFHhaEC00AoQ=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp v1.0.0 h1:2/H4ZHeUnrcAS7S2jk2/SfutgRW1qaITL8xLUPzre3w=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp v1.0.0/go.mod h1:ht8s3TLF6Gi26EeIJOQ4eU7bQeUkaeob8ui4SXxw2ZI=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis v1.0.0 h1:nmpTBgRg1HynngFYICRhceC7s5dmbKN9fJ/XQz/UQ2I=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis v1.0.0/go.mod h1:3yjiOtnkVociBTlF7UZrwAGfJrGaOCsvtVS4HzNajxQ=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redisenterprise/armredisenterprise v1.2.0 h1:hTmVmyvriwO+ymGLEsH7HZokVwinC2MZl8F0LjvPdHU=
@@ -72,8 +72,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscripti
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/subscription/armsubscription v1.2.0/go.mod h1:qskvSQeW+cxEE2bcKYyKimB1/KiQ9xpJ99bcHY0BX6c=
 github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azkeys v1.5.0 h1:MaKvxE6D0KkjOg6Wd9M00iqP5PR0kUxCfiezes4JweM=
 github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azkeys v1.5.0/go.mod h1:i2h9fsTFKZorh8RdV2IcSUf/Qj98GlTkrTvUbX/s8as=
-github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azsecrets v1.5.0 h1:aMFOzch6ZJo4Ct9hI4A9Y2fPen5YNRTPmkSBhe5m0ZQ=
-github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azsecrets v1.5.0/go.mod h1:Oct8bx+g+DXKngU7i/LzFzYt44rmLdMu4uoofIpooVo=
+github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azsecrets v1.5.1 h1:f4X/okTwHAfzJamPo8hyStXinb4sCTK36gMZj+KLQdw=
+github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azsecrets v1.5.1/go.mod h1:sEd11NnHY3lizFx/zf5u7x5qNjhF0t5VZM0irRHKXVU=
 github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/internal v1.2.0 h1:nCYfgcSyHZXJI8J0IWE5MsCGlb2xp9fJiXyxWgmOFg4=
 github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/internal v1.2.0/go.mod h1:ucUjca2JtSZboY8IoUqyQyuuXvwbMBVwFOm0vdQPNhA=
 github.com/Azure/msi-dataplane v0.4.3 h1:dWPWzY4b54tLIR9T1Q014Xxd/1DxOsMIp6EjRFAJlQY=
