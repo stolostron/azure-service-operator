@@ -341,5 +341,6 @@ fi
 
 write-info "Setting up python virtual environment"
 
-# Install python virtualenv
-pip3 install virtualenv --break-system-packages
+# The Debian-managed packaging package has no RECORD file for pip to uninstall.
+# Ignore it so pip can install the version required by virtualenv.
+pip3 install virtualenv --break-system-packages --ignore-installed packaging
