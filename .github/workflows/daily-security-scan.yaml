@@ -35,7 +35,7 @@ jobs:
       fail-fast: false
       matrix:
         # Keep this list aligned with docs/branch-sync-policy.md and govulncheck.yaml.
-        branch: ${{ fromJSON(github.event_name == 'schedule' && '["main","backplane-2.11","backplane-2.17","backplane-5.0","backplane-5.1","backplane-5.2","release-2.13","release-2.18","release-2.19"]' || format('[{0}]', toJSON((github.event_name == 'pull_request' && github.base_ref) || (github.event_name == 'workflow_dispatch' && inputs.pr_number && inputs.base_branch) || github.ref_name))) }}
+        branch: ${{ fromJSON(github.event_name == 'schedule' && '["main","backplane-2.11","backplane-2.17","backplane-5.0","backplane-5.1","backplane-5.2","release-2.13","release-2.18"]' || format('[{0}]', toJSON((github.event_name == 'pull_request' && github.base_ref) || (github.event_name == 'workflow_dispatch' && inputs.pr_number && inputs.base_branch) || github.ref_name))) }}
     name: Trivy (${{ matrix.branch }})
     runs-on: ubuntu-latest
     timeout-minutes: 15

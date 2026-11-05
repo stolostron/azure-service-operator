@@ -26,7 +26,7 @@ jobs:
         # Keep this list aligned with docs/branch-sync-policy.md. The 5.x
         # backplane branches are scanned here but receive updates by fast-forward
         # from their source branches rather than independent PRs.
-        branch: ${{ fromJSON(github.event_name == 'schedule' && '["main","backplane-2.11","backplane-2.17","backplane-5.0","backplane-5.1","backplane-5.2","release-2.13","release-2.18","release-2.19"]' || '["main"]') }}
+        branch: ${{ fromJSON(github.event_name == 'schedule' && '["main","backplane-2.11","backplane-2.17","backplane-5.0","backplane-5.1","backplane-5.2","release-2.13","release-2.18"]' || '["main"]') }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
