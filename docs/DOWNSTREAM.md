@@ -65,6 +65,23 @@ Summary:
 | `release-2.18`, `release-2.19` | upstream release branches + ARO-HCP | Manual, security updates only |
 | `backplane-2.17`, `backplane-2.11` | — | Manual, security findings only |
 
+## CAPI integration test coverage
+
+The PR workflow waits for the target branch's Konflux build, then runs
+`capi-tests` against the matching deployment branch.
+
+| PR target | Konflux PR check | `capi-tests` branch |
+|---|---|---|
+| `main` | `azure-service-operator-mce-51-on-pull-request` | `backplane-5.1` |
+| `release-2.13` | `azure-service-operator-mce-217-on-pull-request` | `backplane-2.17` |
+| `release-2.18` | `azure-service-operator-mce-50-on-pull-request` | `backplane-5.0` |
+| `backplane-2.17` | `azure-service-operator-mce-217-on-pull-request` | `backplane-2.17` |
+| `backplane-2.11` | `azure-service-operator-mce-211-on-pull-request` | `backplane-2.11` |
+
+The `backplane-5.0`, `backplane-5.1`, and `backplane-5.2` branches are
+fast-forward-only; their PR checks run on their source branches (`release-2.18`
+or `main`).
+
 ## Working with the fork
 
 - **All PRs target `main`.** Changes flow to `backplane-5.1` automatically via
