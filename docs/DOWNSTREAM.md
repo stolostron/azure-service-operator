@@ -29,10 +29,10 @@ upstream sync workflow, and the Konflux build configuration.
 | Concern | Where it lives | Notes |
 |---------|----------------|-------|
 | Upstream sync | [`.github/workflows/sync-upstream-main.yaml`](../.github/workflows/sync-upstream-main.yaml) | Weekly (Mon 06:00 UTC) + manual dispatch. Merges `upstream/main` into a `sync/upstream-main` branch and opens a regular PR. On any conflict the job fails; resolve the merge manually on `sync/upstream-main` and push to unblock. |
-| Branch fast-forward | [`.github/workflows/ffwd-branch.yaml`](../.github/workflows/ffwd-branch.yaml) | Every push to `main` is fast-forwarded into `backplane-5.1`. One-directional — direct PRs to `backplane-5.*` are rejected. |
+| Branch fast-forward | [`.github/workflows/ffwd-branch.yaml`](../.github/workflows/ffwd-branch.yaml) | Every push to `main` is fast-forwarded into `backplane-5.1` and `backplane-5.2`; pushes to `release-2.18` are fast-forwarded into `backplane-5.0`. One-directional — the direct-PR workflow fails, but see current ruleset enforcement in the [branch policy](branch-sync-policy.md). |
 | Downstream build | [`stolostron/Dockerfile.stolostron`](../stolostron/Dockerfile.stolostron) | Red Hat UBI9-based image for MCE packaging. Built by Konflux. |
 | Konflux pipelines | [`.tekton/`](../.tekton) | Tekton `PipelineRun` definitions for MCE releases, split into `-pull-request` and `-push` variants. |
-| Branch policy | [`docs/branch-sync-policy.md`](branch-sync-policy.md) | Authoritative branch-to-source mapping and protection rules. |
+| Branch policy | [`docs/branch-sync-policy.md`](branch-sync-policy.md) | Authoritative branch-to-source mapping, intended protections, and current GitHub ruleset status. |
 
 ## Dependency security updates
 
@@ -60,16 +60,24 @@ Summary:
 | Branch | Source | Sync mechanism |
 |--------|--------|----------------|
 | `main` | `Azure/main` + ARO-HCP customizations | Weekly merge-based sync via `sync-upstream-main.yaml` (PR-based, not fast-forward) |
-| `backplane-5.1` | `main` | FFWD-only via `ffwd-branch.yaml` on every push to `main` |
-| `backplane-5.0` | `release-2.18` | Manual (no automated sync) |
-| `release-2.18`, `release-2.19` | upstream release branches + ARO-HCP | Manual, security updates only |
-| `backplane-2.17`, `backplane-2.11` | — | Manual, security findings only |
+| `backplane-5.1`, `backplane-5.2` | `main` | FFWD-only via `ffwd-branch.yaml` on every push to `main` |
+| `backplane-5.0` | `release-2.18` | FFWD-only via `ffwd-branch.yaml` on every push to `release-2.18` |
+| `release-2.18` | upstream release branch + ARO-HCP | Manual, security updates only |
+| `release-2.13` | upstream release branch + ARO-HCP | Manual, security updates only; security fixes also require PRs to `backplane-2.11` and `backplane-2.17` |
+| `backplane-2.17`, `backplane-2.11` | — | Manual, security findings only; no fast-forward from `release-2.13` |
+
+`release-2.19` has been deleted. `release-2.23` has not been created; a release
+candidate is planned to sync to `backplane-5.1`.
 
 ## Working with the fork
 
-- **All PRs target `main`.** Changes flow to `backplane-5.1` automatically via
-  the fast-forward workflow. Never open a PR directly against a `backplane-*`
-  branch — it will be rejected.
+- **Target the source branch for fast-forward lines.** PRs for
+  `backplane-5.1`/`backplane-5.2` go to `main`; PRs for `backplane-5.0` go to
+  `release-2.18`. Do not open PRs directly to those `backplane-5.*` branches.
+  The direct-PR workflow fails, but the current ruleset does not make that
+  check required; see the [branch policy](branch-sync-policy.md).
+  Security fixes for `release-2.13` also need direct PRs to both
+  `backplane-2.11` and `backplane-2.17`, which do not fast-forward.
 - **Keep changes upstream-friendly.** Prefer contributing fixes upstream and
   letting them flow down via the sync. Downstream-only patches make every future
   sync harder to merge.
