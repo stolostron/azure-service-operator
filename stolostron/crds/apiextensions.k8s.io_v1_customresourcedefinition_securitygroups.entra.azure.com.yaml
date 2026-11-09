@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.17.3
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.22.0-hcpclusters.0-rev.34-dirty
+    app.kubernetes.io/version: v2.23.0-hcpclusters.3
   name: securitygroups.entra.azure.com
 spec:
   conversion:
@@ -171,13 +171,15 @@ spec:
                   creationMode:
                     description: |-
                       CreationMode: Specifies how ASO will try to create the resource.
-                      Specify "AlwaysCreate" to always create a new security group when first reconciled.
-                      Or specify "AdoptOrCreate" to first try to adopt an existing security group with the same display name.
+                      "AlwaysCreate" to always create a new security group when first reconciled.
+                      "AdoptOrCreate" to first try to adopt an existing security group with the same display name.
+                      "AdoptOnly" to require an existing security group without creating one.
                       If multiple security groups with the same display name are found, the resource condition will show an error.
                       If not specified, defaults to "AdoptOrCreate".
                     enum:
                     - AdoptOrCreate
                     - AlwaysCreate
+                    - AdoptOnly
                     type: string
                 type: object
               owners:

@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.17.3
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.22.0-hcpclusters.0-rev.34-dirty
+    app.kubernetes.io/version: v2.23.0-hcpclusters.3
   name: storageaccounts.storage.azure.com
 spec:
   conversion:
@@ -50,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/storage.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2021-04-01/storage.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:
@@ -1878,7 +1878,7 @@ spec:
         description: |-
           Storage version of v1api20210401.StorageAccount
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/storage.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2021-04-01/storage.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:
@@ -3770,7 +3770,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2022-09-01/storage.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2022-09-01/storage.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:
@@ -5808,7 +5808,7 @@ spec:
         description: |-
           Storage version of v1api20220901.StorageAccount
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2022-09-01/storage.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2022-09-01/storage.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:
@@ -7827,7 +7827,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/storage.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/storage.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:
@@ -9891,7 +9891,7 @@ spec:
         description: |-
           Storage version of v1api20230101.StorageAccount
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/storage.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/storage.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:
@@ -11920,7 +11920,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/storage.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2021-04-01/storage.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:
@@ -13748,7 +13748,7 @@ spec:
         description: |-
           Storage version of v20210401.StorageAccount
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/storage.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2021-04-01/storage.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:
@@ -15640,7 +15640,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2022-09-01/storage.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2022-09-01/storage.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:
@@ -17678,7 +17678,7 @@ spec:
         description: |-
           Storage version of v20220901.StorageAccount
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2022-09-01/storage.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2022-09-01/storage.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:
@@ -19697,7 +19697,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/storage.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/storage.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:
@@ -21761,7 +21761,7 @@ spec:
         description: |-
           Storage version of v20230101.StorageAccount
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/storage.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/storage.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:
@@ -23790,7 +23790,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:
@@ -26256,7 +26256,7 @@ spec:
         description: |-
           Storage version of v20250601.StorageAccount
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:
@@ -28712,7 +28712,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2026-06-01/openapi.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2026-06-01/openapi.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:
@@ -31324,7 +31324,7 @@ spec:
         description: |-
           Storage version of v20260601.StorageAccount
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2026-06-01/openapi.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2026-06-01/openapi.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
         properties:
           apiVersion:

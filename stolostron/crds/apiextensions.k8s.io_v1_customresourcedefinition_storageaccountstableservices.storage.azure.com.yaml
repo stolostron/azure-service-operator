@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.17.3
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.22.0-hcpclusters.0-rev.34-dirty
+    app.kubernetes.io/version: v2.23.0-hcpclusters.3
   name: storageaccountstableservices.storage.azure.com
 spec:
   conversion:
@@ -50,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2022-09-01/table.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2022-09-01/table.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default
         properties:
           apiVersion:
@@ -378,7 +378,7 @@ spec:
         description: |-
           Storage version of v1api20220901.StorageAccountsTableService
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2022-09-01/table.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2022-09-01/table.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default
         properties:
           apiVersion:
@@ -700,7 +700,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/table.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/table.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default
         properties:
           apiVersion:
@@ -1030,7 +1030,7 @@ spec:
         description: |-
           Storage version of v1api20230101.StorageAccountsTableService
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/table.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/table.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default
         properties:
           apiVersion:
@@ -1352,7 +1352,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2022-09-01/table.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2022-09-01/table.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default
         properties:
           apiVersion:
@@ -1680,7 +1680,7 @@ spec:
         description: |-
           Storage version of v20220901.StorageAccountsTableService
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2022-09-01/table.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2022-09-01/table.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default
         properties:
           apiVersion:
@@ -2002,7 +2002,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/table.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/table.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default
         properties:
           apiVersion:
@@ -2332,7 +2332,7 @@ spec:
         description: |-
           Storage version of v20230101.StorageAccountsTableService
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2023-01-01/table.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2023-01-01/table.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default
         properties:
           apiVersion:
@@ -2654,7 +2654,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default
         properties:
           apiVersion:
@@ -3011,7 +3011,7 @@ spec:
         description: |-
           Storage version of v20250601.StorageAccountsTableService
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2025-06-01/openapi.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2025-06-01/openapi.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default
         properties:
           apiVersion:
@@ -3358,7 +3358,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2026-06-01/openapi.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2026-06-01/openapi.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default
         properties:
           apiVersion:
@@ -3715,7 +3715,7 @@ spec:
         description: |-
           Storage version of v20260601.StorageAccountsTableService
           Generator information:
-          - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2026-06-01/openapi.json
+          - Generated from: /storage/resource-manager/Microsoft.Storage/Storage/stable/2026-06-01/openapi.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/tableServices/default
         properties:
           apiVersion:
