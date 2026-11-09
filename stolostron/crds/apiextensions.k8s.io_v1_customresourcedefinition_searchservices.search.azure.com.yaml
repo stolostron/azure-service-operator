@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.17.3
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.22.0-hcpclusters.0-rev.34-dirty
+    app.kubernetes.io/version: v2.23.0-hcpclusters.3
   name: searchservices.search.azure.com
 spec:
   conversion:

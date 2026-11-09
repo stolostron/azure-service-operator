@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.17.3
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.22.0-hcpclusters.0-rev.34-dirty
+    app.kubernetes.io/version: v2.23.0-hcpclusters.3
   name: hcpopenshiftclusters.redhatopenshift.azure.com
 spec:
   conversion:
@@ -395,15 +395,46 @@ spec:
                                         maxLength: 255
                                         minLength: 1
                                         type: string
+                                      nameFromConfig:
+                                        description: 'NameFromConfig: name is the
+                                          name of the keyvault key used for encryption/decryption.'
+                                        properties:
+                                          key:
+                                            description: Key is the key in the Kubernetes
+                                              configmap being referenced
+                                            type: string
+                                          name:
+                                            description: |-
+                                              Name is the name of the Kubernetes configmap being referenced.
+                                              The configmap must be in the same namespace as the resource
+                                            type: string
+                                        required:
+                                        - key
+                                        - name
+                                        type: object
                                       version:
                                         description: 'Version: version contains the
                                           version of the key to use.'
                                         maxLength: 255
                                         minLength: 1
                                         type: string
-                                    required:
-                                    - name
-                                    - version
+                                      versionFromConfig:
+                                        description: 'VersionFromConfig: version contains
+                                          the version of the key to use.'
+                                        properties:
+                                          key:
+                                            description: Key is the key in the Kubernetes
+                                              configmap being referenced
+                                            type: string
+                                          name:
+                                            description: |-
+                                              Name is the name of the Kubernetes configmap being referenced.
+                                              The configmap must be in the same namespace as the resource
+                                            type: string
+                                        required:
+                                        - key
+                                        - name
+                                        type: object
                                     type: object
                                   vaultName:
                                     description: 'VaultName: vaultName is the name
@@ -1706,8 +1737,44 @@ spec:
                                         type: object
                                       name:
                                         type: string
+                                      nameFromConfig:
+                                        description: |-
+                                          ConfigMapReference is a reference to a Kubernetes configmap and key in the same namespace as
+                                          the resource it is on.
+                                        properties:
+                                          key:
+                                            description: Key is the key in the Kubernetes
+                                              configmap being referenced
+                                            type: string
+                                          name:
+                                            description: |-
+                                              Name is the name of the Kubernetes configmap being referenced.
+                                              The configmap must be in the same namespace as the resource
+                                            type: string
+                                        required:
+                                        - key
+                                        - name
+                                        type: object
                                       version:
                                         type: string
+                                      versionFromConfig:
+                                        description: |-
+                                          ConfigMapReference is a reference to a Kubernetes configmap and key in the same namespace as
+                                          the resource it is on.
+                                        properties:
+                                          key:
+                                            description: Key is the key in the Kubernetes
+                                              configmap being referenced
+                                            type: string
+                                          name:
+                                            description: |-
+                                              Name is the name of the Kubernetes configmap being referenced.
+                                              The configmap must be in the same namespace as the resource
+                                            type: string
+                                        required:
+                                        - key
+                                        - name
+                                        type: object
                                     type: object
                                   vaultName:
                                     type: string
@@ -2875,15 +2942,46 @@ spec:
                                         maxLength: 255
                                         minLength: 1
                                         type: string
+                                      nameFromConfig:
+                                        description: 'NameFromConfig: name is the
+                                          name of the keyvault key used for encryption/decryption.'
+                                        properties:
+                                          key:
+                                            description: Key is the key in the Kubernetes
+                                              configmap being referenced
+                                            type: string
+                                          name:
+                                            description: |-
+                                              Name is the name of the Kubernetes configmap being referenced.
+                                              The configmap must be in the same namespace as the resource
+                                            type: string
+                                        required:
+                                        - key
+                                        - name
+                                        type: object
                                       version:
                                         description: 'Version: version contains the
                                           version of the key to use.'
                                         maxLength: 255
                                         minLength: 1
                                         type: string
-                                    required:
-                                    - name
-                                    - version
+                                      versionFromConfig:
+                                        description: 'VersionFromConfig: version contains
+                                          the version of the key to use.'
+                                        properties:
+                                          key:
+                                            description: Key is the key in the Kubernetes
+                                              configmap being referenced
+                                            type: string
+                                          name:
+                                            description: |-
+                                              Name is the name of the Kubernetes configmap being referenced.
+                                              The configmap must be in the same namespace as the resource
+                                            type: string
+                                        required:
+                                        - key
+                                        - name
+                                        type: object
                                     type: object
                                   keyVaultType:
                                     description: 'KeyVaultType: The type of keyvault
@@ -4254,8 +4352,44 @@ spec:
                                         type: object
                                       name:
                                         type: string
+                                      nameFromConfig:
+                                        description: |-
+                                          ConfigMapReference is a reference to a Kubernetes configmap and key in the same namespace as
+                                          the resource it is on.
+                                        properties:
+                                          key:
+                                            description: Key is the key in the Kubernetes
+                                              configmap being referenced
+                                            type: string
+                                          name:
+                                            description: |-
+                                              Name is the name of the Kubernetes configmap being referenced.
+                                              The configmap must be in the same namespace as the resource
+                                            type: string
+                                        required:
+                                        - key
+                                        - name
+                                        type: object
                                       version:
                                         type: string
+                                      versionFromConfig:
+                                        description: |-
+                                          ConfigMapReference is a reference to a Kubernetes configmap and key in the same namespace as
+                                          the resource it is on.
+                                        properties:
+                                          key:
+                                            description: Key is the key in the Kubernetes
+                                              configmap being referenced
+                                            type: string
+                                          name:
+                                            description: |-
+                                              Name is the name of the Kubernetes configmap being referenced.
+                                              The configmap must be in the same namespace as the resource
+                                            type: string
+                                        required:
+                                        - key
+                                        - name
+                                        type: object
                                     type: object
                                   keyVaultType:
                                     type: string

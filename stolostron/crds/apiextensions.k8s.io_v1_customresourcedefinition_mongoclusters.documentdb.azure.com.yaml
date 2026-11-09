@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.17.3
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.22.0-hcpclusters.0-rev.34-dirty
+    app.kubernetes.io/version: v2.23.0-hcpclusters.3
   name: mongoclusters.documentdb.azure.com
 spec:
   conversion:
@@ -194,7 +194,7 @@ spec:
                 properties:
                   administrator:
                     description: 'Administrator: The local administrator properties
-                      for the mongo cluster.'
+                      for the DocumentDB cluster.'
                     properties:
                       password:
                         description: 'Password: The administrator password.'
@@ -217,7 +217,8 @@ spec:
                         type: string
                     type: object
                   compute:
-                    description: 'Compute: The compute properties of the mongo cluster.'
+                    description: 'Compute: The compute properties of the DocumentDB
+                      cluster.'
                     properties:
                       tier:
                         description: |-
@@ -226,7 +227,7 @@ spec:
                         type: string
                     type: object
                   createMode:
-                    description: 'CreateMode: The mode to create a mongo cluster.'
+                    description: 'CreateMode: The mode to create a DocumentDB cluster.'
                     enum:
                     - Default
                     - GeoReplica
@@ -235,7 +236,7 @@ spec:
                     type: string
                   highAvailability:
                     description: 'HighAvailability: The high availability properties
-                      of the mongo cluster.'
+                      of the DocumentDB cluster.'
                     properties:
                       targetMode:
                         description: 'TargetMode: The target high availability mode
@@ -249,7 +250,7 @@ spec:
                   previewFeatures:
                     description: 'PreviewFeatures: List of private endpoint connections.'
                     items:
-                      description: Preview features that can be enabled on a mongo
+                      description: Preview features that can be enabled on a DocumentDB
                         cluster.
                       enum:
                       - GeoReplicas
@@ -257,14 +258,14 @@ spec:
                     type: array
                   publicNetworkAccess:
                     description: 'PublicNetworkAccess: Whether or not public endpoint
-                      access is allowed for this mongo cluster.'
+                      access is allowed for this DocumentDB cluster.'
                     enum:
                     - Disabled
                     - Enabled
                     type: string
                   replicaParameters:
                     description: 'ReplicaParameters: The parameters to create a replica
-                      mongo cluster.'
+                      DocumentDB cluster.'
                     properties:
                       sourceLocation:
                         description: 'SourceLocation: The location of the source cluster'
@@ -296,11 +297,11 @@ spec:
                     type: object
                   restoreParameters:
                     description: 'RestoreParameters: The parameters to create a point-in-time
-                      restore mongo cluster.'
+                      restore DocumentDB cluster.'
                     properties:
                       pointInTimeUTC:
                         description: 'PointInTimeUTC: UTC point in time to restore
-                          a mongo cluster'
+                          a DocumentDB cluster'
                         type: string
                       sourceResourceReference:
                         description: 'SourceResourceReference: Resource ID to locate
@@ -329,7 +330,8 @@ spec:
                       to the latest available version if not specified.'
                     type: string
                   sharding:
-                    description: 'Sharding: The sharding properties of the mongo cluster.'
+                    description: 'Sharding: The sharding properties of the DocumentDB
+                      cluster.'
                     properties:
                       shardCount:
                         description: 'ShardCount: Number of shards to provision on
@@ -337,7 +339,8 @@ spec:
                         type: integer
                     type: object
                   storage:
-                    description: 'Storage: The storage properties of the mongo cluster.'
+                    description: 'Storage: The storage properties of the DocumentDB
+                      cluster.'
                     properties:
                       sizeGb:
                         description: 'SizeGb: The size of the data disk assigned to
@@ -355,7 +358,7 @@ spec:
             - owner
             type: object
           status:
-            description: Represents a mongo cluster resource.
+            description: Represents a DocumentDB cluster resource.
             properties:
               conditions:
                 description: 'Conditions: The observed state of the resource'
@@ -422,14 +425,15 @@ spec:
                 properties:
                   administrator:
                     description: 'Administrator: The local administrator properties
-                      for the mongo cluster.'
+                      for the DocumentDB cluster.'
                     properties:
                       userName:
                         description: 'UserName: The administrator user name.'
                         type: string
                     type: object
                   backup:
-                    description: 'Backup: The backup properties of the mongo cluster.'
+                    description: 'Backup: The backup properties of the DocumentDB
+                      cluster.'
                     properties:
                       earliestRestoreTime:
                         description: 'EarliestRestoreTime: Earliest restore timestamp
@@ -437,10 +441,11 @@ spec:
                         type: string
                     type: object
                   clusterStatus:
-                    description: 'ClusterStatus: The status of the mongo cluster.'
+                    description: 'ClusterStatus: The status of the DocumentDB cluster.'
                     type: string
                   compute:
-                    description: 'Compute: The compute properties of the mongo cluster.'
+                    description: 'Compute: The compute properties of the DocumentDB
+                      cluster.'
                     properties:
                       tier:
                         description: |-
@@ -453,11 +458,11 @@ spec:
                       for the cluster.'
                     type: string
                   createMode:
-                    description: 'CreateMode: The mode to create a mongo cluster.'
+                    description: 'CreateMode: The mode to create a DocumentDB cluster.'
                     type: string
                   highAvailability:
                     description: 'HighAvailability: The high availability properties
-                      of the mongo cluster.'
+                      of the DocumentDB cluster.'
                     properties:
                       targetMode:
                         description: 'TargetMode: The target high availability mode
@@ -471,7 +476,7 @@ spec:
                   previewFeatures:
                     description: 'PreviewFeatures: List of private endpoint connections.'
                     items:
-                      description: Preview features that can be enabled on a mongo
+                      description: Preview features that can be enabled on a DocumentDB
                         cluster.
                       type: string
                     type: array
@@ -490,14 +495,14 @@ spec:
                     type: array
                   provisioningState:
                     description: 'ProvisioningState: The provisioning state of the
-                      mongo cluster.'
+                      DocumentDB cluster.'
                     type: string
                   publicNetworkAccess:
                     description: 'PublicNetworkAccess: Whether or not public endpoint
-                      access is allowed for this mongo cluster.'
+                      access is allowed for this DocumentDB cluster.'
                     type: string
                   replica:
-                    description: 'Replica: The replication properties for the mongo
+                    description: 'Replica: The replication properties for the DocumentDB
                       cluster'
                     properties:
                       replicationState:
@@ -514,7 +519,7 @@ spec:
                     type: object
                   replicaParameters:
                     description: 'ReplicaParameters: The parameters to create a replica
-                      mongo cluster.'
+                      DocumentDB cluster.'
                     properties:
                       sourceLocation:
                         description: 'SourceLocation: The location of the source cluster'
@@ -526,11 +531,11 @@ spec:
                     type: object
                   restoreParameters:
                     description: 'RestoreParameters: The parameters to create a point-in-time
-                      restore mongo cluster.'
+                      restore DocumentDB cluster.'
                     properties:
                       pointInTimeUTC:
                         description: 'PointInTimeUTC: UTC point in time to restore
-                          a mongo cluster'
+                          a DocumentDB cluster'
                         type: string
                       sourceResourceId:
                         description: 'SourceResourceId: Resource ID to locate the
@@ -542,7 +547,8 @@ spec:
                       to the latest available version if not specified.'
                     type: string
                   sharding:
-                    description: 'Sharding: The sharding properties of the mongo cluster.'
+                    description: 'Sharding: The sharding properties of the DocumentDB
+                      cluster.'
                     properties:
                       shardCount:
                         description: 'ShardCount: Number of shards to provision on
@@ -550,7 +556,8 @@ spec:
                         type: integer
                     type: object
                   storage:
-                    description: 'Storage: The storage properties of the mongo cluster.'
+                    description: 'Storage: The storage properties of the DocumentDB
+                      cluster.'
                     properties:
                       sizeGb:
                         description: 'SizeGb: The size of the data disk assigned to
@@ -769,7 +776,7 @@ spec:
               properties:
                 description: |-
                   Storage version of v1api20240701.MongoClusterProperties
-                  The properties of a mongo cluster.
+                  The properties of a DocumentDB cluster.
                 properties:
                   $propertyBag:
                     additionalProperties:
@@ -967,7 +974,7 @@ spec:
           status:
             description: |-
               Storage version of v1api20240701.MongoCluster_STATUS
-              Represents a mongo cluster resource.
+              Represents a DocumentDB cluster resource.
             properties:
               $propertyBag:
                 additionalProperties:
@@ -1032,7 +1039,7 @@ spec:
               properties:
                 description: |-
                   Storage version of v1api20240701.MongoClusterProperties_STATUS
-                  The properties of a mongo cluster.
+                  The properties of a DocumentDB cluster.
                 properties:
                   $propertyBag:
                     additionalProperties:
@@ -1138,7 +1145,7 @@ spec:
                   replica:
                     description: |-
                       Storage version of v1api20240701.ReplicationProperties_STATUS
-                      Replica properties of the mongo cluster.
+                      Replica properties of the DocumentDB cluster.
                     properties:
                       $propertyBag:
                         additionalProperties:

@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.17.3
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.22.0-hcpclusters.0-rev.34-dirty
+    app.kubernetes.io/version: v2.23.0-hcpclusters.3
   name: flexibleserversadvancedthreatprotectionsettings.dbforpostgresql.azure.com
 spec:
   conversion:
@@ -50,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/ThreatProtection.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2024-08-01/ThreatProtection.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/Default
         properties:
           apiVersion:
@@ -312,7 +312,7 @@ spec:
         description: |-
           Storage version of v1api20240801.FlexibleServersAdvancedThreatProtectionSettings
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/ThreatProtection.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2024-08-01/ThreatProtection.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/Default
         properties:
           apiVersion:
@@ -573,7 +573,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/ThreatProtection.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2024-08-01/ThreatProtection.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/Default
         properties:
           apiVersion:
@@ -835,7 +835,7 @@ spec:
         description: |-
           Storage version of v20240801.FlexibleServersAdvancedThreatProtectionSettings
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/ThreatProtection.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2024-08-01/ThreatProtection.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/Default
         properties:
           apiVersion:
@@ -1096,7 +1096,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2025-08-01/openapi.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/Default
         properties:
           apiVersion:
@@ -1358,7 +1358,7 @@ spec:
         description: |-
           Storage version of v20250801.FlexibleServersAdvancedThreatProtectionSettings
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2025-08-01/openapi.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/advancedThreatProtectionSettings/Default
         properties:
           apiVersion:

@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.17.3
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.22.0-hcpclusters.0-rev.34-dirty
+    app.kubernetes.io/version: v2.23.0-hcpclusters.3
   name: flexibleserversfirewallrules.dbforpostgresql.azure.com
 spec:
   conversion:
@@ -50,7 +50,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/postgresql.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2021-06-01/postgresql.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -318,7 +318,7 @@ spec:
         description: |-
           Storage version of v1api20210601.FlexibleServersFirewallRule
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/postgresql.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2021-06-01/postgresql.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -586,7 +586,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/preview/2022-01-20-preview/postgresql.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -854,7 +854,7 @@ spec:
         description: |-
           Storage version of v1api20220120preview.FlexibleServersFirewallRule
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/preview/2022-01-20-preview/postgresql.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -1122,7 +1122,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-12-01/FirewallRules.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2022-12-01/FirewallRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -1393,7 +1393,7 @@ spec:
         description: |-
           Storage version of v1api20221201.FlexibleServersFirewallRule
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-12-01/FirewallRules.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2022-12-01/FirewallRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -1661,7 +1661,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/FirewallRules.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/preview/2023-06-01-preview/FirewallRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -1932,7 +1932,7 @@ spec:
         description: |-
           Storage version of v1api20230601preview.FlexibleServersFirewallRule
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/FirewallRules.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/preview/2023-06-01-preview/FirewallRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -2200,7 +2200,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/FirewallRules.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2024-08-01/FirewallRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -2473,7 +2473,7 @@ spec:
         description: |-
           Storage version of v1api20240801.FlexibleServersFirewallRule
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/FirewallRules.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2024-08-01/FirewallRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -2741,7 +2741,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/postgresql.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2021-06-01/postgresql.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -3009,7 +3009,7 @@ spec:
         description: |-
           Storage version of v20210601.FlexibleServersFirewallRule
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/postgresql.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2021-06-01/postgresql.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -3277,7 +3277,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/preview/2022-01-20-preview/postgresql.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -3545,7 +3545,7 @@ spec:
         description: |-
           Storage version of v20220120preview.FlexibleServersFirewallRule
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/preview/2022-01-20-preview/postgresql.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -3813,7 +3813,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-12-01/FirewallRules.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2022-12-01/FirewallRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -4084,7 +4084,7 @@ spec:
         description: |-
           Storage version of v20221201.FlexibleServersFirewallRule
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2022-12-01/FirewallRules.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2022-12-01/FirewallRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -4352,7 +4352,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/FirewallRules.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/preview/2023-06-01-preview/FirewallRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -4623,7 +4623,7 @@ spec:
         description: |-
           Storage version of v20230601preview.FlexibleServersFirewallRule
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/FirewallRules.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/preview/2023-06-01-preview/FirewallRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -4891,7 +4891,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/FirewallRules.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2024-08-01/FirewallRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -5164,7 +5164,7 @@ spec:
         description: |-
           Storage version of v20240801.FlexibleServersFirewallRule
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/FirewallRules.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2024-08-01/FirewallRules.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -5432,7 +5432,7 @@ spec:
       openAPIV3Schema:
         description: |-
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2025-08-01/openapi.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
@@ -5705,7 +5705,7 @@ spec:
         description: |-
           Storage version of v20250801.FlexibleServersFirewallRule
           Generator information:
-          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2025-08-01/openapi.json
+          - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/PostgreSql/stable/2025-08-01/openapi.json
           - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
         properties:
           apiVersion:
