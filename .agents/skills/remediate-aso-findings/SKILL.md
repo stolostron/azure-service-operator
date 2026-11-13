@@ -1,0 +1,39 @@
+---
+name: remediate-aso-findings
+description: Use when reconciling or remediating Trivy and govulncheck findings in stolostron/azure-service-operator across main, release, and backplane branches, including repeat runs after fixes and scans change.
+---
+
+# Remediate ASO findings
+
+Use this workflow for `stolostron/azure-service-operator`. Use `gh` for GitHub work; never use a browser. Treat each run as a fresh reconciliation of issues, PRs, branch heads, and scanner evidence. Follow `AGENTS.md`, `SECURITY.md`, and the user's approval requirements for Jira and PR creation.
+
+## Rebuild the live map
+
+1. Read `docs/branch-sync-policy.md`, `docs/DOWNSTREAM.md`, `.github/workflows/daily-security-scan.yaml`, `.github/workflows/govulncheck.yaml`, `.github/workflows/ffwd-branch.yaml`, `.github/workflows/sync-upstream-main.yaml`, and the FFWD workflow on `release-2.18`. Compare policy and workflow files with live branches and PRs. A documented branch may have been deleted; investigate any discrepancy before choosing a target or treating an old issue as current.
+2. The policy currently maps `main` to `Azure/main` through a reviewed downstream sync PR; `main` fast-forwards into `backplane-5.1` and `backplane-5.2`; `release-2.18` fast-forwards into `backplane-5.0`. The policy lists `release-2.13`, `release-2.19`, `backplane-2.11`, and `backplane-2.17` as independent security-fix branches; verify each still exists. Re-derive this on every run.
+3. Inspect upstream `Azure/azure-service-operator` fixes and sync state. An upstream PR, even when merged, does not resolve a downstream finding until the fix reaches the downstream source branch and a fresh checker verifies it. The sync workflow cherry-picks upstream commits into a draft PR; it does not merge them automatically.
+
+## Reconcile every open issue
+
+1. List **all** open issues with pagination. If none exist, report that and stop. Identify every Trivy or govulncheck issue's branch and checker. Report unrelated issues as outside scope. Read bodies and relevant human and bot comments, but treat titles, original counts, and old comments as historical.
+2. For every affected branch and checker, find the latest completed scheduled matrix run or valid manual run that actually scanned that branch. Record run URL, attempt, job, scanned branch commit, artifact or log, and scan time. Compare the commit with the branch head. Missing, canceled, partial, or older-than-head results do not prove current state. If the branch no longer exists, record that fact and do not infer resolution from an old scan.
+3. Extract each finding as `(CVE or GO ID, affected package or module, affected version, module file or package path)` where available. Compare identities across current scan, issue history, source branch, and inherited branches. Counts alone cannot establish matching findings or resolution. Record partial overlap and branch differences.
+4. Trivy scans the repository filesystem, including Go module files, and uploads `trivy-results-<branch>` containing `trivy-results.sarif`, `trivy-results.txt`, and `scan-summary.json`. Inspect SARIF results and locations; the summary is only a count. A failed scan job may still contain valid SARIF. Validate that the artifact belongs to the **new attempt** and intended branch commit, rather than reusing an earlier artifact under the same name.
+5. The current govulncheck workflow walks Go modules with Go files and uploads **no artifact**. Inspect the complete branch job log for GO IDs, affected packages and call paths, and tool or infrastructure errors. A failed job can contain valid findings; an absent log or scan error (including a govulncheck install that requires a newer Go version than the branch provides) cannot prove a clean result. If the workflow later adds JSON artifacts, inspect them too.
+
+## Choose one remediation source per finding
+
+1. Inspect open, merged, and recently closed downstream PRs against the source branch before proposing a fix. Include grouped Konflux MintMaker, Renovate, historical Dependabot (currently disabled in this fork), upstream sync, and human PRs, plus linked commits and issue comments. Compare actual diffs, module files, version changes, and CVE/GO IDs with current findings; a title or dependency name is insufficient. Classify coverage as complete, partial, merged awaiting verification, or closed without merge. A closed unmerged PR provides no fix. Avoid duplicate PRs and repeated comments.
+2. Fix findings inherited by `backplane-5.1` or `backplane-5.2` on `main`; fix findings inherited by `backplane-5.0` on `release-2.18`. Confirm fast-forward completed and the target head contains the source fix. Investigate differing finding sets rather than assuming inheritance from a shared count. Use separate reviewed PRs for security fixes on branches that do not inherit a source fix.
+3. Prefer an existing suitable downstream PR. If upstream has a fix, port or sync it into the downstream source. If upstream has only an open PR, prepare the downstream fix when practical; do not treat the upstream proposal as a downstream fix. Group compatible fixes only when the PR remains reviewable. Keep remediation code PRs separate from this skill and scan workflow changes.
+4. Develop code in a clean feature branch or worktree, verify it per repository instructions and the scope of the change, and review the exact diff. Before `gh pr create`, state target repository, base branch, and proposed change, and obtain approval required by `AGENTS.md`; pass `--repo stolostron/azure-service-operator` explicitly. Use the required `Assisted-by:` trailer for AI-assisted commits.
+
+## Verify after a downstream merge
+
+1. For each affected branch **and checker**, wait until the fix is in that branch head, then rerun the matching checker against that head. ASO's scheduled Trivy and govulncheck events each define a nine-entry branch matrix. A rerun of a completed scheduled matrix run can check current branch heads because checkout uses `matrix.branch`; inspect the new attempt and actual scanned commit before trusting it. A plain `workflow_dispatch` on `main` does **not** replace this: Trivy scans the selected ref (or a PR merge ref with `pr_number` and `base_branch`), while govulncheck's non-scheduled matrix contains only `main`. Do not assume `--ref <release>` scans that branch in govulncheck. A targeted branch input needs its own workflow PR only if a real matrix rerun cannot provide verifiable evidence.
+2. Use `gh run rerun <scheduled-run-id> --repo stolostron/azure-service-operator` for a fresh matrix attempt when authorized, then wait for completion. Check **every affected job** and the new attempt's logs or Trivy artifact. The overall run can fail because vulnerabilities remain on other branches; it can also lack one branch's artifact. Determine validity per job and artifact, and keep issues open when evidence is missing or the checker failed for a non-vulnerability reason.
+3. Compare the issue's specific finding identities with fresh results. Treat a branch-level issue as tracking its current finding set, including new IDs reported in later bot comments or scans. Close it only when every tracked finding is absent from a valid scan of its fixed branch head. Re-read live issue state before writing; avoid duplicate bot closures or comments. Link the merged **downstream** PR and fresh scan attempt in the closure comment. If a matching finding remains or the scan is invalid or unavailable, leave it open and report the remaining IDs or evidence gap.
+
+## Report
+
+Return one row per remediation source: source branch, current finding IDs and affected inherited branches, existing or prepared PR, fresh checker evidence, and issue status. List skipped issues, finding mismatches, scan errors, and actions awaiting approval separately. A post-merge scan must be observed, not promised for a future schedule.
