@@ -865,9 +865,17 @@ tasks:
       - controller:test-integration-envtest-live
 
   specs:checkout:
-    desc: Check out azure-rest-api-specs when it has no checkout. An existing checkout is left unchanged.
+    desc: Check out azure-rest-api-specs when its checkout is missing or incomplete. A complete checkout is left unchanged.
     cmds:
-      - test -e v2/specs/azure-rest-api-specs/.git || git -c safe.directory='*' -c submodule.azure-rest-api-specs.update=checkout submodule update --init --recursive -- v2/specs/azure-rest-api-specs
+      - |
+        specs=v2/specs/azure-rest-api-specs
+        # .git is created before checkout. An empty or partial index is unfinished.
+        # A complete index is kept, including a revision that differs from the gitlink.
+        if [ ! -e "$specs/.git" ] \
+          || ! git -c safe.directory='*' -C "$specs" rev-parse --verify --quiet HEAD >/dev/null 2>&1 \
+          || git -c safe.directory='*' -C "$specs" diff --cached --name-only --diff-filter=D HEAD | grep -q .; then
+          git -c safe.directory='*' -c submodule.azure-rest-api-specs.update=checkout submodule update --init --recursive -- "$specs"
+        fi
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
