@@ -864,11 +864,17 @@ tasks:
     deps:
       - controller:test-integration-envtest-live
 
+  specs:checkout:
+    desc: Check out azure-rest-api-specs. Its update mode is none, so a recursive clone leaves it empty.
+    cmds:
+      - git -c safe.directory='*' -c submodule.azure-rest-api-specs.update=checkout submodule update --init --recursive -- v2/specs/azure-rest-api-specs
+
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
     dir: v2
     deps: 
       - generator:build
+      - specs:checkout
     sources:
       - ./bin/{{.GENERATOR_APP}}
       - azure-arm.yaml
@@ -1417,6 +1423,7 @@ tasks:
     dir: "{{.CROSSPLANE_ROOT}}"
     deps: 
        - generator:build
+       - specs:checkout
     sources:
       - ../../v2/bin/{{.GENERATOR_APP}}
       - azure-crossplane.yaml

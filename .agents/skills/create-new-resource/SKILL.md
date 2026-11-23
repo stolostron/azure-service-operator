@@ -24,7 +24,7 @@ Verify all of these **before** starting. Missing any one of them will stall the 
    - **kind** — Azure type minus resource provider, singularised. `Microsoft.Synapse/workspaces` → `Workspace`.
 3. **Repository ready for generation.** From the repo root:
    - `git tag --list 'v2*'` returns tags. If empty, run `git fetch --all --tags`. Builds fail without tags.
-   - `ls v2/specs/azure-rest-api-specs/specification` shows content. If empty, run `git submodule init && git submodule update`. The generator will not run without the submodule.
+   - `ls v2/specs/azure-rest-api-specs/specification` shows content. If empty, run `git -c submodule.azure-rest-api-specs.update=checkout submodule update --init -- v2/specs/azure-rest-api-specs`. The generator will not run without the submodule.
 4. **Next release identified.** Check the project's [GitHub milestones](https://github.com/Azure/azure-service-operator/milestones) for the next unreleased ASO version (e.g. `v2.21.0`). You need this for the `$supportedFrom:` directive.
 5. **Task tool on PATH.** `which task` succeeds. If not, your environment is not set up — stop and ask the user to fix it. Never fall back to `./hack/tools/task`.
 
@@ -185,7 +185,7 @@ The generator surfaces one problem at a time. Read the exact error text — it u
     because: We want to support keyvault which is only available in preview.
   ```
 
-- **"type X not seen"** — the submodule `v2/specs/azure-rest-api-specs` is likely stale. Run `git submodule update --init --recursive`. If that fixes it, submit the submodule bump as a **separate PR** — submodule updates drag in unrelated doc changes and should not ride along with a new resource.
+- **"type X not seen"** — the submodule `v2/specs/azure-rest-api-specs` is likely stale. Run `git -c submodule.azure-rest-api-specs.update=checkout submodule update --init -- v2/specs/azure-rest-api-specs`. If that fixes it, submit the submodule bump as a **separate PR** — submodule updates drag in unrelated doc changes and should not ride along with a new resource.
 
 - **Deeper debugging** — use `--debug <group>` (or `--debug <group>/<version>`, semicolon-separated for multiple) to dump per-stage internal state to a temp directory. The volume is high; use it only when normal errors don't point at the answer. Documented in [`run-the-code-generator.md`](../../../docs/hugo/content/contributing/add-a-new-code-generated-resource/run-the-code-generator.md#debugging).
 

@@ -55,7 +55,7 @@ The ASO repository contains a [devcontainer](https://code.visualstudio.com/docs/
     4. The window will reload and run the `Dockerfile` setup to build the devcontainer. The first time, this will take some minutes to complete as it installs all dependencies. Later runs will be faster due to caching.
 5. Once the repository is cloned in your local
    * Make sure you have access to tags (by running `git tag --list 'v2*'`).
-   * Set up our submodule by running both `git submodule init` and `git submodule update`.
+   * Check out the specs submodule with `git -c submodule.azure-rest-api-specs.update=checkout submodule update --init -- v2/specs/azure-rest-api-specs`. A plain `git submodule update` skips it.
    * See [Check your repo health](#troubleshooting-repo-health) for more information.
 6. To validate everything is working correctly,  open a terminal in VS Code and run `task -l`. This will show a list of all `task` commands. Running `task` by itself (or `task default`) will run quick local pre-checkin tests and validation.
 
@@ -143,10 +143,8 @@ ASO references the `azure-rest-api-specs` repo containing API definitions for Az
 From the root of your ASO repo clone, run
 
 ``` bash
-$ git submodule init
+$ git -c submodule.azure-rest-api-specs.update=checkout submodule update --init -- v2/specs/azure-rest-api-specs
 Submodule 'azure-rest-api-specs' (https://github.com/Azure/azure-rest-api-specs) registered for path 'v2/specs/azure-rest-api-specs'
-
-$ git submodule update
 Cloning into '/workspaces/azure-service-operator/v2/specs/azure-rest-api-specs'...
 remote: Enumerating objects: 15, done.
 ... elided ...
