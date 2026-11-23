@@ -865,9 +865,9 @@ tasks:
       - controller:test-integration-envtest-live
 
   specs:checkout:
-    desc: Check out azure-rest-api-specs. Its update mode is none, so a recursive clone leaves it empty.
+    desc: Check out azure-rest-api-specs when it has no checkout. An existing checkout is left unchanged.
     cmds:
-      - git -c safe.directory='*' -c submodule.azure-rest-api-specs.update=checkout submodule update --init --recursive -- v2/specs/azure-rest-api-specs
+      - test -e v2/specs/azure-rest-api-specs/.git || git -c safe.directory='*' -c submodule.azure-rest-api-specs.update=checkout submodule update --init --recursive -- v2/specs/azure-rest-api-specs
 
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
