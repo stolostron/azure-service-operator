@@ -79,6 +79,10 @@ spec:
         value: pipelines/common_mce_2.11.yaml
   taskRunTemplate:
     serviceAccountName: build-pipeline-azure-service-operator-mce-52
+    podTemplate:
+      env:
+        - name: FIND_UNICODE_CONTROL_ARGS
+          value: "-p bidi -v -d -t -c .find-unicode-control.py"
   workspaces:
   - name: git-auth
     secret:
