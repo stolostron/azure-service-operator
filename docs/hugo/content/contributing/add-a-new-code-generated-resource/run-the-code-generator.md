@@ -192,7 +192,7 @@ type DodgyResource not seen (did you mean ResourceReference?):
 type DodgyResource: $exportAs: ReputableResource not consumed
 ```
 
-It's possible the submodule `v2/specs/azure-rest-api-specs` is out of date. Try running `git submodule update --init --recursive` to update the submodule. If this fixes your issue, please submit a separate PR to update the submodule by itself. (Submodule updates often include documentation updates to existing resources, and it's worth keeping those updates separate from new resources).
+It's possible the submodule `v2/specs/azure-rest-api-specs` is out of date. Try running `git -c submodule.azure-rest-api-specs.update=checkout submodule update --init -- v2/specs/azure-rest-api-specs` to update the submodule. If this fixes your issue, please submit a separate PR to update the submodule by itself. (Submodule updates often include documentation updates to existing resources, and it's worth keeping those updates separate from new resources).
 
 ## Debugging
 

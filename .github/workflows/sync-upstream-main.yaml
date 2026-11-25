@@ -297,7 +297,7 @@ jobs:
         run: |
           # Sync the submodule working tree to whatever gitlink the
           # cherry-picked commits landed on, so generation sees matching specs.
-          git submodule update --init --recursive
+          git -c safe.directory='*' -c submodule.azure-rest-api-specs.update=checkout submodule update --init --recursive -- v2/specs/azure-rest-api-specs
 
           docker pull ghcr.io/azure/azure-service-operator/aso-devcontainer:latest
           CONTAINER_ID="$(docker create -w /workspace \

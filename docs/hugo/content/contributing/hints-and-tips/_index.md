@@ -28,7 +28,7 @@ no such file or directory
 
 This can happen if the repo was not cloned with `--recurse-submodules`.
 
-To resolve this, run `git submodule init` (to set up submodules) and `git submodule update` (to check out the code) and then try building again.
+To resolve this, run `git -c submodule.azure-rest-api-specs.update=checkout submodule update --init -- v2/specs/azure-rest-api-specs` and then try building again. A plain `git submodule update` skips this submodule.
 
 ## Testing
 

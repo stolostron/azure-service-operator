@@ -104,13 +104,7 @@ ASO references the [`azure-rest-api-specs`](https://github.com/Azure/azure-rest-
 From the root of your ASO repo clone, initialize the submodule with
 
 ```bash
-git submodule init
-```
-
-and then checkout the submodule with
-
-```bash
-git submodule update
+git -c submodule.azure-rest-api-specs.update=checkout submodule update --init -- v2/specs/azure-rest-api-specs
 ```
 
 {{% alert title="Note" %}}

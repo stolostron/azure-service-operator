@@ -864,11 +864,17 @@ tasks:
     deps:
       - controller:test-integration-envtest-live
 
+  specs:checkout:
+    desc: Check out azure-rest-api-specs when its checkout is missing or incomplete. A complete checkout is left unchanged.
+    cmds:
+      - scripts/v2/checkout-specs-submodule.sh
+
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
     dir: v2
     deps: 
       - generator:build
+      - specs:checkout
     sources:
       - ./bin/{{.GENERATOR_APP}}
       - azure-arm.yaml
@@ -1417,6 +1423,7 @@ tasks:
     dir: "{{.CROSSPLANE_ROOT}}"
     deps: 
        - generator:build
+       - specs:checkout
     sources:
       - ../../v2/bin/{{.GENERATOR_APP}}
       - azure-crossplane.yaml
