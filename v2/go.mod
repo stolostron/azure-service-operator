@@ -2,7 +2,7 @@ module github.com/Azure/azure-service-operator/v2
 
 go 1.26.0
 
-toolchain go1.26.10
+toolchain go1.26.11
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.23.3
