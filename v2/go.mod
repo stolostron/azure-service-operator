@@ -2,6 +2,8 @@ module github.com/Azure/azure-service-operator/v2
 
 go 1.26.0
 
+toolchain go1.26.11
+
 require (
 	github.com/Azure/ARO-HCP/test/sdk/resourcemanager/redhatopenshifthcp/armredhatopenshifthcp v0.0.0-20251215192205-b81971652ba7
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.21.1
